@@ -136,6 +136,21 @@ nøkkelen viser knappen bare en feilmelding, resten av appen fungerer som
 normalt. Modellen kan overstyres med `ANTHROPIC_MODEL` (standard:
 `claude-haiku-4-5-20251001`).
 
+## Bildeopplasting (Vercel Blob)
+
+Bilder til saker og "Om oss"-siden kan enten limes inn som en URL, eller
+lastes opp direkte fra dashbordet. Opplasting krever at prosjektet har en
+[Vercel Blob](https://vercel.com/docs/storage/vercel-blob)-lagringsplass:
+
+1. Gå til Vercel-prosjektet → **Storage** → **Create Database** → **Blob**.
+2. Koble den til prosjektet - Vercel setter da automatisk miljøvariabelen
+   `BLOB_READ_WRITE_TOKEN` for deg (ingen manuell kopiering nødvendig).
+3. Redeploy.
+
+Uten dette steget viser "Last opp bilde"-knappen en tydelig feilmelding, og
+man kan fortsatt lime inn en bilde-URL manuelt - resten av appen fungerer
+som normalt.
+
 ## Feide
 
 Feide er kodet som en ekstra innloggingsleverandør i `src/lib/auth.ts`, men

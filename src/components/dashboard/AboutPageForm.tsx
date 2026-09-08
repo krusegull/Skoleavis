@@ -3,6 +3,7 @@
 import { useState } from "react";
 import { useRouter } from "next/navigation";
 import { AboutPage } from "@prisma/client";
+import { ImageUploadField } from "./ImageUploadField";
 
 export function AboutPageForm({ initial }: { initial: AboutPage }) {
   const router = useRouter();
@@ -45,17 +46,11 @@ export function AboutPageForm({ initial }: { initial: AboutPage }) {
         />
       </div>
 
-      <div>
-        <label className="block font-sans text-xs uppercase tracking-wide text-muted">
-          Bilde-URL (valgfritt, f.eks. et bilde av skolen)
-        </label>
-        <input
-          value={imageUrl}
-          onChange={(e) => setImageUrl(e.target.value)}
-          placeholder="https://…"
-          className="mt-1 w-full border border-ink/30 bg-white px-3 py-2 font-serif text-ink focus:border-accent focus:outline-none"
-        />
-      </div>
+      <ImageUploadField
+        value={imageUrl}
+        onChange={setImageUrl}
+        label="Bilde (valgfritt, f.eks. et bilde av skolen)"
+      />
 
       <div>
         <label className="block font-sans text-xs uppercase tracking-wide text-muted">Tekst</label>

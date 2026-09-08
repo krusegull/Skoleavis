@@ -4,6 +4,7 @@ import { useState } from "react";
 import { useRouter } from "next/navigation";
 import { Article, ArticleContributor, Category, Role } from "@prisma/client";
 import { CATEGORY_LABELS, CATEGORY_ORDER, ROLE_LABELS, ROLE_ORDER } from "@/lib/constants";
+import { ImageUploadField } from "./ImageUploadField";
 
 type RosterEntry = { id: string; name: string; role: Role };
 type ContributorDraft = { userId: string; name: string; role: Role };
@@ -151,31 +152,22 @@ export function ArticleForm({
         />
       </div>
 
-      <div className="grid gap-4 sm:grid-cols-2">
-        <div>
-          <label className="block font-sans text-xs uppercase tracking-wide text-muted">Kategori</label>
-          <select
-            value={category}
-            onChange={(e) => setCategory(e.target.value as Category)}
-            className="mt-1 w-full border border-ink/30 bg-white px-3 py-2 font-serif text-ink focus:border-accent focus:outline-none"
-          >
-            {CATEGORY_ORDER.map((c) => (
-              <option key={c} value={c}>
-                {CATEGORY_LABELS[c]}
-              </option>
-            ))}
-          </select>
-        </div>
-        <div>
-          <label className="block font-sans text-xs uppercase tracking-wide text-muted">Bilde-URL (valgfritt)</label>
-          <input
-            value={imageUrl}
-            onChange={(e) => setImageUrl(e.target.value)}
-            placeholder="https://…"
-            className="mt-1 w-full border border-ink/30 bg-white px-3 py-2 font-serif text-ink focus:border-accent focus:outline-none"
-          />
-        </div>
+      <div>
+        <label className="block font-sans text-xs uppercase tracking-wide text-muted">Kategori</label>
+        <select
+          value={category}
+          onChange={(e) => setCategory(e.target.value as Category)}
+          className="mt-1 w-full max-w-xs border border-ink/30 bg-white px-3 py-2 font-serif text-ink focus:border-accent focus:outline-none"
+        >
+          {CATEGORY_ORDER.map((c) => (
+            <option key={c} value={c}>
+              {CATEGORY_LABELS[c]}
+            </option>
+          ))}
+        </select>
       </div>
+
+      <ImageUploadField value={imageUrl} onChange={setImageUrl} label="Bilde (valgfritt)" />
 
       <div>
         <label className="block font-sans text-xs uppercase tracking-wide text-muted">Ingress</label>
