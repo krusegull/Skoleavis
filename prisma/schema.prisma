@@ -1,0 +1,180 @@
+// Skoleavis - databaseskjema
+// Se README.md for forklaring av rolle-/skoleårsmodellen.
+
+datasource db {
+  provider  = "postgresql"
+  url       = env("DATABASE_URL")
+  directUrl = env("DIRECT_URL")
+}
+
+generator client {
+  provider = "prisma-client-js"
+}
+
+enum Role {
+  ADMIN
+  EDITOR
+  JOURNALIST
+  PHOTOGRAPHER
+  DESIGNER
+  SOCIAL_MEDIA
+}
+
+enum ArticleStatus {
+  DRAFT
+  PENDING_REVIEW
+  PUBLISHED
+  REJECTED
+}
+
+enum Category {
+  NEWS
+  REPORTAGE
+  INTERVIEW
+  REVIEW
+  SPORT
+  CULTURE
+  QUIZ
+}
+
+// --- NextAuth (standard Prisma-adapter-modeller) ---
+
+model Account {
+  id                String  @id @default(cuid())
+  userId            String
+  type              String
+  provider          String
+  providerAccountId String
+  refresh_token     String? @db.Text
+  access_token      String? @db.Text
+  expires_at        Int?
+  token_type        String?
+  scope             String?
+  id_token          String? @db.Text
+  session_state     String?
+
+  user User @relation(fields: [userId], references: [id], onDelete: Cascade)
+
+  @@unique([provider, providerAccountId])
+}
+
+model Session {
+  id           String   @id @default(cuid())
+  sessionToken String   @unique
+  userId       String
+  expires      DateTime
+
+  user User @relation(fields: [userId], references: [id], onDelete: Cascade)
+}
+
+model VerificationToken {
+  identifier String
+  token      String   @unique
+  expires    DateTime
+
+  @@unique([identifier, token])
+}
+
+// --- Brukere og roller ---
+
+/// En konto. Rolle ligger IKKE her - se RoleAssignment.
+/// Kontoer deaktiveres (active = false), slettes aldri, slik at
+/// historikk og bylines i arkivet forblir korrekte.
+model User {
+  id           String   @id @default(cuid())
+  name         String
+  email        String   @unique
+  passwordHash String? // null for rene OAuth-brukere (f.eks. fremtidig Feide)
+  image        String?
+  active       Boolean  @default(true)
+  createdAt    DateTime @default(now())
+  updatedAt    DateTime @updatedAt
+
+  accounts Account[]
+  sessions Session[]
+
+  roleAssignments RoleAssignment[]
+
+  articlesAuthored Article[]            @relation("ArticleAuthor")
+  articlesReviewed Article[]            @relation("ArticleReviewer")
+  contributions    ArticleContributor[]
+}
+
+/// Ett skoleår/kull, f.eks. "2026/2027". Styrer hvilken redaksjon
+/// som vises som "gjeldende" og brukes av "Avslutt skoleår".
+model SchoolYear {
+  id        String    @id @default(cuid())
+  label     String    @unique
+  isCurrent Boolean   @default(false)
+  startDate DateTime?
+  endDate   DateTime?
+  createdAt DateTime  @default(now())
+
+  roleAssignments RoleAssignment[]
+
+  @@index([isCurrent])
+}
+
+/// Kobler en bruker til en rolle for ett bestemt skoleår.
+/// En bruker kan ha ulik rolle (eller ingen) fra år til år, og
+/// Admin-rollen overføres ganske enkelt ved å opprette en ny
+/// tildeling for en annen bruker.
+model RoleAssignment {
+  id           String   @id @default(cuid())
+  userId       String
+  role         Role
+  schoolYearId String
+  createdAt    DateTime @default(now())
+
+  user       User       @relation(fields: [userId], references: [id], onDelete: Cascade)
+  schoolYear SchoolYear @relation(fields: [schoolYearId], references: [id], onDelete: Cascade)
+
+  @@unique([userId, schoolYearId])
+  @@index([schoolYearId, role])
+}
+
+// --- Innhold ---
+
+/// En sak/artikkel.
+model Article {
+  id              String        @id @default(cuid())
+  title           String
+  ingress         String
+  teaser          String?
+  body            String
+  imageUrl        String?
+  category        Category
+  status          ArticleStatus @default(DRAFT)
+  rejectionReason String?
+  publishedAt     DateTime?
+  createdAt       DateTime      @default(now())
+  updatedAt       DateTime      @updatedAt
+
+  authorId     String
+  reviewedById String?
+
+  author     User  @relation("ArticleAuthor", fields: [authorId], references: [id])
+  reviewedBy User? @relation("ArticleReviewer", fields: [reviewedById], references: [id], onDelete: SetNull)
+
+  contributors ArticleContributor[]
+
+  @@index([status, publishedAt])
+  @@index([category, status])
+}
+
+/// Bidragsyter/byline på en sak. Navn og rolle lagres som tekst
+/// (snapshot) i tillegg til en valgfri kobling til kontoen, slik at
+/// bylines i arkivet er korrekte selv om kontoen senere deaktiveres.
+model ArticleContributor {
+  id           String  @id @default(cuid())
+  articleId    String
+  userId       String?
+  nameSnapshot String
+  roleSnapshot Role
+  sortOrder    Int     @default(0)
+
+  article Article @relation(fields: [articleId], references: [id], onDelete: Cascade)
+  user    User?   @relation(fields: [userId], references: [id], onDelete: SetNull)
+
+  @@index([articleId])
+}
