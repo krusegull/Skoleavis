@@ -12,7 +12,13 @@ export async function POST(req: NextRequest) {
     return NextResponse.json({ error: "Ingen tilgang" }, { status: 403 });
   }
 
-  if (!process.env.BLOB_READ_WRITE_TOKEN) {
+  // @vercel/blob kan autentisere enten via BLOB_READ_WRITE_TOKEN, eller via
+  // Vercels OIDC-token sammen med BLOB_STORE_ID (nyere "private" Blob-lagre).
+  const hasBlobCredentials =
+    Boolean(process.env.BLOB_READ_WRITE_TOKEN) ||
+    (Boolean(process.env.VERCEL_OIDC_TOKEN) && Boolean(process.env.BLOB_STORE_ID));
+
+  if (!hasBlobCredentials) {
     return NextResponse.json(
       { error: "Bildeopplasting er ikke satt opp på denne installasjonen ennå. Bruk en bilde-URL i stedet." },
       { status: 503 }
@@ -33,10 +39,15 @@ export async function POST(req: NextRequest) {
   }
 
   const extension = file.name.includes(".") ? file.name.split(".").pop() : "jpg";
-  const blob = await put(`bilder/${user.id}-${Date.now()}.${extension}`, file, {
-    access: "public",
-    addRandomSuffix: true,
-  });
 
-  return NextResponse.json({ url: blob.url });
+  try {
+    const blob = await put(`bilder/${user.id}-${Date.now()}.${extension}`, file, {
+      access: "public",
+      addRandomSuffix: true,
+    });
+    return NextResponse.json({ url: blob.url });
+  } catch (err) {
+    console.error("Feil ved opplasting til Vercel Blob:", err);
+    return NextResponse.json({ error: "Kunne ikke laste opp bildet akkurat nå." }, { status: 502 });
+  }
 }
