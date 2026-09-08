@@ -162,6 +162,17 @@ model Article {
   @@index([category, status])
 }
 
+/// Innholdet på "Om oss"-siden. Én rad (fast id "about"), redigeres fra
+/// dashbordet av Admin/Redaktør. Opprettes med standardtekst ved første
+/// visning dersom den ikke finnes ennå.
+model AboutPage {
+  id        String   @id @default("about")
+  title     String   @default("Om Skoleavisen")
+  body      String   @default("")
+  imageUrl  String?
+  updatedAt DateTime @updatedAt
+}
+
 /// Bidragsyter/byline på en sak. Navn og rolle lagres som tekst
 /// (snapshot) i tillegg til en valgfri kobling til kontoen, slik at
 /// bylines i arkivet er korrekte selv om kontoen senere deaktiveres.

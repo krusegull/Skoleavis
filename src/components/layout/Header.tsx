@@ -56,6 +56,11 @@ export async function Header() {
               Redaksjonen
             </Link>
           </li>
+          <li>
+            <Link href="/om-oss" className="hover:text-accent">
+              Om oss
+            </Link>
+          </li>
         </ul>
       </nav>
     </header>

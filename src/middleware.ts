@@ -14,7 +14,7 @@ export default withAuth(
 
     const path = req.nextUrl.pathname;
     const adminOnly = path.startsWith("/dashboard/brukere") || path.startsWith("/dashboard/skolear");
-    const editorOnly = path.startsWith("/dashboard/godkjenning");
+    const editorOnly = path.startsWith("/dashboard/godkjenning") || path.startsWith("/dashboard/om-oss");
 
     if (adminOnly && role !== "ADMIN") {
       return NextResponse.redirect(new URL("/dashboard", req.url));

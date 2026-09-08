@@ -19,9 +19,14 @@ export default async function DashboardLayout({ children }: { children: React.Re
               Mine kladder
             </Link>
             {canApproveArticles(role) && (
-              <Link href="/dashboard/godkjenning" className="py-1 hover:text-accent">
-                Til godkjenning
-              </Link>
+              <>
+                <Link href="/dashboard/godkjenning" className="py-1 hover:text-accent">
+                  Til godkjenning
+                </Link>
+                <Link href="/dashboard/om-oss" className="py-1 hover:text-accent">
+                  Om oss-siden
+                </Link>
+              </>
             )}
             {canManageUsers(role) && (
               <>
