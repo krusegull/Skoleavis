@@ -3,7 +3,7 @@ import { z } from "zod";
 import { prisma } from "@/lib/prisma";
 import { getSessionUser } from "@/lib/apiAuth";
 import { canApproveArticles, canEditArticle } from "@/lib/permissions";
-import { deleteBlobIfManaged } from "@/lib/blob";
+import { deleteUploadedFile } from "@/lib/uploads";
 import { ArticleStatus, Category, Role } from "@prisma/client";
 
 const contributorSchema = z.object({
@@ -99,10 +99,10 @@ export async function PATCH(req: NextRequest, { params }: { params: { id: string
     });
   });
 
-  // Rydder opp det gamle bildet fra Blob-lagringen dersom det ble erstattet
+  // Rydder opp det gamle bildet fra fillagringen dersom det ble erstattet
   // eller fjernet, slik at det ikke blir liggende offentlig tilgjengelig.
   if (imageUrlProvided && article.imageUrl && article.imageUrl !== nextImageUrl) {
-    await deleteBlobIfManaged(article.imageUrl);
+    await deleteUploadedFile(article.imageUrl);
   }
 
   return NextResponse.json({ article: updated });
@@ -121,6 +121,6 @@ export async function DELETE(_req: NextRequest, { params }: { params: { id: stri
   }
 
   await prisma.article.delete({ where: { id: article.id } });
-  await deleteBlobIfManaged(article.imageUrl);
+  await deleteUploadedFile(article.imageUrl);
   return NextResponse.json({ ok: true });
 }

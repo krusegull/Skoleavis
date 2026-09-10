@@ -136,16 +136,21 @@ nøkkelen viser knappen bare en feilmelding, resten av appen fungerer som
 normalt. Modellen kan overstyres med `ANTHROPIC_MODEL` (standard:
 `claude-haiku-4-5-20251001`).
 
-## Bildeopplasting (Vercel Blob)
+## Bildeopplasting (Cloudinary)
 
 Bilder til saker og "Om oss"-siden kan enten limes inn som en URL, eller
-lastes opp direkte fra dashbordet. Opplasting krever at prosjektet har en
-[Vercel Blob](https://vercel.com/docs/storage/vercel-blob)-lagringsplass:
+lastes opp direkte fra dashbordet. Opplasting bruker
+[Cloudinary](https://cloudinary.com), som har et gratis nivå som er mer enn
+nok til denne skalaen (og som senere kan brukes til video/dokumenter også,
+uten kodeendring):
 
-1. Gå til Vercel-prosjektet → **Storage** → **Create Database** → **Blob**.
-2. Koble den til prosjektet - Vercel setter da automatisk miljøvariabelen
-   `BLOB_READ_WRITE_TOKEN` for deg (ingen manuell kopiering nødvendig).
-3. Redeploy.
+1. Opprett en gratis konto på [cloudinary.com](https://cloudinary.com).
+2. På forsiden av Cloudinary-dashbordet ("Dashboard") vises tre verdier med
+   én gang: **Cloud name**, **API Key** og **API Secret** ("Reveal" for å
+   vise den siste).
+3. Legg dem inn som miljøvariabler i Vercel:
+   `CLOUDINARY_CLOUD_NAME`, `CLOUDINARY_API_KEY`, `CLOUDINARY_API_SECRET`.
+4. Redeploy.
 
 Uten dette steget viser "Last opp bilde"-knappen en tydelig feilmelding, og
 man kan fortsatt lime inn en bilde-URL manuelt - resten av appen fungerer

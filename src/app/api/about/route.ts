@@ -3,7 +3,7 @@ import { z } from "zod";
 import { prisma } from "@/lib/prisma";
 import { getSessionUser } from "@/lib/apiAuth";
 import { canApproveArticles } from "@/lib/permissions";
-import { deleteBlobIfManaged } from "@/lib/blob";
+import { deleteUploadedFile } from "@/lib/uploads";
 
 const updateAboutSchema = z.object({
   title: z.string().min(1).max(200),
@@ -42,7 +42,7 @@ export async function PATCH(req: NextRequest) {
   });
 
   if (previous?.imageUrl && previous.imageUrl !== nextImageUrl) {
-    await deleteBlobIfManaged(previous.imageUrl);
+    await deleteUploadedFile(previous.imageUrl);
   }
 
   return NextResponse.json({ about });
