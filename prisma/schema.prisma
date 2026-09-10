@@ -87,6 +87,10 @@ model User {
   passwordHash String? // null for rene OAuth-brukere (f.eks. fremtidig Feide)
   image        String?
   active       Boolean  @default(true)
+  /// Skjuler kontoen fra den offentlige Redaksjonen-siden, uavhengig av
+  /// rolle (en Journalist/Fotograf kan være elev eller voksen). Brukes for
+  /// å holde elevnavn borte fra offentlig visning som standard.
+  isStudent    Boolean  @default(false)
   createdAt    DateTime @default(now())
   updatedAt    DateTime @updatedAt
 

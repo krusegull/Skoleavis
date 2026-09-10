@@ -22,6 +22,7 @@ export function UserAdminPanel({
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [role, setRole] = useState<Role>(Role.JOURNALIST);
+  const [isStudent, setIsStudent] = useState(true);
   const [creating, setCreating] = useState(false);
   const [createError, setCreateError] = useState<string | null>(null);
 
@@ -36,7 +37,14 @@ export function UserAdminPanel({
     const res = await fetch("/api/users", {
       method: "POST",
       headers: { "content-type": "application/json" },
-      body: JSON.stringify({ name, email, password, role, schoolYearId: currentSchoolYearId ?? undefined }),
+      body: JSON.stringify({
+        name,
+        email,
+        password,
+        role,
+        isStudent,
+        schoolYearId: currentSchoolYearId ?? undefined,
+      }),
     });
 
     setCreating(false);
@@ -48,6 +56,7 @@ export function UserAdminPanel({
     setName("");
     setEmail("");
     setPassword("");
+    setIsStudent(true);
     router.refresh();
   }
 
@@ -57,6 +66,17 @@ export function UserAdminPanel({
       method: "PATCH",
       headers: { "content-type": "application/json" },
       body: JSON.stringify({ active: !user.active }),
+    });
+    setBusyId(null);
+    router.refresh();
+  }
+
+  async function toggleStudent(user: UserWithRoles) {
+    setBusyId(user.id);
+    await fetch(`/api/users/${user.id}`, {
+      method: "PATCH",
+      headers: { "content-type": "application/json" },
+      body: JSON.stringify({ isStudent: !user.isStudent }),
     });
     setBusyId(null);
     router.refresh();
@@ -99,7 +119,7 @@ export function UserAdminPanel({
     <div className="space-y-10">
       <section>
         <h2 className="section-label border-b border-ink/30 pb-1">Opprett ny konto</h2>
-        <form onSubmit={createUser} className="mt-4 grid gap-3 sm:grid-cols-2 lg:grid-cols-5">
+        <form onSubmit={createUser} className="mt-4 grid gap-3 sm:grid-cols-2 lg:grid-cols-6">
           <input
             required
             placeholder="Navn"
@@ -134,6 +154,10 @@ export function UserAdminPanel({
               </option>
             ))}
           </select>
+          <label className="flex items-center gap-2 font-sans text-xs text-muted">
+            <input type="checkbox" checked={isStudent} onChange={(e) => setIsStudent(e.target.checked)} />
+            Elev
+          </label>
           <button
             type="submit"
             disabled={creating || !currentSchoolYearId}
@@ -147,6 +171,9 @@ export function UserAdminPanel({
             Sett opp et gjeldende skoleår under "Avslutt skoleår" før du oppretter kontoer.
           </p>
         )}
+        <p className="mt-2 font-serif text-xs text-muted">
+          Elever vises aldri på den offentlige Redaksjonen-siden, uavhengig av rolle.
+        </p>
         {createError && <p className="mt-2 font-serif text-sm text-accent">{String(createError)}</p>}
       </section>
 
@@ -159,6 +186,7 @@ export function UserAdminPanel({
                 <th className="py-2 pr-4">Navn</th>
                 <th className="py-2 pr-4">E-post</th>
                 <th className="py-2 pr-4">Status</th>
+                <th className="py-2 pr-4">Elev</th>
                 <th className="py-2 pr-4">Rolle ({schoolYears.find((y) => y.id === currentSchoolYearId)?.label ?? "-"})</th>
                 <th className="py-2 pr-4">Nytt passord</th>
               </tr>
@@ -178,6 +206,15 @@ export function UserAdminPanel({
                     >
                       {user.active ? "Aktiv — deaktiver" : "Deaktivert — reaktiver"}
                     </button>
+                  </td>
+                  <td className="py-2 pr-4">
+                    <input
+                      type="checkbox"
+                      checked={user.isStudent}
+                      disabled={busyId === user.id}
+                      onChange={() => toggleStudent(user)}
+                      title="Skjuler kontoen fra den offentlige Redaksjonen-siden"
+                    />
                   </td>
                   <td className="py-2 pr-4">
                     <select

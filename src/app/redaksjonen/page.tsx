@@ -23,10 +23,12 @@ export default async function RedaksjonenPage({
 
   const isCurrentYear = selected.id === current?.id;
 
+  // Elever vises aldri på den offentlige Redaksjonen-siden, uavhengig av
+  // rolle eller skoleår - kun voksne/ansatte redaksjonsmedlemmer.
   const assignments = await prisma.roleAssignment.findMany({
     where: {
       schoolYearId: selected.id,
-      ...(isCurrentYear ? { user: { active: true } } : {}),
+      user: { isStudent: false, ...(isCurrentYear ? { active: true } : {}) },
     },
     include: { user: true },
   });

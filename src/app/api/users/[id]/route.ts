@@ -9,6 +9,7 @@ import { Role } from "@prisma/client";
 const updateUserSchema = z.object({
   name: z.string().min(1).max(120).optional(),
   active: z.boolean().optional(),
+  isStudent: z.boolean().optional(),
   newPassword: z.string().min(8).max(200).optional(),
   roleAssignment: z
     .object({
@@ -37,7 +38,7 @@ export async function PATCH(req: NextRequest, { params }: { params: { id: string
   const target = await prisma.user.findUnique({ where: { id: params.id } });
   if (!target) return NextResponse.json({ error: "Fant ikke brukeren" }, { status: 404 });
 
-  const { name, active, newPassword, roleAssignment } = parsed.data;
+  const { name, active, isStudent, newPassword, roleAssignment } = parsed.data;
 
   const passwordHash = newPassword ? await bcrypt.hash(newPassword, 12) : undefined;
 
@@ -57,6 +58,7 @@ export async function PATCH(req: NextRequest, { params }: { params: { id: string
       data: {
         ...(name !== undefined ? { name } : {}),
         ...(active !== undefined ? { active } : {}),
+        ...(isStudent !== undefined ? { isStudent } : {}),
         ...(passwordHash ? { passwordHash } : {}),
       },
       select: {
@@ -65,6 +67,7 @@ export async function PATCH(req: NextRequest, { params }: { params: { id: string
         email: true,
         image: true,
         active: true,
+        isStudent: true,
         createdAt: true,
         updatedAt: true,
         roleAssignments: { include: { schoolYear: true } },

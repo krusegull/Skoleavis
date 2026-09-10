@@ -13,6 +13,7 @@ const createUserSchema = z.object({
   password: z.string().min(8).max(200),
   role: z.nativeEnum(Role),
   schoolYearId: z.string().optional(),
+  isStudent: z.boolean().optional(),
 });
 
 /** Admin: liste alle kontoer med rolletildelinger, for brukeradministrasjonen. */
@@ -29,6 +30,7 @@ export async function GET() {
       email: true,
       image: true,
       active: true,
+      isStudent: true,
       createdAt: true,
       updatedAt: true,
       roleAssignments: { include: { schoolYear: true }, orderBy: { schoolYear: { createdAt: "desc" } } },
@@ -69,6 +71,7 @@ export async function POST(req: NextRequest) {
       email: parsed.data.email.toLowerCase().trim(),
       passwordHash,
       active: true,
+      isStudent: parsed.data.isStudent ?? false,
       roleAssignments: {
         create: { role: parsed.data.role, schoolYearId },
       },
@@ -79,6 +82,7 @@ export async function POST(req: NextRequest) {
       email: true,
       image: true,
       active: true,
+      isStudent: true,
       createdAt: true,
       updatedAt: true,
       roleAssignments: { include: { schoolYear: true } },

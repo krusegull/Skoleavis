@@ -151,6 +151,28 @@ Uten dette steget viser "Last opp bilde"-knappen en tydelig feilmelding, og
 man kan fortsatt lime inn en bilde-URL manuelt - resten av appen fungerer
 som normalt.
 
+## Personvern
+
+Førende prinsipp for videre utvikling: **minst mulig personopplysninger skal
+være offentlig synlig som standard.** Konkret innebærer dette i dag:
+
+- Kontoer har et eget **"Elev"**-merke (`isStudent`), uavhengig av rolle -
+  en Journalist/Fotograf/Redaktør kan være enten elev eller voksen. Nye
+  kontoer er **elev som standard**; en administrator må aktivt fjerne
+  merket for at noen skal vises offentlig.
+- Kontoer merket som elev vises **aldri** på den offentlige
+  Redaksjonen-siden, verken for gjeldende eller tidligere skoleår.
+- Bylines på publiserte saker (navn + rolle) vises fortsatt for alle
+  bidragsytere, inkludert elever - dette var et bevisst arkiv-krav fra
+  starten (se "Viktig datamodell-detalj"). Vurder om dette også bør endres
+  før elevkontoer tas i bruk, f.eks. ved at elever kan velge om fullt navn
+  eller bare fornavn/forbokstav skal vises i bylinen.
+- For mindreårige elever bør skolens vanlige rutiner for bilde-/navnesamtykke
+  dekke publisering i skoleavisen, eller et eget samtykke innhentes.
+- Deaktiverte kontoer beholdes med navn/e-post for å bevare historikk (et
+  bevisst valg, se "Redaksjonell arbeidsflyt"), men er ikke selv synlige
+  offentlig lenger enn de var før deaktivering.
+
 ## Feide
 
 Feide er kodet som en ekstra innloggingsleverandør i `src/lib/auth.ts`, men
