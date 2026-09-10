@@ -5,6 +5,8 @@ import { useRouter } from "next/navigation";
 import { Article, ArticleContributor, Category, Role } from "@prisma/client";
 import { CATEGORY_LABELS, CATEGORY_ORDER, ROLE_LABELS, ROLE_ORDER } from "@/lib/constants";
 import { ImageUploadField } from "./ImageUploadField";
+import { RichTextEditor } from "./RichTextEditor";
+import { ensureRichTextHtml } from "@/lib/richTextCompat";
 
 type RosterEntry = { id: string; name: string; role: Role };
 type ContributorDraft = { userId: string; name: string; role: Role };
@@ -26,7 +28,7 @@ export function ArticleForm({
   const [title, setTitle] = useState(initialArticle?.title ?? "");
   const [ingress, setIngress] = useState(initialArticle?.ingress ?? "");
   const [teaser, setTeaser] = useState(initialArticle?.teaser ?? "");
-  const [body, setBody] = useState(initialArticle?.body ?? "");
+  const [body, setBody] = useState(ensureRichTextHtml(initialArticle?.body ?? ""));
   const [imageUrl, setImageUrl] = useState(initialArticle?.imageUrl ?? "");
   const [category, setCategory] = useState<Category>(initialArticle?.category ?? Category.NEWS);
   const [contributors, setContributors] = useState<ContributorDraft[]>(
@@ -203,13 +205,9 @@ export function ArticleForm({
 
       <div>
         <label className="block font-sans text-xs uppercase tracking-wide text-muted">Brødtekst</label>
-        <textarea
-          value={body}
-          onChange={(e) => setBody(e.target.value)}
-          rows={14}
-          className="mt-1 w-full border border-ink/30 bg-white px-3 py-2 font-serif text-ink focus:border-accent focus:outline-none"
-        />
-        <p className="mt-1 font-sans text-xs text-muted">Tomme linjer skiller avsnitt.</p>
+        <div className="mt-1">
+          <RichTextEditor value={body} onChange={setBody} />
+        </div>
       </div>
 
       <div>

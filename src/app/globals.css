@@ -24,4 +24,19 @@
   .prose-article p + p {
     @apply mt-4;
   }
+  .prose-article strong {
+    @apply font-bold;
+  }
+  .prose-article em {
+    @apply italic;
+  }
+  .prose-article a {
+    @apply text-accent underline underline-offset-2;
+  }
+  .prose-article ul {
+    @apply mt-4 list-disc space-y-1 pl-6;
+  }
+  .prose-article ol {
+    @apply mt-4 list-decimal space-y-1 pl-6;
+  }
 }

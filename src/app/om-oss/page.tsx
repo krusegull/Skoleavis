@@ -1,11 +1,11 @@
-import Image from "next/image";
 import { getOrCreateAboutPage } from "@/lib/about";
+import { ensureRichTextHtml } from "@/lib/richTextCompat";
 
 export const revalidate = 60;
 
 export default async function OmOssPage() {
   const about = await getOrCreateAboutPage();
-  const paragraphs = about.body.split(/\n{2,}/).filter(Boolean);
+  const bodyHtml = ensureRichTextHtml(about.body);
 
   return (
     <div className="mx-auto max-w-3xl px-4 py-10">
@@ -14,18 +14,19 @@ export default async function OmOssPage() {
       </h1>
 
       {about.imageUrl && (
-        <div className="relative mt-6 aspect-[16/9] w-full overflow-hidden bg-ink/10">
-          <Image src={about.imageUrl} alt={about.title} fill className="object-cover" />
-        </div>
+        // eslint-disable-next-line @next/next/no-img-element
+        <img
+          src={about.imageUrl}
+          alt={about.title}
+          className="mt-6 max-h-[70vh] w-full bg-ink/10 object-contain"
+        />
       )}
 
-      <div className="prose-article mt-8">
-        {paragraphs.length > 0 ? (
-          paragraphs.map((p, i) => <p key={i}>{p}</p>)
-        ) : (
-          <p className="text-muted">Denne siden er ikke fylt ut ennå.</p>
-        )}
-      </div>
+      {bodyHtml ? (
+        <div className="prose-article mt-8" dangerouslySetInnerHTML={{ __html: bodyHtml }} />
+      ) : (
+        <p className="mt-8 text-muted">Denne siden er ikke fylt ut ennå.</p>
+      )}
     </div>
   );
 }

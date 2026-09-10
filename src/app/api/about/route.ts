@@ -4,6 +4,7 @@ import { prisma } from "@/lib/prisma";
 import { getSessionUser } from "@/lib/apiAuth";
 import { canApproveArticles } from "@/lib/permissions";
 import { deleteUploadedFile } from "@/lib/uploads";
+import { sanitizeRichText } from "@/lib/sanitize";
 
 const updateAboutSchema = z.object({
   title: z.string().min(1).max(200),
@@ -25,18 +26,19 @@ export async function PATCH(req: NextRequest) {
 
   const previous = await prisma.aboutPage.findUnique({ where: { id: "about" } });
   const nextImageUrl = parsed.data.imageUrl || null;
+  const nextBody = sanitizeRichText(parsed.data.body);
 
   const about = await prisma.aboutPage.upsert({
     where: { id: "about" },
     update: {
       title: parsed.data.title,
-      body: parsed.data.body,
+      body: nextBody,
       imageUrl: nextImageUrl,
     },
     create: {
       id: "about",
       title: parsed.data.title,
-      body: parsed.data.body,
+      body: nextBody,
       imageUrl: nextImageUrl,
     },
   });

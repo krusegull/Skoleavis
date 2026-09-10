@@ -1,6 +1,7 @@
 import { NextRequest, NextResponse } from "next/server";
 import { z } from "zod";
 import { getSessionUser } from "@/lib/apiAuth";
+import { stripHtml } from "@/lib/sanitize";
 
 const teaserRequestSchema = z.object({
   title: z.string().min(1).max(200),
@@ -42,7 +43,7 @@ export async function POST(req: NextRequest) {
     "",
     `Tittel: ${title}`,
     `Ingress: ${ingress}`,
-    `Brødtekst: ${body.slice(0, 4000)}`,
+    `Brødtekst: ${stripHtml(body).slice(0, 4000)}`,
     previousTeaser ? `Tidligere forslag som ikke fungerte: ${previousTeaser}. Foreslå noe annet.` : "",
   ]
     .filter(Boolean)

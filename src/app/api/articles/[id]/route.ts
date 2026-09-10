@@ -4,6 +4,7 @@ import { prisma } from "@/lib/prisma";
 import { getSessionUser } from "@/lib/apiAuth";
 import { canApproveArticles, canEditArticle } from "@/lib/permissions";
 import { deleteUploadedFile } from "@/lib/uploads";
+import { sanitizeRichText } from "@/lib/sanitize";
 import { ArticleStatus, Category, Role } from "@prisma/client";
 
 const contributorSchema = z.object({
@@ -60,6 +61,9 @@ export async function PATCH(req: NextRequest, { params }: { params: { id: string
   }
 
   const { contributors, ...fields } = parsed.data;
+  if (fields.body !== undefined) {
+    fields.body = sanitizeRichText(fields.body);
+  }
 
   // Skiller "feltet ble ikke sendt med" (la stå urørt) fra "feltet ble sendt
   // som tomt/null" (fjern bildet) - ellers er det umulig å fjerne et bilde

@@ -3,6 +3,7 @@ import { z } from "zod";
 import { prisma } from "@/lib/prisma";
 import { getSessionUser } from "@/lib/apiAuth";
 import { canApproveArticles, canCreateDrafts } from "@/lib/permissions";
+import { sanitizeRichText } from "@/lib/sanitize";
 import { Category, ArticleStatus } from "@prisma/client";
 
 const createArticleSchema = z.object({
@@ -63,7 +64,7 @@ export async function POST(req: NextRequest) {
       title: parsed.data.title,
       ingress: parsed.data.ingress,
       teaser: parsed.data.teaser || null,
-      body: parsed.data.body,
+      body: sanitizeRichText(parsed.data.body),
       imageUrl: parsed.data.imageUrl || null,
       category: parsed.data.category,
       authorId: user.id,

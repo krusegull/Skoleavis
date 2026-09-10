@@ -4,12 +4,14 @@ import { useState } from "react";
 import { useRouter } from "next/navigation";
 import { AboutPage } from "@prisma/client";
 import { ImageUploadField } from "./ImageUploadField";
+import { RichTextEditor } from "./RichTextEditor";
+import { ensureRichTextHtml } from "@/lib/richTextCompat";
 
 export function AboutPageForm({ initial }: { initial: AboutPage }) {
   const router = useRouter();
 
   const [title, setTitle] = useState(initial.title);
-  const [body, setBody] = useState(initial.body);
+  const [body, setBody] = useState(ensureRichTextHtml(initial.body));
   const [imageUrl, setImageUrl] = useState(initial.imageUrl ?? "");
   const [saving, setSaving] = useState(false);
   const [saved, setSaved] = useState(false);
@@ -54,13 +56,9 @@ export function AboutPageForm({ initial }: { initial: AboutPage }) {
 
       <div>
         <label className="block font-sans text-xs uppercase tracking-wide text-muted">Tekst</label>
-        <textarea
-          value={body}
-          onChange={(e) => setBody(e.target.value)}
-          rows={14}
-          className="mt-1 w-full border border-ink/30 bg-white px-3 py-2 font-serif text-ink focus:border-accent focus:outline-none"
-        />
-        <p className="mt-1 font-sans text-xs text-muted">Tomme linjer skiller avsnitt.</p>
+        <div className="mt-1">
+          <RichTextEditor value={body} onChange={setBody} />
+        </div>
       </div>
 
       {error && <p className="font-sans text-sm text-accent">{error}</p>}

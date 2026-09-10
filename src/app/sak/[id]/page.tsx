@@ -1,10 +1,10 @@
 import { notFound } from "next/navigation";
-import Image from "next/image";
 import { prisma } from "@/lib/prisma";
 import { ArticleStatus } from "@prisma/client";
 import { CategoryBadge } from "@/components/articles/CategoryBadge";
 import { Byline } from "@/components/articles/Byline";
 import { formatDate } from "@/lib/utils";
+import { ensureRichTextHtml } from "@/lib/richTextCompat";
 
 export const revalidate = 30;
 
@@ -16,7 +16,7 @@ export default async function ArtikkelPage({ params }: { params: { id: string } 
 
   if (!article || article.status !== ArticleStatus.PUBLISHED) notFound();
 
-  const paragraphs = article.body.split(/\n{2,}/).filter(Boolean);
+  const bodyHtml = ensureRichTextHtml(article.body);
 
   return (
     <article className="mx-auto max-w-3xl px-4 py-10">
@@ -32,16 +32,15 @@ export default async function ArtikkelPage({ params }: { params: { id: string } 
       </div>
 
       {article.imageUrl && (
-        <div className="relative mt-6 aspect-[16/9] w-full overflow-hidden bg-ink/10">
-          <Image src={article.imageUrl} alt={article.title} fill className="object-cover" />
-        </div>
+        // eslint-disable-next-line @next/next/no-img-element
+        <img
+          src={article.imageUrl}
+          alt={article.title}
+          className="mt-6 max-h-[70vh] w-full bg-ink/10 object-contain"
+        />
       )}
 
-      <div className="prose-article mt-8">
-        {paragraphs.map((p, i) => (
-          <p key={i}>{p}</p>
-        ))}
-      </div>
+      <div className="prose-article mt-8" dangerouslySetInnerHTML={{ __html: bodyHtml }} />
     </article>
   );
 }
