@@ -18,7 +18,7 @@ export default async function OmOssPage() {
         <img
           src={about.imageUrl}
           alt={about.title}
-          className="mt-6 max-h-[70vh] w-full bg-ink/10 object-contain"
+          className="mt-6 h-auto w-full bg-ink/10"
         />
       )}
 

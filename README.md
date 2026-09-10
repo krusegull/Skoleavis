@@ -1,4 +1,4 @@
-# Skoleavisen
+# Stuanytt
 
 En digital skoleavis med ekte redaksjonell arbeidsflyt: kladd → til godkjenning
 → publisert. Rollebasert tilgang (Admin, Redaktør, Journalist, Fotograf,

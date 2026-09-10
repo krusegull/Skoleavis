@@ -171,7 +171,7 @@ model Article {
 /// visning dersom den ikke finnes ennå.
 model AboutPage {
   id        String   @id @default("about")
-  title     String   @default("Om Skoleavisen")
+  title     String   @default("Om Stuanytt")
   body      String   @default("")
   imageUrl  String?
   updatedAt DateTime @updatedAt

@@ -26,7 +26,7 @@ export async function Header() {
       <div className="mx-auto max-w-6xl px-4 py-6 text-center">
         <Link href="/">
           <h1 className="font-headline text-5xl font-bold tracking-tight text-masthead sm:text-6xl">
-            Skoleavisen
+            Stuanytt
           </h1>
         </Link>
         <p className="mt-1 font-serif italic text-muted">Skrevet av elever, for elever</p>

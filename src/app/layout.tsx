@@ -22,8 +22,8 @@ const sans = Inter({
 });
 
 export const metadata: Metadata = {
-  title: "Skoleavisen",
-  description: "Skoleavisen - skrevet av elever, for elever",
+  title: "Stuanytt",
+  description: "Stuanytt - skrevet av elever, for elever",
 };
 
 export default function RootLayout({ children }: { children: React.ReactNode }) {

@@ -36,7 +36,7 @@ export default async function ArtikkelPage({ params }: { params: { id: string } 
         <img
           src={article.imageUrl}
           alt={article.title}
-          className="mt-6 max-h-[70vh] w-full bg-ink/10 object-contain"
+          className="mt-6 h-auto w-full bg-ink/10"
         />
       )}
 
