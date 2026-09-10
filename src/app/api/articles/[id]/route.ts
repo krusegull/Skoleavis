@@ -3,6 +3,7 @@ import { z } from "zod";
 import { prisma } from "@/lib/prisma";
 import { getSessionUser } from "@/lib/apiAuth";
 import { canApproveArticles, canEditArticle } from "@/lib/permissions";
+import { deleteBlobIfManaged } from "@/lib/blob";
 import { ArticleStatus, Category, Role } from "@prisma/client";
 
 const contributorSchema = z.object({
@@ -60,6 +61,12 @@ export async function PATCH(req: NextRequest, { params }: { params: { id: string
 
   const { contributors, ...fields } = parsed.data;
 
+  // Skiller "feltet ble ikke sendt med" (la stå urørt) fra "feltet ble sendt
+  // som tomt/null" (fjern bildet) - ellers er det umulig å fjerne et bilde
+  // uten å slette hele saken.
+  const imageUrlProvided = Object.prototype.hasOwnProperty.call(parsed.data, "imageUrl");
+  const nextImageUrl = imageUrlProvided ? fields.imageUrl || null : undefined;
+
   // Hvis forfatteren redigerer en avvist sak, sender vi den tilbake til kladd
   // slik at den følger normal godkjenningsflyt på nytt.
   const statusUpdate =
@@ -85,12 +92,18 @@ export async function PATCH(req: NextRequest, { params }: { params: { id: string
       where: { id: article.id },
       data: {
         ...fields,
-        imageUrl: fields.imageUrl || undefined,
+        imageUrl: nextImageUrl,
         ...statusUpdate,
       },
       include: { contributors: true },
     });
   });
+
+  // Rydder opp det gamle bildet fra Blob-lagringen dersom det ble erstattet
+  // eller fjernet, slik at det ikke blir liggende offentlig tilgjengelig.
+  if (imageUrlProvided && article.imageUrl && article.imageUrl !== nextImageUrl) {
+    await deleteBlobIfManaged(article.imageUrl);
+  }
 
   return NextResponse.json({ article: updated });
 }
@@ -108,5 +121,6 @@ export async function DELETE(_req: NextRequest, { params }: { params: { id: stri
   }
 
   await prisma.article.delete({ where: { id: article.id } });
+  await deleteBlobIfManaged(article.imageUrl);
   return NextResponse.json({ ok: true });
 }

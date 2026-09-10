@@ -23,7 +23,14 @@ export async function GET() {
   }
 
   const users = await prisma.user.findMany({
-    include: {
+    select: {
+      id: true,
+      name: true,
+      email: true,
+      image: true,
+      active: true,
+      createdAt: true,
+      updatedAt: true,
       roleAssignments: { include: { schoolYear: true }, orderBy: { schoolYear: { createdAt: "desc" } } },
     },
     orderBy: { name: "asc" },
@@ -66,7 +73,16 @@ export async function POST(req: NextRequest) {
         create: { role: parsed.data.role, schoolYearId },
       },
     },
-    include: { roleAssignments: { include: { schoolYear: true } } },
+    select: {
+      id: true,
+      name: true,
+      email: true,
+      image: true,
+      active: true,
+      createdAt: true,
+      updatedAt: true,
+      roleAssignments: { include: { schoolYear: true } },
+    },
   });
 
   return NextResponse.json({ user: created }, { status: 201 });

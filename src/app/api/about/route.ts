@@ -3,6 +3,7 @@ import { z } from "zod";
 import { prisma } from "@/lib/prisma";
 import { getSessionUser } from "@/lib/apiAuth";
 import { canApproveArticles } from "@/lib/permissions";
+import { deleteBlobIfManaged } from "@/lib/blob";
 
 const updateAboutSchema = z.object({
   title: z.string().min(1).max(200),
@@ -22,20 +23,27 @@ export async function PATCH(req: NextRequest) {
     return NextResponse.json({ error: parsed.error.flatten() }, { status: 400 });
   }
 
+  const previous = await prisma.aboutPage.findUnique({ where: { id: "about" } });
+  const nextImageUrl = parsed.data.imageUrl || null;
+
   const about = await prisma.aboutPage.upsert({
     where: { id: "about" },
     update: {
       title: parsed.data.title,
       body: parsed.data.body,
-      imageUrl: parsed.data.imageUrl || null,
+      imageUrl: nextImageUrl,
     },
     create: {
       id: "about",
       title: parsed.data.title,
       body: parsed.data.body,
-      imageUrl: parsed.data.imageUrl || null,
+      imageUrl: nextImageUrl,
     },
   });
+
+  if (previous?.imageUrl && previous.imageUrl !== nextImageUrl) {
+    await deleteBlobIfManaged(previous.imageUrl);
+  }
 
   return NextResponse.json({ about });
 }

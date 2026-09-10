@@ -26,9 +26,14 @@ export async function GET(req: NextRequest) {
     return NextResponse.json({ error: "Ingen tilgang" }, { status: 403 });
   }
 
+  // Uten "mine" eller "status" ville spørringen returnere alle saker i hele
+  // systemet, inkludert andres upubliserte kladder. Det får bare
+  // redaktør/admin gjøre - alle andre skoperes automatisk til egne saker.
+  const scopeToOwn = !mine && !status && !canApproveArticles(user.role);
+
   const articles = await prisma.article.findMany({
     where: {
-      ...(mine ? { authorId: user.id } : {}),
+      ...(mine || scopeToOwn ? { authorId: user.id } : {}),
       ...(status ? { status } : {}),
     },
     include: {

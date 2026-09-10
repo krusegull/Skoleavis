@@ -59,7 +59,16 @@ export async function PATCH(req: NextRequest, { params }: { params: { id: string
         ...(active !== undefined ? { active } : {}),
         ...(passwordHash ? { passwordHash } : {}),
       },
-      include: { roleAssignments: { include: { schoolYear: true } } },
+      select: {
+        id: true,
+        name: true,
+        email: true,
+        image: true,
+        active: true,
+        createdAt: true,
+        updatedAt: true,
+        roleAssignments: { include: { schoolYear: true } },
+      },
     });
   });
 
