@@ -143,11 +143,18 @@ troverdige nyheter fra den siste uken - med vekt på Stovner/Østkanten i
 Oslo, samt store nasjonale nyheter. Resultatet blir liggende som
 **forslag** under **Dashbord → Nyhetstips**, synlig kun for Redaktør/Admin.
 
-Viktig: agenten leverer **aldri** ferdig artikkeltekst, kun en kort
-vinkling + lenke til kilden - å gjengi andres journalistikk direkte ville
-være ulovlig. Redaktøren trykker "Lag sak" for å opprette en tom kladd
-(med forslaget i ingressen som referanse) som må skrives originalt, eller
-"Avvis" for å fjerne tipset.
+Viktig: agenten leverer **aldri** en gjengivelse av kildeartikkelen -
+det ville vært ulovlig. For hvert tips kan redaktøren velge:
+
+- **"Skriv utkast for meg"** - Claude skriver et førsteutkast til
+  brødtekst med egne ord (bruker web-søk for faktasjekk), tydelig merket
+  som AI-generert i redigeringsvisningen. Skal alltid leses gjennom og
+  faktasjekkes før det sendes til godkjenning - akkurat som et hvilket
+  som helst annet utkast går det gjennom hele den vanlige
+  godkjenningsflyten, ingenting publiseres automatisk.
+- **"Jeg skriver selv"** - oppretter en tom kladd (med forslaget i
+  ingressen som referanse) som redaksjonen skriver fra bunnen av.
+- **"Avvis"** - fjerner tipset.
 
 Oppsett:
 

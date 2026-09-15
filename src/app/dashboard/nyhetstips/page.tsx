@@ -20,8 +20,9 @@ export default async function NyhetstipsPage() {
       <p className="mt-2 font-serif text-muted">
         En AI-agent søker gjennom troverdige nyhetskilder hver torsdag og foreslår saker som kan
         være aktuelle for elevene - med vekt på Stovner/Østkanten i Oslo og store nasjonale
-        nyheter. Dette er kun forslag til vinkling og kilde, aldri ferdig tekst - saken må alltid
-        skrives originalt av redaksjonen.
+        nyheter. Velg om Claude skal skrive et førsteutkast (original tekst, aldri kopiert fra
+        kilden - må alltid leses gjennom og faktasjekkes), eller om redaksjonen skriver selv fra
+        bunnen av.
       </p>
       <div className="mt-6">
         <NewsTipList tips={tips} />

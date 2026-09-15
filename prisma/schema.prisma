@@ -153,6 +153,10 @@ model Article {
   publishedAt     DateTime?
   createdAt       DateTime      @default(now())
   updatedAt       DateTime      @updatedAt
+  /// Sant dersom brødteksten (helt eller delvis) ble skrevet av AI-agenten
+  /// ut fra et nyhetstips. Vises som et tydelig varsel i redigeringsvisningen
+  /// - må alltid faktasjekkes og redigeres av et menneske før godkjenning.
+  aiDrafted       Boolean       @default(false)
 
   authorId     String
   reviewedById String?

@@ -145,6 +145,15 @@ export function ArticleForm({
 
   return (
     <div className="space-y-6">
+      {initialArticle?.aiDrafted && (
+        <div className="border border-accent bg-accent/10 px-4 py-3">
+          <p className="font-sans text-sm text-accent">
+            <strong>Dette utkastet er skrevet av en AI-agent</strong> basert på et nyhetstips. Les
+            grundig gjennom og faktasjekk alt før saken sendes til godkjenning - AI-en kan ta feil
+            eller mangle detaljer.
+          </p>
+        </div>
+      )}
       <div>
         <label className="block font-sans text-xs uppercase tracking-wide text-muted">Tittel</label>
         <input

@@ -1,5 +1,6 @@
 import { prisma } from "@/lib/prisma";
-import { Category } from "@prisma/client";
+import { Category, NewsTip } from "@prisma/client";
+import { sanitizeRichText } from "@/lib/sanitize";
 
 const VALID_CATEGORIES = new Set(Object.values(Category));
 
@@ -91,6 +92,76 @@ export async function findWeeklyNewsTips(): Promise<RawTip[]> {
     .join("\n");
 
   return extractJsonArray(text);
+}
+
+/**
+ * Lar Claude skrive et ORIGINALT utkast til brødtekst basert på tipset -
+ * aldri en gjengivelse av kildeartikkelen. Bruker web-søk for å verifisere
+ * fakta, siden modellen ofte ikke kjenner ferske, lokale nyheter fra
+ * treningen sin. Resultatet er kun et utgangspunkt - skal alltid
+ * faktasjekkes og godkjennes av et menneske før publisering, akkurat som
+ * ethvert annet utkast.
+ */
+export async function draftArticleBody(tip: NewsTip): Promise<string | null> {
+  const apiKey = process.env.ANTHROPIC_API_KEY;
+  if (!apiKey) return null;
+
+  const prompt = [
+    "Du er journalist i skoleavisen Stuanytt (Haugenstua skole, Stovner bydel,",
+    "Østkanten i Oslo). Skriv et FØRSTEUTKAST til brødteksten i en nyhetssak,",
+    "basert på temaet under.",
+    "",
+    "Svært viktig:",
+    "- Skriv MED EGNE ORD, som en journalist som har satt seg inn i saken -",
+    "  ikke kopier eller tett-parafraser setninger fra kildene dine.",
+    "- Referer naturlig til kilden i teksten, f.eks. \"Ifølge NRK...\".",
+    "- Bruk web-søk til å sjekke fakta. Hvis du er usikker på detaljer, hold",
+    "  deg til det du faktisk kan bekrefte - ikke dikt opp sitater, tall eller",
+    "  navn.",
+    "- Nøytral, saklig tone passende for en ungdomsskole-/videregåendeavis.",
+    "- 3-5 korte avsnitt.",
+    "- Dette er et UTKAST en redaktør skal lese gjennom og rette før det",
+    "  eventuelt publiseres - det er greit å være forsiktig/generell fremfor",
+    "  å risikere feil.",
+    "",
+    `Tittel: ${tip.title}`,
+    `Foreslått vinkling: ${tip.summary}`,
+    `Kilde: ${tip.sourceName ?? "ukjent"} (${tip.sourceUrl})`,
+    "",
+    "Svar KUN med selve brødteksten som HTML. Bruk utelukkende disse taggene:",
+    "<p>, <strong>, <em>, <ul>, <ol>, <li>, <a>. Ingen markdown, ingen",
+    "forklaring før eller etter, ingen overskrift (tittelen finnes allerede).",
+  ].join("\n");
+
+  const response = await fetch("https://api.anthropic.com/v1/messages", {
+    method: "POST",
+    headers: {
+      "content-type": "application/json",
+      "x-api-key": apiKey,
+      "anthropic-version": "2023-06-01",
+    },
+    body: JSON.stringify({
+      model: process.env.ANTHROPIC_TIPS_MODEL || "claude-sonnet-5",
+      max_tokens: 2000,
+      tools: [{ type: "web_search_20250305", name: "web_search", max_uses: 4 }],
+      messages: [{ role: "user", content: prompt }],
+    }),
+  });
+
+  if (!response.ok) {
+    console.error("Anthropic API-feil (AI-utkast):", await response.text());
+    return null;
+  }
+
+  const data = await response.json();
+  const text = (data?.content ?? [])
+    .filter((block: { type: string }) => block.type === "text")
+    .map((block: { text: string }) => block.text)
+    .join("\n")
+    .trim();
+
+  if (!text) return null;
+  return sanitizeRichText(text);
 }
 
 /** Lagrer nye tips i databasen. Hopper stille over tips med URL vi allerede har. */
