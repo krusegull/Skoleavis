@@ -161,6 +161,7 @@ model Article {
   reviewedBy User? @relation("ArticleReviewer", fields: [reviewedById], references: [id], onDelete: SetNull)
 
   contributors ArticleContributor[]
+  newsTips     NewsTip[]
 
   @@index([status, publishedAt])
   @@index([category, status])
@@ -175,6 +176,28 @@ model AboutPage {
   body      String   @default("")
   imageUrl  String?
   updatedAt DateTime @updatedAt
+}
+
+/// Et nyhetstips foreslått av AI-agenten (daglig nettsøk). Kun et forslag
+/// til vinkling/kilde for redaksjonen - ALDRI ferdig artikkeltekst, siden
+/// agenten ikke har lov til å gjengi andres journalistikk. Synlig kun for
+/// Redaktør/Admin, som enten oppretter en original sak basert på tipset
+/// eller avviser det.
+model NewsTip {
+  id         String    @id @default(cuid())
+  title      String
+  summary    String
+  sourceUrl  String
+  sourceName String?
+  category   Category?
+  dismissed  Boolean   @default(false)
+  articleId  String? // satt hvis redaktøren opprettet en sak fra tipset
+  createdAt  DateTime  @default(now())
+
+  article Article? @relation(fields: [articleId], references: [id], onDelete: SetNull)
+
+  @@unique([sourceUrl])
+  @@index([dismissed, createdAt])
 }
 
 /// Bidragsyter/byline på en sak. Navn og rolle lagres som tekst

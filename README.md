@@ -136,6 +136,34 @@ nøkkelen viser knappen bare en feilmelding, resten av appen fungerer som
 normalt. Modellen kan overstyres med `ANTHROPIC_MODEL` (standard:
 `claude-haiku-4-5-20251001`).
 
+## Nyhetstips (valgfritt, Claude API + Vercel Cron)
+
+Hver torsdag søker en agent (Claude med web-søk) etter aktuelle,
+troverdige nyheter fra den siste uken - med vekt på Stovner/Østkanten i
+Oslo, samt store nasjonale nyheter. Resultatet blir liggende som
+**forslag** under **Dashbord → Nyhetstips**, synlig kun for Redaktør/Admin.
+
+Viktig: agenten leverer **aldri** ferdig artikkeltekst, kun en kort
+vinkling + lenke til kilden - å gjengi andres journalistikk direkte ville
+være ulovlig. Redaktøren trykker "Lag sak" for å opprette en tom kladd
+(med forslaget i ingressen som referanse) som må skrives originalt, eller
+"Avvis" for å fjerne tipset.
+
+Oppsett:
+
+1. Krever `ANTHROPIC_API_KEY` (samme som "Foreslå teaser" over).
+2. Sett `CRON_SECRET` til en tilfeldig verdi (f.eks. `openssl rand -base64
+   32`) - dette hindrer at andre enn Vercels egen cron-jobb kan trigge
+   søket. Legg samme verdi inn i miljøvariablene i Vercel.
+3. `vercel.json` inneholder allerede cron-oppsettet (hver torsdag kl. 05:00
+   UTC) - ingen ekstra konfigurasjon trengs i Vercel-dashbordet utover
+   at prosjektet er koblet til git-repoet.
+4. Modellen kan overstyres med `ANTHROPIC_TIPS_MODEL` (standard:
+   `claude-sonnet-5`).
+
+Uten `ANTHROPIC_API_KEY` finner ikke cron-jobben noen tips (feiler stille),
+og siden viser bare en tom liste - resten av appen fungerer som normalt.
+
 ## Bildeopplasting (Cloudinary)
 
 Bilder til saker og "Om oss"-siden kan enten limes inn som en URL, eller

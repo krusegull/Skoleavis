@@ -1,3 +1,9 @@
 {
-  "regions": ["fra1"]
+  "regions": ["fra1"],
+  "crons": [
+    {
+      "path": "/api/cron/news-tips",
+      "schedule": "0 5 * * 4"
+    }
+  ]
 }
