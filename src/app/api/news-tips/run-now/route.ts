@@ -13,6 +13,13 @@ export async function POST() {
     return NextResponse.json({ error: "Ingen tilgang" }, { status: 403 });
   }
 
+  if (!process.env.ANTHROPIC_API_KEY) {
+    return NextResponse.json(
+      { error: "ANTHROPIC_API_KEY er ikke satt i miljøvariablene på serveren." },
+      { status: 503 }
+    );
+  }
+
   try {
     const rawTips = await findWeeklyNewsTips();
     const saved = await saveNewsTips(rawTips);

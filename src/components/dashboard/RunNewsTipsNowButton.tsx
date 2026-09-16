@@ -20,11 +20,17 @@ export function RunNewsTipsNowButton() {
         setError(data.error || "Kunne ikke søke etter nyhetstips akkurat nå.");
         return;
       }
-      setMessage(
-        data.saved > 0
-          ? `Fant ${data.found} sak(er), ${data.saved} nye tips lagt til under.`
-          : `Søket er ferdig, men fant ingen nye tips (${data.found} sak(er) var allerede kjent).`
-      );
+      if (data.saved > 0) {
+        setMessage(`Fant ${data.found} sak(er), ${data.saved} nye tips lagt til under.`);
+      } else if (data.found === 0) {
+        setError(
+          "Søket fant ingen saker i det hele tatt - det tyder på at noe er feil med " +
+            "oppsettet (f.eks. at ANTHROPIC_API_KEY mangler i Vercel), ikke at det ikke " +
+            "har skjedd noe denne uken. Sjekk funksjonsloggene i Vercel for detaljer."
+        );
+      } else {
+        setMessage(`Søket er ferdig, men fant ingen nye tips (${data.found} sak(er) var allerede kjent).`);
+      }
       router.refresh();
     } finally {
       setRunning(false);
