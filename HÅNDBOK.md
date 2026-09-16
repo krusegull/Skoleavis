@@ -83,6 +83,11 @@ den siste uken - først lokale saker (Stovner/Østkanten i Oslo), deretter
 store nasjonale nyheter. Forslagene dukker opp under **Dashbord →
 Nyhetstips**, synlig kun for Redaktør/Admin.
 
+Øverst på denne siden finnes også knappen **"Kjør søket nå"**, som gjør
+akkurat det samme søket med en gang - nyttig hvis dere ikke vil vente til
+torsdag, f.eks. for å teste eller for å hente ferske tips midt i uken.
+Søket tar typisk et halvt minutt.
+
 For hvert tips velger dere:
 
 - **"Skriv utkast for meg"** - Claude skriver et førsteutkast med egne

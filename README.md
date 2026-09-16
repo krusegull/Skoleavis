@@ -156,6 +156,10 @@ det ville vært ulovlig. For hvert tips kan redaktøren velge:
   ingressen som referanse) som redaksjonen skriver fra bunnen av.
 - **"Avvis"** - fjerner tipset.
 
+Fra samme side kan Redaktør/Admin også trykke **"Kjør søket nå"** for å
+utløse søket manuelt (`POST /api/news-tips/run-now`, krever innlogget
+Redaktør/Admin-sesjon) i stedet for å vente til torsdagens cron-jobb.
+
 Oppsett:
 
 1. Krever `ANTHROPIC_API_KEY` (samme som "Foreslå teaser" over).

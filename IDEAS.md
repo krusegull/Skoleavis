@@ -27,3 +27,6 @@ Ikke en forpliktende plan - bare et sted å samle ting så de ikke forsvinner.
   web-søk for faktasjekk, tydelig merket som AI-generert, går gjennom
   vanlig godkjenningsflyt), "Jeg skriver selv" (tom kladd), eller
   "Avvis". Se README "Nyhetstips" for oppsett.
+- **"Kjør søket nå"-knapp** (2026-09-16). Under Dashbord → Nyhetstips kan
+  Redaktør/Admin trigge det samme ukentlige søket manuelt, i stedet for å
+  vente til torsdag.

@@ -4,6 +4,7 @@ import { authOptions } from "@/lib/auth";
 import { prisma } from "@/lib/prisma";
 import { canApproveArticles } from "@/lib/permissions";
 import { NewsTipList } from "@/components/dashboard/NewsTipList";
+import { RunNewsTipsNowButton } from "@/components/dashboard/RunNewsTipsNowButton";
 
 export default async function NyhetstipsPage() {
   const session = await getServerSession(authOptions);
@@ -24,6 +25,7 @@ export default async function NyhetstipsPage() {
         kilden - må alltid leses gjennom og faktasjekkes), eller om redaksjonen skriver selv fra
         bunnen av.
       </p>
+      <RunNewsTipsNowButton />
       <div className="mt-6">
         <NewsTipList tips={tips} />
       </div>
