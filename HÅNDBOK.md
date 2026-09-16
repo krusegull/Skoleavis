@@ -96,11 +96,21 @@ For hvert tips velger dere:
 *(Planlagt endring: dette skal fungere annerledes når elever - ikke bare
 Admin/Redaktør - skal bruke det. Ikke bygget ennå, se `IDEAS.md`.)*
 
+**Om kostnad:** Nyhetstips-søket og AI-utkast bruker Anthropics API
+(Claude), som faktureres til kontoen som eier `ANTHROPIC_API_KEY` i
+Vercels miljøvariabler (skolens/din egen konto - ikke Anthropic eller
+Claude Code). Siden søket kun kjører én gang i uken, pluss noen få
+"Skriv utkast for meg"-klikk, er kostnaden normalt lav (typisk noen få
+kroner i måneden). Forbruk og fakturering kan følges på
+console.anthropic.com.
+
 ## "Foreslå teaser"
 
 I sakredigeringen kan man trykke "Foreslå teaser" for å få Claude til å
 foreslå en kort, fengende teaser-tekst basert på tittel/ingress/brødtekst.
-Kan be om nytt forslag eller skrive selv.
+Kan be om nytt forslag eller skrive selv. Bruker samme `ANTHROPIC_API_KEY`
+og fakturering som Nyhetstips-agenten over - hvert klikk er en liten,
+rimelig API-forespørsel.
 
 ## Bildeopplasting
 
