@@ -3,6 +3,11 @@
 Løpende liste over idéer Eirik har kommet med, som ikke er bygget ennå.
 Ikke en forpliktende plan - bare et sted å samle ting så de ikke forsvinner.
 
+**Fast rutine:** Claude lagrer enhver idé Eirik nevner her, uansett hvor
+stor eller liten, med det samme den nevnes - ikke bare når han ber
+eksplisitt om det. Be om "gi meg en oversikt over ideene" eller lignende
+for å hente dem frem igjen når som helst.
+
 ## Ikke startet
 
 - **Nyhetstips/AI-utkast for elever.** Redaktør/Admin har nå (se
@@ -24,6 +29,24 @@ Ikke en forpliktende plan - bare et sted å samle ting så de ikke forsvinner.
   per nettleser), eller kun innloggede kontoer? Hvor kommer lista over topp
   100 lag fra - fast liste, eller søkbar? Vises resultatet fortløpende eller
   først etter at avstemningen er stengt?
+- **Hver klasse sender inn "ukas nyhet"** (2026-09-17). Tanke om en fast
+  rutine der hver klasse bidrar med én artikkel i kategorien "Ukas nyhet"
+  (se "Gjennomført" - kategorien finnes allerede). Uavklart: er dette en
+  ren organisatorisk rutine (læreren styrer hvilken klasse som har turen),
+  eller trengs det noe i appen - f.eks. en oversikt over hvilken klasse som
+  har levert/har turen denne uken, automatiske påminnelser, eller kobling
+  mellom klasse og innsendinger/kladder?
+- **Ny konkurranse: "Hvem er raskest?"** (2026-09-17). F.eks. koblet til
+  geografi i samfunnsfag - hvem klarer å plassere/gjette alle land i Europa
+  raskest, eller alle hovedsteder raskest. Resultatet vises som en
+  poengtavle med topp 5 elever. Eirik har presisert et hardt krav: løsningen
+  må IKKE gi løpende kostnader som øker med antall svar (dvs. ingen AI/API-
+  kall per forsøk - ren logikk som sjekker svar mot en fast fasitliste og
+  tidtaking, lagret i den vanlige databasen, er trolig nok og koster
+  ingenting ekstra per elev som deltar). Uavklart: krever det innlogging
+  for å delta (for å vise navn på poengtavla), hvordan hindre juks/om det
+  gjør noe, og om dette skal være én konkurranse eller en gjenbrukbar
+  "quiz/hurtigkonkurranse"-mal for flere fag/temaer over tid.
 
 ## Vurdert, ikke prioritert
 
