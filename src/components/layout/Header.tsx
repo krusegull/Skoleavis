@@ -12,7 +12,13 @@ export async function Header() {
   return (
     <header className="border-b-4 border-ink bg-paper">
       <div className="mx-auto flex max-w-6xl items-center justify-between px-4 pt-3 font-sans text-xs uppercase tracking-wide text-muted">
-        <span>{today}</span>
+        <div className="flex items-center gap-3">
+          <Link href="/" className="shrink-0">
+            {/* eslint-disable-next-line @next/next/no-img-element */}
+            <img src="/logo.svg" alt="Stuanytt" className="h-8 w-8" />
+          </Link>
+          <span>{today}</span>
+        </div>
         <div className="flex items-center gap-4">
           {session?.user && (
             <span>
@@ -24,10 +30,8 @@ export async function Header() {
       </div>
 
       <div className="mx-auto max-w-6xl px-4 py-6 text-center">
-        <Link href="/" className="inline-block">
-          {/* eslint-disable-next-line @next/next/no-img-element */}
-          <img src="/logo.svg" alt="" className="mx-auto h-20 w-20 sm:h-24 sm:w-24" />
-          <h1 className="mt-2 font-headline text-5xl font-bold tracking-tight text-masthead sm:text-6xl">
+        <Link href="/">
+          <h1 className="font-headline text-5xl font-bold tracking-tight text-masthead sm:text-6xl">
             Stuanytt
           </h1>
         </Link>
