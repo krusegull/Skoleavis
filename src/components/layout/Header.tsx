@@ -61,6 +61,11 @@ export async function Header() {
               Om oss
             </Link>
           </li>
+          <li>
+            <Link href="/send-inn" className="hover:text-accent">
+              Send inn
+            </Link>
+          </li>
         </ul>
       </nav>
     </header>

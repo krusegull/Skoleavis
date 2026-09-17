@@ -34,7 +34,15 @@ enum Category {
   REVIEW
   SPORT
   CULTURE
+  WEEKLY_PICK
+  HISTORICAL_NEWS
   QUIZ
+}
+
+enum SubmissionStatus {
+  NEW
+  READ
+  ARCHIVED
 }
 
 // --- NextAuth (standard Prisma-adapter-modeller) ---
@@ -202,6 +210,26 @@ model NewsTip {
 
   @@unique([sourceUrl])
   @@index([dismissed, createdAt])
+}
+
+/// Et bidrag sendt inn av en elev eller andre via det offentlige
+/// innsendingsskjemaet (/send-inn) - ikke krever innlogging. Dokumentet
+/// (Word/PDF e.l.) og eventuelle bilder lastes opp direkte fra nettleseren
+/// til Cloudinary og lagres kun som URL-er her. Redaktør/Admin ser disse
+/// under Dashbord -> Innsendinger og skriver selv innholdet inn som en
+/// ordentlig sak dersom den skal publiseres.
+model Submission {
+  id           String           @id @default(cuid())
+  name         String
+  email        String?
+  message      String?
+  documentUrl  String
+  documentName String
+  imageUrls    String[]         @default([])
+  status       SubmissionStatus @default(NEW)
+  createdAt    DateTime         @default(now())
+
+  @@index([status, createdAt])
 }
 
 /// Bidragsyter/byline på en sak. Navn og rolle lagres som tekst

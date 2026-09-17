@@ -26,6 +26,8 @@ export const CATEGORY_LABELS: Record<Category, string> = {
   REVIEW: "Anmeldelse",
   SPORT: "Sport",
   CULTURE: "Kultur",
+  WEEKLY_PICK: "Ukas nyhet",
+  HISTORICAL_NEWS: "Historiske nyheter",
   QUIZ: "Quiz",
 };
 
@@ -36,6 +38,8 @@ export const CATEGORY_SLUGS: Record<Category, string> = {
   REVIEW: "anmeldelse",
   SPORT: "sport",
   CULTURE: "kultur",
+  WEEKLY_PICK: "ukas-nyhet",
+  HISTORICAL_NEWS: "historiske-nyheter",
   QUIZ: "quiz",
 };
 
@@ -50,8 +54,16 @@ export const CATEGORY_ORDER: Category[] = [
   Category.REVIEW,
   Category.SPORT,
   Category.CULTURE,
+  Category.WEEKLY_PICK,
+  Category.HISTORICAL_NEWS,
   Category.QUIZ,
 ];
+
+export const SUBMISSION_STATUS_LABELS: Record<string, string> = {
+  NEW: "Ny",
+  READ: "Lest",
+  ARCHIVED: "Arkivert",
+};
 
 export const STATUS_LABELS: Record<string, string> = {
   DRAFT: "Kladd",

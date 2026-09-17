@@ -195,6 +195,43 @@ Uten dette steget viser "Last opp bilde"-knappen en tydelig feilmelding, og
 man kan fortsatt lime inn en bilde-URL manuelt - resten av appen fungerer
 som normalt.
 
+## Innsending fra elever (offentlig, ikke-innlogget)
+
+`/send-inn` er en offentlig side der elever og andre - uten å logge inn -
+kan sende redaksjonen en tekst (Word/PDF/ODT) og valgfrie bilder. Bidragene
+havner under **Dashbord → Innsendinger** (Redaktør/Admin), som en enkel
+innboks: dokumentet lastes ned og skrives eventuelt inn som en vanlig sak i
+systemet - innsendingen blir ikke automatisk til en publisert artikkel.
+
+Filene lastes opp **direkte fra nettleseren til Cloudinary**, ikke via vår
+egen server. Grunnen er at Vercel har en langt lavere grense for hvor mye
+data én forespørsel til en funksjon kan inneholde enn det f.eks. et
+Word-dokument med bilder fyller opp - å sende filene innom vår egen server
+ville gitt kryptiske "for stor fil"-feil på legitime innsendinger. Dette
+krever et ekstra oppsett-steg i Cloudinary utover det som står under
+"Bildeopplasting" over:
+
+1. I Cloudinary-konsollet: **Settings → Upload → Upload presets → Add
+   upload preset**.
+2. Sett **Signing Mode** til **Unsigned**. Resten kan stå på standardverdier.
+   Lagre, og noter navnet på preset-en (f.eks. `stuanytt_innsending`).
+3. Legg inn to nye miljøvariabler i Vercel (merk `NEXT_PUBLIC_`-prefikset -
+   disse er ment å være synlige i nettleseren, ikke hemmeligheter):
+   `NEXT_PUBLIC_CLOUDINARY_CLOUD_NAME` (samme cloud name som over) og
+   `NEXT_PUBLIC_CLOUDINARY_UPLOAD_PRESET` (navnet fra steg 2).
+4. Redeploy.
+
+Uten dette steget viser `/send-inn` en tydelig melding om at innsending
+ikke er satt opp ennå, i stedet for et skjema som ikke fungerer. En
+usignert preset lar hvem som helst som kjenner navnet laste opp filer til
+Cloudinary-kontoen direkte (ikke bare via appen vår) - akseptabelt for en
+skoleavis i denne skalaen, men vurder å sette en makstørrelse på filer i
+selve preset-en i Cloudinary som en ekstra sperre.
+
+Enkel spam-beskyttelse: skjemaet har et skjult "honeypot"-felt som ekte
+brukere aldri fyller ut; innsendinger derfra godtas stille uten å bli
+lagret. Ingen captcha er satt opp.
+
 ## Personvern
 
 Førende prinsipp for videre utvikling: **minst mulig personopplysninger skal
@@ -216,6 +253,11 @@ være offentlig synlig som standard.** Konkret innebærer dette i dag:
 - Deaktiverte kontoer beholdes med navn/e-post for å bevare historikk (et
   bevisst valg, se "Redaksjonell arbeidsflyt"), men er ikke selv synlige
   offentlig lenger enn de var før deaktivering.
+- Innsendinger via `/send-inn` (navn, valgfri e-post, melding, filer) er
+  **kun** synlige for Redaktør/Admin i dashbordet, aldri offentlig. De
+  slettes ikke automatisk - Redaktør/Admin bør rydde opp (arkivere/slette)
+  jevnlig, spesielt innsendinger fra elever som ikke blir til publiserte
+  saker.
 
 ## Feide
 

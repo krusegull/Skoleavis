@@ -14,15 +14,26 @@ function configureCloudinary() {
   });
 }
 
-function isManagedUrl(url: string): boolean {
+/** Sant dersom URL-en peker til vår egen Cloudinary-konto (ikke en vilkårlig ekstern URL). */
+export function isManagedUrl(url: string): boolean {
   const cloudName = process.env.CLOUDINARY_CLOUD_NAME;
   return Boolean(cloudName) && url.includes(`res.cloudinary.com/${cloudName}/`);
 }
 
-function extractPublicId(url: string): string | null {
-  // .../upload/v1699999999/skoleavisen/abc123.jpg -> "skoleavisen/abc123"
-  const match = url.match(/\/upload\/(?:v\d+\/)?(.+)\.[a-zA-Z0-9]+(?:\?.*)?$/);
-  return match ? match[1] : null;
+type CloudinaryResourceType = "image" | "video" | "raw";
+
+/**
+ * .../<resource_type>/upload/v1699999999/skoleavisen/abc123.jpg
+ * -> { resourceType: "image", publicId: "skoleavisen/abc123" }
+ * Raw files (Word/PDF osv.) beholder filendelsen som en del av public_id-en
+ * hos Cloudinary, så den strippes kun for image/video.
+ */
+function parseCloudinaryUrl(url: string): { publicId: string; resourceType: CloudinaryResourceType } | null {
+  const match = url.match(/\/(image|video|raw)\/upload\/(?:v\d+\/)?([^?]+)/);
+  if (!match) return null;
+  const resourceType = match[1] as CloudinaryResourceType;
+  const publicId = resourceType === "raw" ? match[2] : match[2].replace(/\.[a-zA-Z0-9]+$/, "");
+  return { publicId, resourceType };
 }
 
 /**
@@ -53,12 +64,12 @@ export async function uploadFile(buffer: Buffer): Promise<string> {
 export async function deleteUploadedFile(url: string | null | undefined) {
   if (!url || !isCloudinaryConfigured() || !isManagedUrl(url)) return;
 
-  const publicId = extractPublicId(url);
-  if (!publicId) return;
+  const parsed = parseCloudinaryUrl(url);
+  if (!parsed) return;
 
   try {
     configureCloudinary();
-    await cloudinary.uploader.destroy(publicId, { resource_type: "image" });
+    await cloudinary.uploader.destroy(parsed.publicId, { resource_type: parsed.resourceType });
   } catch (err) {
     console.error("Kunne ikke slette fil fra Cloudinary:", err);
   }

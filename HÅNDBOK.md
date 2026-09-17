@@ -49,7 +49,8 @@ arkivet forblir riktige selv om en konto senere deaktiveres.
 
 ## Innholdstyper på en sak
 
-- Tittel, kategori (Nyheter/Reportasje/Intervju/Anmeldelse/Sport/Kultur/Quiz)
+- Tittel, kategori (Nyheter/Reportasje/Intervju/Anmeldelse/Sport/Kultur/Ukas
+  nyhet/Historiske nyheter/Quiz)
 - Ingress (kort ingress under tittelen)
 - Teaser (valgfri, kort tekst brukt i grid/lenker - kan foreslås av AI, se under)
 - Bilde (lim inn URL, eller last opp direkte - se "Bildeopplasting")
@@ -66,15 +67,35 @@ arkivet forblir riktige selv om en konto senere deaktiveres.
 | Arkiv (`/arkiv`) | Alle publiserte saker, nyeste først |
 | Redaksjonen (`/redaksjonen`) | Roller og medlemmer for gjeldende skoleår, med mulighet for å bla i tidligere års redaksjoner. **Elever vises aldri her** (se Personvern) |
 | Om oss (`/om-oss`) | Fritekst-side om skolen/avisen, redigeres fra dashbordet |
+| Send inn (`/send-inn`) | Offentlig skjema - elever/andre kan sende inn en tekst (Word/PDF) + bilder uten å logge inn. Se eget avsnitt under |
 
 ## Dashbord (innlogget)
 
 - **Mine kladder** - egne saker, uansett status
 - **Til godkjenning** (Redaktør/Admin) - saker som venter på beslutning
 - **Nyhetstips** (Redaktør/Admin) - se eget avsnitt under
+- **Innsendinger** (Redaktør/Admin) - se eget avsnitt under
 - **Om oss-siden** (Redaktør/Admin) - rediger teksten på `/om-oss`
 - **Brukere** (Admin) - opprette kontoer, endre rolle, deaktivere/reaktivere, sette "Elev"-merke, nullstille passord
 - **Avslutt skoleår** (Admin) - opprette nye skoleår, sette hvilket som er gjeldende, og manuelt deaktivere kontoer (aldri automatisk)
+
+## Innsending fra elever/andre (uten innlogging)
+
+Hvem som helst kan gå til `/send-inn` (lenke i toppmenyen: "Send inn") og
+sende en tekst pluss valgfrie bilder til redaksjonen - uten å ha en konto.
+De fyller ut navn, valgfri e-post, en valgfri melding, laster opp
+dokumentet sitt (Word/PDF/ODT) og eventuelt bilder.
+
+Bidragene havner under **Dashbord → Innsendinger** (Redaktør/Admin), som
+en enkel innboks - de blir **ikke** automatisk til en artikkel. Redaktør/
+Admin åpner dokumentet, og skriver eventuelt innholdet inn som en vanlig
+kladd (**Mine kladder → Ny sak**) dersom saken skal publiseres. Hvert
+bidrag kan merkes "Lest", arkiveres, eller slettes permanent (sletter da
+også de opplastede filene).
+
+*(Krever et eget engangs-oppsett i Cloudinary utover vanlig
+bildeopplasting - se README "Innsending fra elever". Uten dette viser
+siden en tydelig melding om at innsending ikke er satt opp ennå.)*
 
 ## Nyhetstips - AI-agenten
 
