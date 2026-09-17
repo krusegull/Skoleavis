@@ -24,8 +24,10 @@ export async function Header() {
       </div>
 
       <div className="mx-auto max-w-6xl px-4 py-6 text-center">
-        <Link href="/">
-          <h1 className="font-headline text-5xl font-bold tracking-tight text-masthead sm:text-6xl">
+        <Link href="/" className="inline-block">
+          {/* eslint-disable-next-line @next/next/no-img-element */}
+          <img src="/logo.svg" alt="" className="mx-auto h-20 w-20 sm:h-24 sm:w-24" />
+          <h1 className="mt-2 font-headline text-5xl font-bold tracking-tight text-masthead sm:text-6xl">
             Stuanytt
           </h1>
         </Link>
