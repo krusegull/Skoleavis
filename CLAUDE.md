@@ -39,3 +39,23 @@ Dette gjelder også konkurranse-/quiz-idéer (se IDEAS.md "Hvem er
 raskest?") - slike skal som hovedregel løses med ren logikk mot en fast
 fasit, ikke AI-kall per forsøk, nettopp for å unngå at kostnaden vokser
 med antall elever som deltar.
+
+### Konkret terskel: $3
+
+- Om jeg anslår at **å bygge/teste** en funksjon (f.eks. at jeg selv kjører
+  en ekte Claude API-/Cloudinary-forespørsel med Eiriks egne nøkler under
+  utvikling) vil koste **$3 eller mer til sammen**, stopper jeg og sier
+  fra FØR jeg gjør det - ikke bare rapporterer det i ettertid.
+- Om jeg anslår at **én enkelt bruk** av en ferdig funksjon (ett klikk, én
+  innsending, én forespørsel) kan koste $3 eller mer, sier jeg fra før den
+  bygges, uansett hvor sjelden den vil bli trigget.
+- Standardvalg når Eirik ber om noe på nettsiden: **velg alltid den
+  billigste løsningen** som faktisk løser oppgaven godt, ikke den mest
+  "imponerende" - foreslå en dyrere variant kun som et eksplisitt
+  alternativ, aldri som standard.
+- Kostnadskildene i dag er Anthropic API, Cloudinary, Vercel og Neon
+  (alle på gratis-/lavkostnivå). Dukker det opp behov for noe annet som
+  kan koste penger (en ny tjeneste, betalt API, oppgradering til et
+  betalt abonnement et sted, økt lagringsbehov osv.), skal det flagges
+  eksplisitt som en NY kostnadskilde - ikke stilltiende antas dekket av
+  det som allerede er avtalt.
