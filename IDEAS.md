@@ -47,6 +47,14 @@ for å hente dem frem igjen når som helst.
   for å delta (for å vise navn på poengtavla), hvordan hindre juks/om det
   gjør noe, og om dette skal være én konkurranse eller en gjenbrukbar
   "quiz/hurtigkonkurranse"-mal for flere fag/temaer over tid.
+- **Eget domene: stuanytt.no** (2026-09-18). Bytte fra Vercels
+  standard-URL til et eget `.no`-domene. Ingen kodeendringer utover å
+  oppdatere `NEXTAUTH_URL`-miljøvariabelen - resten er kjøp hos en
+  registrar (f.eks. Domeneshop/One.com) og DNS-oppsett i Vercel.
+  **Kostnad:** typisk 100-200 kr/år i domeneavgift, en liten løpende
+  kostnad Eirik bør være klar over (jf. fast regel i `CLAUDE.md` om å
+  varsle om kostnader). Klar til å guides steg for steg gjennom
+  kjøp/oppsett når Eirik har valgt registrar.
 
 ## Vurdert, ikke prioritert
 
