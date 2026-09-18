@@ -11,15 +11,21 @@ export async function Header() {
 
   return (
     <header className="border-b-4 border-ink bg-paper">
-      <div className="mx-auto flex max-w-6xl items-center justify-between px-4 pt-3 font-sans text-xs uppercase tracking-wide text-muted">
-        <div className="flex items-center gap-3">
-          <Link href="/" className="shrink-0">
-            {/* eslint-disable-next-line @next/next/no-img-element */}
-            <img src="/logo.svg" alt="Stuanytt" className="h-8 w-8" />
+      <div className="mx-auto flex max-w-6xl items-center justify-between gap-4 px-4 py-3">
+        <Link href="/" className="shrink-0">
+          {/* eslint-disable-next-line @next/next/no-img-element */}
+          <img src="/logo.svg" alt="Stuanytt" className="h-20 w-20 sm:h-24 sm:w-24" />
+        </Link>
+        <div className="flex flex-1 flex-col items-center text-center">
+          <Link href="/">
+            <h1 className="font-headline text-5xl font-bold tracking-tight text-masthead sm:text-6xl">
+              Stuanytt
+            </h1>
           </Link>
-          <span>{today}</span>
+          <p className="mt-1 font-serif italic text-muted">Skrevet av elever, for elever</p>
         </div>
-        <div className="flex items-center gap-4">
+        <div className="flex shrink-0 flex-col items-end gap-2 font-sans text-xs uppercase tracking-wide text-muted">
+          <span>{today}</span>
           {session?.user && (
             <span>
               {session.user.name} · {session.user.role ? ROLE_LABELS[session.user.role] : "Ingen rolle"}
@@ -27,15 +33,6 @@ export async function Header() {
           )}
           <HeaderAuthLink loggedIn={Boolean(session?.user)} />
         </div>
-      </div>
-
-      <div className="mx-auto max-w-6xl px-4 py-6 text-center">
-        <Link href="/">
-          <h1 className="font-headline text-5xl font-bold tracking-tight text-masthead sm:text-6xl">
-            Stuanytt
-          </h1>
-        </Link>
-        <p className="mt-1 font-serif italic text-muted">Skrevet av elever, for elever</p>
       </div>
 
       <nav className="rule-thick rule-thin border-b border-ink">
