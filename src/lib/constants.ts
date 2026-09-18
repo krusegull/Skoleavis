@@ -28,7 +28,7 @@ export const CATEGORY_LABELS: Record<Category, string> = {
   CULTURE: "Kultur",
   WEEKLY_PICK: "Ukas nyhet",
   HISTORICAL_NEWS: "Historiske nyheter",
-  QUIZ: "Quiz",
+  COMPETITION: "Konkurranse",
 };
 
 export const CATEGORY_SLUGS: Record<Category, string> = {
@@ -40,7 +40,7 @@ export const CATEGORY_SLUGS: Record<Category, string> = {
   CULTURE: "kultur",
   WEEKLY_PICK: "ukas-nyhet",
   HISTORICAL_NEWS: "historiske-nyheter",
-  QUIZ: "quiz",
+  COMPETITION: "konkurranse",
 };
 
 export const SLUG_TO_CATEGORY: Record<string, Category> = Object.fromEntries(
@@ -56,7 +56,7 @@ export const CATEGORY_ORDER: Category[] = [
   Category.CULTURE,
   Category.WEEKLY_PICK,
   Category.HISTORICAL_NEWS,
-  Category.QUIZ,
+  Category.COMPETITION,
 ];
 
 export const SUBMISSION_STATUS_LABELS: Record<string, string> = {

@@ -36,7 +36,7 @@ enum Category {
   CULTURE
   WEEKLY_PICK
   HISTORICAL_NEWS
-  QUIZ
+  COMPETITION
 }
 
 enum SubmissionStatus {

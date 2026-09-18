@@ -50,7 +50,7 @@ arkivet forblir riktige selv om en konto senere deaktiveres.
 ## Innholdstyper på en sak
 
 - Tittel, kategori (Nyheter/Reportasje/Intervju/Anmeldelse/Sport/Kultur/Ukas
-  nyhet/Historiske nyheter/Quiz)
+  nyhet/Historiske nyheter/Konkurranse)
 - Ingress (kort ingress under tittelen)
 - Teaser (valgfri, kort tekst brukt i grid/lenker - kan foreslås av AI, se under)
 - Bilde (lim inn URL, eller last opp direkte - se "Bildeopplasting")
