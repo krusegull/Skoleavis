@@ -28,7 +28,9 @@ for å hente dem frem igjen når som helst.
   en måte å hindre at samme person stemmer mange ganger, f.eks. én stemme
   per nettleser), eller kun innloggede kontoer? Hvor kommer lista over topp
   100 lag fra - fast liste, eller søkbar? Vises resultatet fortløpende eller
-  først etter at avstemningen er stengt?
+  først etter at avstemningen er stengt? **Kostnad:** avklart 2026-09-18 -
+  dette krever ingen AI/betalt tjeneste, bare enkle databaseskriv (Neon),
+  så det koster i praksis $0 ekstra uansett antall stemmer.
 - **Hver klasse sender inn "ukas nyhet"** (2026-09-17). Tanke om en fast
   rutine der hver klasse bidrar med én artikkel i kategorien "Ukas nyhet"
   (se "Gjennomført" - kategorien finnes allerede). Uavklart: er dette en
