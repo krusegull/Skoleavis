@@ -10,6 +10,13 @@ for å hente dem frem igjen når som helst.
 
 ## Ikke startet
 
+- **Oversikt over aktiviteter i nærområdet** (2026-09-21). En slags
+  samleside/kategori for det som skjer lokalt (Stovner/Groruddalen) -
+  fritidstilbud/idrett (idrettslag, ungdomsklubb o.l.) og kommende
+  arrangementer/events. Uavklart: egen kategori som vanlige saker
+  (Redaktør/Admin skriver og publiserer som i dag), eller en egen
+  strukturert liste/oversiktsside som må vedlikeholdes annerledes enn en
+  vanlig nyhetssak? Hvor jevnlig skal dette oppdateres, og av hvem?
 - **Nyhetstips/AI-utkast for elever.** Redaktør/Admin har nå (se
   "Gjennomført") et valg om AI skal skrive et førsteutkast fra et
   nyhetstips. Eirik har sagt at dette bør fungere annerledes når elever
