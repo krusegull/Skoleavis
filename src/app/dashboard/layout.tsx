@@ -32,6 +32,9 @@ export default async function DashboardLayout({ children }: { children: React.Re
                 <Link href="/dashboard/innsendinger" className="py-1 hover:text-accent">
                   Innsendinger
                 </Link>
+                <Link href="/dashboard/avstemninger" className="py-1 hover:text-accent">
+                  Avstemninger
+                </Link>
               </>
             )}
             {canManageUsers(role) && (

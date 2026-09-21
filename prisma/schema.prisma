@@ -232,6 +232,52 @@ model Submission {
   @@index([status, createdAt])
 }
 
+/// En avstemning på siden, f.eks. "Hvem vinner Champions League?".
+/// Opprettes/åpnes/lukkes av Redaktør/Admin. Rene tellinger mot faste
+/// svaralternativer - ingen AI eller betalt tjeneste involvert, så dette
+/// koster ingenting ekstra uansett hvor mange som stemmer.
+model Poll {
+  id        String       @id @default(cuid())
+  question  String
+  isOpen    Boolean      @default(true)
+  createdAt DateTime     @default(now())
+
+  options PollOption[]
+  votes   Vote[]
+}
+
+model PollOption {
+  id        String @id @default(cuid())
+  pollId    String
+  label     String
+  sortOrder Int    @default(0)
+
+  poll  Poll   @relation(fields: [pollId], references: [id], onDelete: Cascade)
+  votes Vote[]
+
+  @@index([pollId])
+}
+
+/// Én stemme. `voterKey` er en tilfeldig verdi lagret i en cookie hos den
+/// som stemmer (satt av API-ruta, ikke lesbar/forfalskbar av vanlig
+/// klient-JS) - kombinert med den unike indeksen hindrer dette at samme
+/// nettleser stemmer flere ganger på samme avstemning. Ikke vanntett (rydder
+/// man cookies kan man stemme på nytt), men trenger ikke innlogging og
+/// koster ingenting - et bevisst, dokumentert kompromiss for en skoleavis.
+model Vote {
+  id        String   @id @default(cuid())
+  pollId    String
+  optionId  String
+  voterKey  String
+  createdAt DateTime @default(now())
+
+  poll   Poll       @relation(fields: [pollId], references: [id], onDelete: Cascade)
+  option PollOption @relation(fields: [optionId], references: [id], onDelete: Cascade)
+
+  @@unique([pollId, voterKey])
+  @@index([optionId])
+}
+
 /// Bidragsyter/byline på en sak. Navn og rolle lagres som tekst
 /// (snapshot) i tillegg til en valgfri kobling til kontoen, slik at
 /// bylines i arkivet er korrekte selv om kontoen senere deaktiveres.

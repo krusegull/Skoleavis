@@ -18,7 +18,8 @@ export default withAuth(
       path.startsWith("/dashboard/godkjenning") ||
       path.startsWith("/dashboard/om-oss") ||
       path.startsWith("/dashboard/nyhetstips") ||
-      path.startsWith("/dashboard/innsendinger");
+      path.startsWith("/dashboard/innsendinger") ||
+      path.startsWith("/dashboard/avstemninger");
 
     if (adminOnly && role !== "ADMIN") {
       return NextResponse.redirect(new URL("/dashboard", req.url));
