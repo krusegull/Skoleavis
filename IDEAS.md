@@ -10,6 +10,33 @@ for å hente dem frem igjen når som helst.
 
 ## Ikke startet
 
+- **Elevforslag: "Medier og kommunikasjon"** (2026-09-21). En gruppe
+  elever sendte inn en liste med forslag. Noe er allerede dekket av det
+  som er bygget, markert under - resten er åpne idéer:
+  - *Logo-/tegnekonkurranse* - la elever konkurrere om (evt. en fremtidig
+    ny) logo gjennom å tegne bidrag. Uavklart hvordan bidrag samles inn
+    og kåres.
+  - *Anmeldelser/forslag fra hele skolen* (bøker, film, serier,
+    oppskrifter, sanger) - kategorien "Anmeldelse" finnes allerede;
+    forslaget handler mest om å åpne opp for bidrag fra **hele skolen**,
+    ikke bare redaksjonen. `/send-inn` dekker teknisk sett dette allerede
+    - kanskje mest et spørsmål om å synliggjøre det bedre for elevene.
+  - *Tegne- og skrivekonkurranse* ("Tegnekonkurransen legges i en kasse
+    eller no") - skrivekonkurranse kan gå via `/send-inn` i dag.
+    Tegninger er fysiske - uavklart om de skal fotograferes/skannes og
+    lastes opp digitalt, eller om det er en ren papir-basert side-greie
+    utenfor appen.
+  - *Avstemninger elever kan stemme på* - **allerede bygget**, se
+    "Gjennomført" (avstemningsfunksjonen, `/avstemning`).
+  - *Sted der elever kan foreslå saker/leserinnlegg* - `/send-inn` har
+    allerede et meldingsfelt som dekker dette, men kunne vurderes som en
+    enklere, mer uformell "tips oss en sak"-boks adskilt fra full
+    dokumentinnsending, hvis terskelen ved dagens skjema er for høy.
+  - *Fast rapport om hva elevrådet har gjort* - ren innholdsidé (en fast
+    spalte/sak skrevet jevnlig), ikke en teknisk funksjon.
+- **Artikkel: hvordan lærerne var som ungdomsskoleelever, med bilder** 😊
+  (2026-09-21, Eiriks egen idé). Ren innholdsidé for en morsom sak - ikke
+  en teknisk funksjon, bare notert her så den ikke glemmes.
 - **Oversikt over aktiviteter i nærområdet** (2026-09-21). En slags
   samleside/kategori for det som skjer lokalt (Stovner/Groruddalen) -
   fritidstilbud/idrett (idrettslag, ungdomsklubb o.l.) og kommende
