@@ -69,6 +69,7 @@ arkivet forblir riktige selv om en konto senere deaktiveres.
 | Om oss (`/om-oss`) | Fritekst-side om skolen/avisen, redigeres fra dashbordet |
 | Send inn (`/send-inn`) | Offentlig skjema - elever/andre kan sende inn en tekst (Word/PDF) + bilder uten å logge inn. Se eget avsnitt under |
 | Avstemning (`/avstemning`) | Offentlige avstemninger - alle kan stemme uten å logge inn. Se eget avsnitt under |
+| Aktiviteter (`/aktiviteter`) | Fritidstilbud i nærområdet, gruppert etter kategori. Se eget avsnitt under |
 
 ## Dashbord (innlogget)
 
@@ -77,6 +78,7 @@ arkivet forblir riktige selv om en konto senere deaktiveres.
 - **Nyhetstips** (Redaktør/Admin) - se eget avsnitt under
 - **Innsendinger** (Redaktør/Admin) - se eget avsnitt under
 - **Avstemninger** (Redaktør/Admin) - se eget avsnitt under
+- **Aktiviteter** (Redaktør/Admin) - se eget avsnitt under
 - **Om oss-siden** (Redaktør/Admin) - rediger teksten på `/om-oss`
 - **Brukere** (Admin) - opprette kontoer, endre rolle, deaktivere/reaktivere, sette "Elev"-merke, nullstille passord
 - **Avslutt skoleår** (Admin) - opprette nye skoleår, sette hvilket som er gjeldende, og manuelt deaktivere kontoer (aldri automatisk)
@@ -94,6 +96,10 @@ Admin åpner dokumentet, og skriver eventuelt innholdet inn som en vanlig
 kladd (**Mine kladder → Ny sak**) dersom saken skal publiseres. Hvert
 bidrag kan merkes "Lest", arkiveres, eller slettes permanent (sletter da
 også de opplastede filene).
+
+*(Krever et eget engangs-oppsett i Cloudinary utover vanlig
+bildeopplasting - se README "Innsending fra elever". Uten dette viser
+siden en tydelig melding om at innsending ikke er satt opp ennå.)*
 
 ## Avstemninger
 
@@ -113,9 +119,21 @@ toppmenyen: "Avstemning"), der alle kan stemme uten å logge inn.
 - Ingen AI eller betalt tjeneste er involvert - avstemninger koster
   ingenting ekstra uansett hvor mange som stemmer.
 
-*(Krever et eget engangs-oppsett i Cloudinary utover vanlig
-bildeopplasting - se README "Innsending fra elever". Uten dette viser
-siden en tydelig melding om at innsending ikke er satt opp ennå.)*
+## Aktiviteter i nærområdet
+
+Under **Dashbord → Aktiviteter** (Redaktør/Admin) legger dere inn
+fritidstilbud - idrettslag, fritidsklubber, kultur- og bibliotektilbud
+osv. Hvert tilbud har et navn, en kort beskrivelse (vises hos oss), en
+valgfri aldersgruppe, en kategori, og en lenke til tilbudets egen
+nettside.
+
+Tilbudene vises offentlig på `/aktiviteter` (lenke i toppmenyen:
+"Aktiviteter"), gruppert etter kategori (Idrett/Fritidsklubber/Kultur/
+Bibliotek/Annet). Dette er **ikke** vanlige saker - det er en kuratert
+liste med kort tekst og en "Les mer →"-lenke videre til tilbudets egen
+side. Ingen fast oppdateringsfrekvens - legg til/fjern etter behov. Som
+med avstemninger er dette ren databaselagring, ingen AI/betalt tjeneste,
+så det koster ingenting ekstra.
 
 ## Nyhetstips - AI-agenten
 

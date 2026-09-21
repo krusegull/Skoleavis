@@ -74,6 +74,11 @@ export async function Header() {
               Avstemning
             </Link>
           </li>
+          <li>
+            <Link href="/aktiviteter" className="hover:text-accent">
+              Aktiviteter
+            </Link>
+          </li>
         </ul>
       </nav>
     </header>

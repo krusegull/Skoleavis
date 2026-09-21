@@ -1,4 +1,4 @@
-import { Category, Role } from "@prisma/client";
+import { Category, LocalActivityCategory, Role } from "@prisma/client";
 
 export const ROLE_LABELS: Record<Role, string> = {
   ADMIN: "Admin (lærer)",
@@ -57,6 +57,22 @@ export const CATEGORY_ORDER: Category[] = [
   Category.WEEKLY_PICK,
   Category.HISTORICAL_NEWS,
   Category.COMPETITION,
+];
+
+export const LOCAL_ACTIVITY_CATEGORY_LABELS: Record<LocalActivityCategory, string> = {
+  SPORT: "Idrett",
+  LEISURE_CLUB: "Fritidsklubber",
+  CULTURE: "Kultur",
+  LIBRARY: "Bibliotek",
+  OTHER: "Annet",
+};
+
+export const LOCAL_ACTIVITY_CATEGORY_ORDER: LocalActivityCategory[] = [
+  LocalActivityCategory.SPORT,
+  LocalActivityCategory.LEISURE_CLUB,
+  LocalActivityCategory.CULTURE,
+  LocalActivityCategory.LIBRARY,
+  LocalActivityCategory.OTHER,
 ];
 
 export const SUBMISSION_STATUS_LABELS: Record<string, string> = {

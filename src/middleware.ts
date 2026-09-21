@@ -19,7 +19,8 @@ export default withAuth(
       path.startsWith("/dashboard/om-oss") ||
       path.startsWith("/dashboard/nyhetstips") ||
       path.startsWith("/dashboard/innsendinger") ||
-      path.startsWith("/dashboard/avstemninger");
+      path.startsWith("/dashboard/avstemninger") ||
+      path.startsWith("/dashboard/aktiviteter");
 
     if (adminOnly && role !== "ADMIN") {
       return NextResponse.redirect(new URL("/dashboard", req.url));

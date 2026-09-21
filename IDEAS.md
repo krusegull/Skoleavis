@@ -51,13 +51,6 @@ for å hente dem frem igjen når som helst.
 - **Artikkel: hvordan lærerne var som ungdomsskoleelever, med bilder** 😊
   (2026-09-21, Eiriks egen idé). Ren innholdsidé for en morsom sak - ikke
   en teknisk funksjon, bare notert her så den ikke glemmes.
-- **Oversikt over aktiviteter i nærområdet** (2026-09-21). En slags
-  samleside/kategori for det som skjer lokalt (Stovner/Groruddalen) -
-  fritidstilbud/idrett (idrettslag, ungdomsklubb o.l.) og kommende
-  arrangementer/events. Uavklart: egen kategori som vanlige saker
-  (Redaktør/Admin skriver og publiserer som i dag), eller en egen
-  strukturert liste/oversiktsside som må vedlikeholdes annerledes enn en
-  vanlig nyhetssak? Hvor jevnlig skal dette oppdateres, og av hvem?
 - **Nyhetstips/AI-utkast for elever.** Redaktør/Admin har nå (se
   "Gjennomført") et valg om AI skal skrive et førsteutkast fra et
   nyhetstips. Eirik har sagt at dette bør fungere annerledes når elever
@@ -130,3 +123,14 @@ for å hente dem frem igjen når som helst.
   Stovner IL som lokale/morsomme tilleggsalternativer. Ren logikk mot faste
   alternativer - ingen AI/betalt tjeneste, koster $0 ekstra uansett antall
   stemmer.
+- **Aktiviteter i nærområdet** (2026-09-21). Ny offentlig side
+  `/aktiviteter` - en kuratert katalog over fritidstilbud (idrett,
+  fritidsklubber, kultur, bibliotek), gruppert etter kategori. Kort tekst
+  + "Les mer →"-lenke videre til tilbudets egen side (avklart: egen
+  strukturert oversiktsside, ikke vanlige artikler). Redaktør/Admin
+  legger inn/fjerner tilbud under Dashbord → Aktiviteter, ingen fast
+  oppdateringsfrekvens. Research på faktiske Stovner-tilbud (HSIL,
+  Blokk 58, Stovnerungdom, Deichman Stovner m.fl.) gjort via nettsøk
+  2026-09-21 - ikke garantert komplett, `stovnerungdom.no` pekt ut som
+  beste kilde for løpende oppdatering. Ren databaselagring - $0 ekstra
+  kostnad.

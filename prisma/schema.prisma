@@ -45,6 +45,14 @@ enum SubmissionStatus {
   ARCHIVED
 }
 
+enum LocalActivityCategory {
+  SPORT
+  LEISURE_CLUB
+  CULTURE
+  LIBRARY
+  OTHER
+}
+
 // --- NextAuth (standard Prisma-adapter-modeller) ---
 
 model Account {
@@ -276,6 +284,25 @@ model Vote {
 
   @@unique([pollId, voterKey])
   @@index([optionId])
+}
+
+/// Et fritidstilbud i nærområdet (idrettslag, fritidsklubb, kultur- eller
+/// bibliotektilbud osv.) - en kuratert lenkekatalog, ikke en artikkel. Kort
+/// tekst her på siden, med en lenke videre til tilbudets egen nettside.
+/// Redaktør/Admin legger inn og vedlikeholder disse fra dashbordet - ingen
+/// fast oppdateringsfrekvens.
+model LocalActivity {
+  id          String                @id @default(cuid())
+  name        String
+  description String
+  ageRange    String?
+  category    LocalActivityCategory
+  externalUrl String
+  sortOrder   Int                   @default(0)
+  createdAt   DateTime              @default(now())
+  updatedAt   DateTime              @updatedAt
+
+  @@index([category, sortOrder])
 }
 
 /// Bidragsyter/byline på en sak. Navn og rolle lagres som tekst
