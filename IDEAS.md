@@ -10,6 +10,20 @@ for å hente dem frem igjen når som helst.
 
 ## Ikke startet
 
+- **Elevforslag, runde 2** (2026-09-21). Flere elever sendte inn forslag:
+  - *Ukequiz hver uke* - en fast, ukentlig quiz. Overlapper med idéen
+    "Hvem er raskest?" under, og bør trolig løses med samme prinsipp:
+    ren logikk mot en fast fasit, ikke AI-kall per forsøk, for å unngå
+    løpende kostnad. Kunne vært den "gjenbrukbare quiz-malen" nevnt der,
+    brukt ukentlig i stedet for som en enkeltstående konkurranse.
+  - *Konkurranser med premie* - mest et logistikk-/budsjettspørsmål for
+    Eirik (hvem spanderer premien, hva slags premie) enn en teknisk
+    funksjon. Appen kan uansett vise "Premie: ..." i beskrivelsen av en
+    konkurranse/quiz når den tid kommer.
+  - *Skrive om hendelser som skjer på skolen* - dette er kjernen i det
+    avisen allerede er laget for (kategoriene Nyheter/Reportasje) - ikke
+    en ny funksjon, men en påminnelse om at elevene ønsker mer dekning av
+    ting som skjer på selve skolen.
 - **Elevforslag: "Medier og kommunikasjon"** (2026-09-21). En gruppe
   elever sendte inn en liste med forslag. Noe er allerede dekket av det
   som er bygget, markert under - resten er åpne idéer:
