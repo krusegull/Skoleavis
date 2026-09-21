@@ -22,15 +22,6 @@ for å hente dem frem igjen når som helst.
   forhåndsutfyller tittel/forfatternavn og lenker til dokumentet - usikkert
   om det er verdt kompleksiteten (å lese tekst ut av Word/PDF er ikke
   trivielt) med mindre det blir mye trafikk på `/send-inn`.
-- **Avstemninger på siden** (2026-09-17). F.eks. "Hvem vinner Champions
-  League?" - besøkende kan stemme på et lag de tror vinner, blant topp 100
-  lag i verden. Uavklart: skal alle kunne stemme uten innlogging (krever da
-  en måte å hindre at samme person stemmer mange ganger, f.eks. én stemme
-  per nettleser), eller kun innloggede kontoer? Hvor kommer lista over topp
-  100 lag fra - fast liste, eller søkbar? Vises resultatet fortløpende eller
-  først etter at avstemningen er stengt? **Kostnad:** avklart 2026-09-18 -
-  dette krever ingen AI/betalt tjeneste, bare enkle databaseskriv (Neon),
-  så det koster i praksis $0 ekstra uansett antall stemmer.
 - **Hver klasse sender inn "ukas nyhet"** (2026-09-17). Tanke om en fast
   rutine der hver klasse bidrar med én artikkel i kategorien "Ukas nyhet"
   (se "Gjennomført" - kategorien finnes allerede). Uavklart: er dette en
@@ -82,3 +73,12 @@ for å hente dem frem igjen når som helst.
   konto. Havner under Dashbord → Innsendinger som en innboks Redaktør/Admin
   går gjennom manuelt - skrives om til en ordentlig kladd for hånd dersom
   den skal publiseres (ingen automatisk konvertering til artikkel ennå).
+- **Avstemninger på siden** (2026-09-21). Ny offentlig side `/avstemning` -
+  besøkende stemmer uten innlogging (én stemme per nettleser, håndhevet med
+  en cookie + unik databasekombinasjon). Redaktør/Admin oppretter, åpner/
+  stenger og sletter avstemninger under Dashbord → Avstemninger. Første
+  avstemning: "Hvem vinner Champions League 2026/2027?" med alle 36 lag i
+  årets ligafase (bekreftet via nettsøk 2026-09-21) pluss Fredrikstad FK og
+  Stovner IL som lokale/morsomme tilleggsalternativer. Ren logikk mot faste
+  alternativer - ingen AI/betalt tjeneste, koster $0 ekstra uansett antall
+  stemmer.

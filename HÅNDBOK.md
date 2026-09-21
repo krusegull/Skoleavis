@@ -68,6 +68,7 @@ arkivet forblir riktige selv om en konto senere deaktiveres.
 | Redaksjonen (`/redaksjonen`) | Roller og medlemmer for gjeldende skoleår, med mulighet for å bla i tidligere års redaksjoner. **Elever vises aldri her** (se Personvern) |
 | Om oss (`/om-oss`) | Fritekst-side om skolen/avisen, redigeres fra dashbordet |
 | Send inn (`/send-inn`) | Offentlig skjema - elever/andre kan sende inn en tekst (Word/PDF) + bilder uten å logge inn. Se eget avsnitt under |
+| Avstemning (`/avstemning`) | Offentlige avstemninger - alle kan stemme uten å logge inn. Se eget avsnitt under |
 
 ## Dashbord (innlogget)
 
@@ -75,6 +76,7 @@ arkivet forblir riktige selv om en konto senere deaktiveres.
 - **Til godkjenning** (Redaktør/Admin) - saker som venter på beslutning
 - **Nyhetstips** (Redaktør/Admin) - se eget avsnitt under
 - **Innsendinger** (Redaktør/Admin) - se eget avsnitt under
+- **Avstemninger** (Redaktør/Admin) - se eget avsnitt under
 - **Om oss-siden** (Redaktør/Admin) - rediger teksten på `/om-oss`
 - **Brukere** (Admin) - opprette kontoer, endre rolle, deaktivere/reaktivere, sette "Elev"-merke, nullstille passord
 - **Avslutt skoleår** (Admin) - opprette nye skoleår, sette hvilket som er gjeldende, og manuelt deaktivere kontoer (aldri automatisk)
@@ -92,6 +94,24 @@ Admin åpner dokumentet, og skriver eventuelt innholdet inn som en vanlig
 kladd (**Mine kladder → Ny sak**) dersom saken skal publiseres. Hvert
 bidrag kan merkes "Lest", arkiveres, eller slettes permanent (sletter da
 også de opplastede filene).
+
+## Avstemninger
+
+Under **Dashbord → Avstemninger** (Redaktør/Admin) kan dere opprette en
+avstemning: ett spørsmål + minst to svaralternativer (ett per linje).
+Avstemningen dukker straks opp offentlig på `/avstemning` (lenke i
+toppmenyen: "Avstemning"), der alle kan stemme uten å logge inn.
+
+- Hver besøkende kan stemme **én gang per avstemning** - dette håndheves
+  med en informasjonskapsel (cookie) i nettleseren, ikke innlogging. Rydder
+  noen bevisst bort informasjonskapsler kan de stemme på nytt - et bevisst,
+  billig kompromiss for en skoleavis, ikke en manipulasjonssikker løsning.
+- Etter å ha stemt (eller hvis avstemningen er stengt) vises resultatene
+  som stolper med stemmetall og prosent, i stedet for stemmeknappene.
+- Dere kan **Steng**e en avstemning når den skal avsluttes (resultatene
+  blir stående, men ingen kan stemme mer), eller **Slett**e den permanent.
+- Ingen AI eller betalt tjeneste er involvert - avstemninger koster
+  ingenting ekstra uansett hvor mange som stemmer.
 
 *(Krever et eget engangs-oppsett i Cloudinary utover vanlig
 bildeopplasting - se README "Innsending fra elever". Uten dette viser
