@@ -10,6 +10,11 @@ for å hente dem frem igjen når som helst.
 
 ## Ikke startet
 
+- **Ny kategori: "Haugenstua lærer bort"** (2026-09-22). Tanke om en
+  kategori/spalte der elever eller lærere deler noe de kan - en ferdighet,
+  et triks, en oppskrift, et fag-tips e.l. Uavklart: skal dette være en
+  vanlig kategori (som Nyheter/Sport i dag), og hva slags innhold skal den
+  romme (rene "sånn gjør du"-saker, video, eller noe annet)?
 - **Elevforslag, runde 2** (2026-09-21). Flere elever sendte inn forslag:
   - *Ukequiz hver uke* - en fast, ukentlig quiz. Overlapper med idéen
     "Hvem er raskest?" under, og bør trolig løses med samme prinsipp:
