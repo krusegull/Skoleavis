@@ -37,9 +37,11 @@ export function ArticleCard({
       >
         {article.title}
       </h3>
-      <p className={`mt-2 font-serif text-ink/80 ${isLarge ? "text-lg" : "text-base"}`}>
-        {article.teaser || article.ingress}
-      </p>
+      {(article.teaser || article.ingress) && (
+        <p className={`mt-2 font-serif text-ink/80 ${isLarge ? "text-lg" : "text-base"}`}>
+          {article.teaser || article.ingress}
+        </p>
+      )}
       <div className="mt-2 flex flex-wrap items-center gap-2">
         <Byline contributors={article.contributors} />
         <span className="font-sans text-xs text-muted">· {formatDate(article.publishedAt)}</span>

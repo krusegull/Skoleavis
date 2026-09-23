@@ -5,7 +5,7 @@ import { stripHtml } from "@/lib/sanitize";
 
 const teaserRequestSchema = z.object({
   title: z.string().min(1).max(200),
-  ingress: z.string().min(1).max(500),
+  ingress: z.string().max(500).optional(),
   body: z.string().min(1).max(20000),
   previousTeaser: z.string().max(300).optional(),
 });
@@ -42,7 +42,7 @@ export async function POST(req: NextRequest) {
     "Svar KUN med selve teaser-teksten, uten anførselstegn og uten forklaring.",
     "",
     `Tittel: ${title}`,
-    `Ingress: ${ingress}`,
+    ingress ? `Ingress: ${ingress}` : "",
     `Brødtekst: ${stripHtml(body).slice(0, 4000)}`,
     previousTeaser ? `Tidligere forslag som ikke fungerte: ${previousTeaser}. Foreslå noe annet.` : "",
   ]

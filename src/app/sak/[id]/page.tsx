@@ -24,7 +24,7 @@ export default async function ArtikkelPage({ params }: { params: { id: string } 
       <h1 className="mt-3 font-headline text-4xl font-bold leading-tight text-ink sm:text-5xl">
         {article.title}
       </h1>
-      <p className="mt-4 font-serif text-xl italic text-ink/80">{article.ingress}</p>
+      {article.ingress && <p className="mt-4 font-serif text-xl italic text-ink/80">{article.ingress}</p>}
 
       <div className="mt-4 flex flex-wrap items-center gap-2 border-y border-ink/20 py-3">
         <Byline contributors={article.contributors} />

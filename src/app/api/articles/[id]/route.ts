@@ -15,7 +15,7 @@ const contributorSchema = z.object({
 
 const updateArticleSchema = z.object({
   title: z.string().min(1).max(200).optional(),
-  ingress: z.string().min(1).max(500).optional(),
+  ingress: z.string().max(500).optional().nullable(),
   teaser: z.string().max(300).optional().nullable(),
   body: z.string().min(1).optional(),
   imageUrl: z.string().url().optional().nullable().or(z.literal("")),

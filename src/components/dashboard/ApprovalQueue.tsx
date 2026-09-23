@@ -51,7 +51,7 @@ export function ApprovalQueue({ articles }: { articles: ArticleWithExtras[] }) {
                 {formatDateTime(article.updatedAt)}
               </p>
               <p className="mt-1 font-headline text-xl font-bold text-ink">{article.title}</p>
-              <p className="mt-1 font-serif text-ink/80">{article.ingress}</p>
+              {article.ingress && <p className="mt-1 font-serif text-ink/80">{article.ingress}</p>}
               <div className="mt-1">
                 <Byline contributors={article.contributors} />
               </div>

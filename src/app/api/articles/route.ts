@@ -8,7 +8,7 @@ import { Category, ArticleStatus } from "@prisma/client";
 
 const createArticleSchema = z.object({
   title: z.string().min(1).max(200),
-  ingress: z.string().min(1).max(500),
+  ingress: z.string().max(500).optional().nullable(),
   teaser: z.string().max(300).optional().nullable(),
   body: z.string().min(1),
   imageUrl: z.string().url().optional().nullable().or(z.literal("")),
@@ -62,7 +62,7 @@ export async function POST(req: NextRequest) {
   const article = await prisma.article.create({
     data: {
       title: parsed.data.title,
-      ingress: parsed.data.ingress,
+      ingress: parsed.data.ingress || null,
       teaser: parsed.data.teaser || null,
       body: sanitizeRichText(parsed.data.body),
       imageUrl: parsed.data.imageUrl || null,

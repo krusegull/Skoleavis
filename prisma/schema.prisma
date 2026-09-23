@@ -159,7 +159,7 @@ model RoleAssignment {
 model Article {
   id              String        @id @default(cuid())
   title           String
-  ingress         String
+  ingress         String?
   teaser          String?
   body            String
   imageUrl        String?

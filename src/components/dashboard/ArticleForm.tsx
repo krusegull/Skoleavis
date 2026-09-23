@@ -60,7 +60,7 @@ export function ArticleForm({
     setError(null);
     const payload = {
       title,
-      ingress,
+      ingress: ingress || null,
       teaser: teaser || null,
       body,
       imageUrl: imageUrl || null,
@@ -120,8 +120,8 @@ export function ArticleForm({
   }
 
   async function suggestTeaser() {
-    if (!title || !ingress || !body) {
-      setError("Fyll ut tittel, ingress og brødtekst før du ber om et teaser-forslag.");
+    if (!title || !body) {
+      setError("Fyll ut tittel og brødtekst før du ber om et teaser-forslag.");
       return;
     }
     setTeaserLoading(true);
@@ -181,7 +181,7 @@ export function ArticleForm({
       <ImageUploadField value={imageUrl} onChange={setImageUrl} label="Bilde (valgfritt)" />
 
       <div>
-        <label className="block font-sans text-xs uppercase tracking-wide text-muted">Ingress</label>
+        <label className="block font-sans text-xs uppercase tracking-wide text-muted">Ingress (valgfri)</label>
         <textarea
           value={ingress}
           onChange={(e) => setIngress(e.target.value)}
