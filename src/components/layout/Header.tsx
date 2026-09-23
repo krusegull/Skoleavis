@@ -22,7 +22,6 @@ export async function Header() {
               Stuanytt
             </h1>
           </Link>
-          <p className="mt-1 font-serif italic text-muted">Skrevet av elever, for elever</p>
         </div>
         <div className="flex shrink-0 flex-col items-end gap-2 font-sans text-xs uppercase tracking-wide text-muted">
           <span>{today}</span>
