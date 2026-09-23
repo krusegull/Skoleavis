@@ -7,7 +7,13 @@ import { Article } from "@prisma/client";
 import { CATEGORY_LABELS, STATUS_LABELS } from "@/lib/constants";
 import { formatDateTime } from "@/lib/utils";
 
-export function MyArticlesList({ articles }: { articles: Article[] }) {
+export function MyArticlesList({
+  articles,
+  canEditPublished = false,
+}: {
+  articles: Article[];
+  canEditPublished?: boolean;
+}) {
   const router = useRouter();
   const [busyId, setBusyId] = useState<string | null>(null);
 
@@ -75,9 +81,19 @@ export function MyArticlesList({ articles }: { articles: Article[] }) {
               <span className="px-3 py-1 text-muted">Venter på godkjenning</span>
             )}
             {article.status === "PUBLISHED" && (
-              <Link href={`/sak/${article.id}`} className="border border-ink px-3 py-1 hover:bg-ink hover:text-paper">
-                Se saken
-              </Link>
+              <>
+                {canEditPublished && (
+                  <Link
+                    href={`/dashboard/saker/${article.id}/rediger`}
+                    className="border border-ink px-3 py-1 hover:bg-ink hover:text-paper"
+                  >
+                    Rediger
+                  </Link>
+                )}
+                <Link href={`/sak/${article.id}`} className="border border-ink px-3 py-1 hover:bg-ink hover:text-paper">
+                  Se saken
+                </Link>
+              </>
             )}
           </div>
         </li>

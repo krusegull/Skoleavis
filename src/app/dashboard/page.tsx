@@ -2,6 +2,7 @@ import Link from "next/link";
 import { getServerSession } from "next-auth";
 import { authOptions } from "@/lib/auth";
 import { prisma } from "@/lib/prisma";
+import { canApproveArticles } from "@/lib/permissions";
 import { MyArticlesList } from "@/components/dashboard/MyArticlesList";
 
 export default async function MineKladderPage() {
@@ -12,6 +13,8 @@ export default async function MineKladderPage() {
     where: { authorId: session.user.id },
     orderBy: { updatedAt: "desc" },
   });
+
+  const canEditPublished = canApproveArticles(session.user.role);
 
   return (
     <div>
@@ -25,7 +28,7 @@ export default async function MineKladderPage() {
         </Link>
       </div>
       <div className="mt-6">
-        <MyArticlesList articles={articles} />
+        <MyArticlesList articles={articles} canEditPublished={canEditPublished} />
       </div>
     </div>
   );
