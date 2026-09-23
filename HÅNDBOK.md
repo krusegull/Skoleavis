@@ -75,6 +75,7 @@ arkivet forblir riktige selv om en konto senere deaktiveres.
 
 - **Mine kladder** - egne saker, uansett status
 - **Til godkjenning** (Redaktør/Admin) - saker som venter på beslutning
+- **Alle saker** (Redaktør/Admin) - alle publiserte saker, uansett forfatter - rediger hvem som helst sin publiserte sak herfra
 - **Nyhetstips** (Redaktør/Admin) - se eget avsnitt under
 - **Innsendinger** (Redaktør/Admin) - se eget avsnitt under
 - **Avstemninger** (Redaktør/Admin) - se eget avsnitt under

@@ -20,7 +20,8 @@ export default withAuth(
       path.startsWith("/dashboard/nyhetstips") ||
       path.startsWith("/dashboard/innsendinger") ||
       path.startsWith("/dashboard/avstemninger") ||
-      path.startsWith("/dashboard/aktiviteter");
+      path.startsWith("/dashboard/aktiviteter") ||
+      path.startsWith("/dashboard/alle-saker");
 
     if (adminOnly && role !== "ADMIN") {
       return NextResponse.redirect(new URL("/dashboard", req.url));
