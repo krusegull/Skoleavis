@@ -12,10 +12,18 @@ export async function Header() {
   return (
     <header className="border-b-4 border-ink bg-paper">
       <div className="mx-auto flex max-w-6xl items-center justify-between gap-4 px-4 py-3">
-        <Link href="/" className="shrink-0">
+        <div className="flex shrink-0 items-center gap-3">
+          <Link href="/" className="shrink-0">
+            {/* eslint-disable-next-line @next/next/no-img-element */}
+            <img src="/logo.svg" alt="Stuanytt" className="h-20 w-20 sm:h-24 sm:w-24" />
+          </Link>
           {/* eslint-disable-next-line @next/next/no-img-element */}
-          <img src="/logo.svg" alt="Stuanytt" className="h-20 w-20 sm:h-24 sm:w-24" />
-        </Link>
+          <img
+            src="/logo-sketch.jpg"
+            alt="Håndtegnet utkast av Stuanytt-logoen"
+            className="h-20 w-auto border border-ink/20 sm:h-24"
+          />
+        </div>
         <div className="flex flex-1 flex-col items-center text-center">
           <Link href="/">
             <h1 className="font-headline text-5xl font-bold tracking-tight text-masthead sm:text-6xl">
