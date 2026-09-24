@@ -41,6 +41,11 @@ export default withAuth(
   }
 );
 
+// Midlertidig, siden-omfattende stengning (satt på Eiriks eksplisitte
+// forespørsel 2026-09-24): hele nettsiden krever nå innlogging, ikke bare
+// dashbordet. Fjern denne kommentaren og bytt matcher tilbake til
+// ["/dashboard/:path*"] når Eirik sier fra at siden kan åpnes for alle
+// igjen - det er den eneste endringen som trengs for å reversere dette.
 export const config = {
-  matcher: ["/dashboard/:path*"],
+  matcher: ["/((?!api/auth|login|_next/static|_next/image|favicon.ico|icon.svg).*)"],
 };
