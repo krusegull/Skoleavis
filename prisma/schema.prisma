@@ -37,6 +37,7 @@ enum Category {
   WEEKLY_PICK
   HISTORICAL_NEWS
   COMPETITION
+  OPINION
 }
 
 enum SubmissionStatus {
