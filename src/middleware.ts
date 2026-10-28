@@ -47,5 +47,5 @@ export default withAuth(
 // ["/dashboard/:path*"] når Eirik sier fra at siden kan åpnes for alle
 // igjen - det er den eneste endringen som trengs for å reversere dette.
 export const config = {
-  matcher: ["/((?!api/auth|login|_next/static|_next/image|favicon.ico|icon.svg).*)"],
+  matcher: ["/((?!api/auth|login|_next/static|_next/image|favicon.ico|icon.svg|logo.svg|logo-sketch.jpg).*)"],
 };

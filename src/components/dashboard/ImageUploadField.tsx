@@ -15,10 +15,7 @@ export function ImageUploadField({
   const [uploading, setUploading] = useState(false);
   const [error, setError] = useState<string | null>(null);
 
-  async function handleFileChange(e: React.ChangeEvent<HTMLInputElement>) {
-    const file = e.target.files?.[0];
-    if (!file) return;
-
+  async function uploadFile(file: File) {
     setUploading(true);
     setError(null);
 
@@ -34,7 +31,22 @@ export function ImageUploadField({
       return;
     }
     onChange(data.url);
+  }
+
+  async function handleFileChange(e: React.ChangeEvent<HTMLInputElement>) {
+    const file = e.target.files?.[0];
+    if (!file) return;
+    await uploadFile(file);
     if (fileInputRef.current) fileInputRef.current.value = "";
+  }
+
+  async function handlePaste(e: React.ClipboardEvent<HTMLInputElement>) {
+    const item = Array.from(e.clipboardData.items).find((i) => i.type.startsWith("image/"));
+    if (!item) return;
+    const file = item.getAsFile();
+    if (!file) return;
+    e.preventDefault();
+    await uploadFile(file);
   }
 
   return (
@@ -44,7 +56,8 @@ export function ImageUploadField({
         <input
           value={value}
           onChange={(e) => onChange(e.target.value)}
-          placeholder="https://… (eller last opp under)"
+          onPaste={handlePaste}
+          placeholder="https://… (eller lim inn et kopiert bilde her)"
           className="flex-1 border border-ink/30 bg-white px-3 py-2 font-serif text-ink focus:border-accent focus:outline-none"
         />
         <button

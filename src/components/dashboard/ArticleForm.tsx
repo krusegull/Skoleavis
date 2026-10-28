@@ -31,6 +31,9 @@ export function ArticleForm({
   const [body, setBody] = useState(ensureRichTextHtml(initialArticle?.body ?? ""));
   const [imageUrl, setImageUrl] = useState(initialArticle?.imageUrl ?? "");
   const [category, setCategory] = useState<Category>(initialArticle?.category ?? Category.NEWS);
+  const [additionalCategories, setAdditionalCategories] = useState<Category[]>(
+    initialArticle?.additionalCategories ?? []
+  );
   const [contributors, setContributors] = useState<ContributorDraft[]>(
     initialArticle?.contributors.map((c) => ({ userId: c.userId ?? "", name: c.nameSnapshot, role: c.roleSnapshot })) ?? [
       { userId: currentUser.id, name: currentUser.name, role: currentUser.role },
@@ -43,6 +46,10 @@ export function ArticleForm({
   const [submitting, setSubmitting] = useState(false);
   const [teaserLoading, setTeaserLoading] = useState(false);
   const [error, setError] = useState<string | null>(null);
+
+  function toggleAdditionalCategory(c: Category) {
+    setAdditionalCategories((prev) => (prev.includes(c) ? prev.filter((x) => x !== c) : [...prev, c]));
+  }
 
   function addContributor() {
     const person = roster.find((r) => r.id === addUserId);
@@ -65,6 +72,7 @@ export function ArticleForm({
       body,
       imageUrl: imageUrl || null,
       category,
+      additionalCategories: additionalCategories.filter((c) => c !== category),
     };
 
     if (isNew) {
@@ -176,6 +184,24 @@ export function ArticleForm({
             </option>
           ))}
         </select>
+      </div>
+
+      <div>
+        <label className="block font-sans text-xs uppercase tracking-wide text-muted">
+          Vis også under (valgfritt)
+        </label>
+        <div className="mt-1 flex flex-wrap gap-x-4 gap-y-1">
+          {CATEGORY_ORDER.filter((c) => c !== category).map((c) => (
+            <label key={c} className="flex items-center gap-1.5 font-serif text-sm text-ink">
+              <input
+                type="checkbox"
+                checked={additionalCategories.includes(c)}
+                onChange={() => toggleAdditionalCategory(c)}
+              />
+              {CATEGORY_LABELS[c]}
+            </label>
+          ))}
+        </div>
       </div>
 
       <ImageUploadField value={imageUrl} onChange={setImageUrl} label="Bilde (valgfritt)" />

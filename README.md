@@ -243,11 +243,10 @@ være offentlig synlig som standard.** Konkret innebærer dette i dag:
   merket for at noen skal vises offentlig.
 - Kontoer merket som elev vises **aldri** på den offentlige
   Redaksjonen-siden, verken for gjeldende eller tidligere skoleår.
-- Bylines på publiserte saker (navn + rolle) vises fortsatt for alle
-  bidragsytere, inkludert elever - dette var et bevisst arkiv-krav fra
-  starten (se "Viktig datamodell-detalj"). Vurder om dette også bør endres
-  før elevkontoer tas i bruk, f.eks. ved at elever kan velge om fullt navn
-  eller bare fornavn/forbokstav skal vises i bylinen.
+- Byline (navn + rolle for bidragsytere) vises ikke lenger offentlig på
+  publiserte saker (fjernet 2026-10-22). Bidragsytere lagres fortsatt på
+  saken internt (`ArticleContributor`) og vises for Redaktør/Admin i
+  godkjenningskøen, men ikke på `/sak/[id]` eller i saks-lister.
 - For mindreårige elever bør skolens vanlige rutiner for bilde-/navnesamtykke
   dekke publisering i skoleavisen, eller et eget samtykke innhentes.
 - Deaktiverte kontoer beholdes med navn/e-post for å bevare historikk (et

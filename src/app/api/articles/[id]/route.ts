@@ -20,6 +20,7 @@ const updateArticleSchema = z.object({
   body: z.string().min(1).optional(),
   imageUrl: z.string().url().optional().nullable().or(z.literal("")),
   category: z.nativeEnum(Category).optional(),
+  additionalCategories: z.array(z.nativeEnum(Category)).optional(),
   contributors: z.array(contributorSchema).optional(),
 });
 
@@ -63,6 +64,10 @@ export async function PATCH(req: NextRequest, { params }: { params: { id: string
   const { contributors, ...fields } = parsed.data;
   if (fields.body !== undefined) {
     fields.body = sanitizeRichText(fields.body);
+  }
+  if (fields.additionalCategories !== undefined) {
+    const primaryCategory = fields.category ?? article.category;
+    fields.additionalCategories = fields.additionalCategories.filter((c) => c !== primaryCategory);
   }
 
   // Skiller "feltet ble ikke sendt med" (la stå urørt) fra "feltet ble sendt

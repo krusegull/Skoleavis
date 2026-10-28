@@ -1,17 +1,14 @@
 import Link from "next/link";
 import Image from "next/image";
-import { Article, ArticleContributor } from "@prisma/client";
+import { Article } from "@prisma/client";
 import { CategoryBadge } from "./CategoryBadge";
-import { Byline } from "./Byline";
 import { formatDate } from "@/lib/utils";
-
-type ArticleWithContributors = Article & { contributors: ArticleContributor[] };
 
 export function ArticleCard({
   article,
   size = "normal",
 }: {
-  article: ArticleWithContributors;
+  article: Article;
   size?: "normal" | "large";
 }) {
   const isLarge = size === "large";
@@ -43,8 +40,7 @@ export function ArticleCard({
         </p>
       )}
       <div className="mt-2 flex flex-wrap items-center gap-2">
-        <Byline contributors={article.contributors} />
-        <span className="font-sans text-xs text-muted">· {formatDate(article.publishedAt)}</span>
+        <span className="font-sans text-xs text-muted">{formatDate(article.publishedAt)}</span>
       </div>
     </Link>
   );

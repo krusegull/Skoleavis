@@ -50,7 +50,10 @@ arkivet forblir riktige selv om en konto senere deaktiveres.
 ## Innholdstyper på en sak
 
 - Tittel, kategori (Nyheter/Reportasje/Intervju/Anmeldelse/Sport/Kultur/Ukas
-  nyhet/Historiske nyheter/Konkurranse/Kronikk)
+  nyhet/Historiske nyheter/Konkurranse/Kronikk). Én hovedkategori styrer
+  kategori-merket på saken, men saken kan i tillegg krysspubliseres under
+  flere andre kategorier via "Vis også under" i redigeringsvisningen -
+  saken dukker da opp på flere kategorisider uten å være kopiert.
 - Ingress (valgfri, kort ingress under tittelen)
 - Teaser (valgfri, kort tekst brukt i grid/lenker - kan foreslås av AI, se under)
 - Bilde (lim inn URL, eller last opp direkte - se "Bildeopplasting")
@@ -179,9 +182,11 @@ rimelig API-forespørsel.
 
 ## Bildeopplasting
 
-Bilder til saker og "Om oss" kan enten limes inn som URL, eller lastes
-opp direkte (knapp i redigeringsvisningen) - lagres hos Cloudinary.
-Bilder som erstattes eller fjernes slettes automatisk fra lagringen.
+Bilder til saker og "Om oss" kan limes inn som URL, lastes opp direkte
+(knapp i redigeringsvisningen), eller limes inn rett fra utklippstavlen
+(Ctrl+V/Cmd+V i bilde-feltet etter "Kopier bilde" fra et nettsted) -
+lagres hos Cloudinary. Bilder som erstattes eller fjernes slettes
+automatisk fra lagringen.
 
 ## Personvern - viktige prinsipper
 
@@ -191,10 +196,11 @@ Bilder som erstattes eller fjernes slettes automatisk fra lagringen.
   kontoer vises **aldri** på den offentlige Redaksjonen-siden. Nye
   kontoer er elev som standard - en Admin må aktivt fjerne merket for at
   noen skal vises offentlig (f.eks. lærere).
-- Bylines på publiserte saker viser fortsatt navn+rolle for alle
-  bidragsytere, inkludert elever - dette er et bevisst arkiv-krav (se
-  README "Viktig datamodell-detalj"). Vurder samtykke fra foresatte for
-  dette når elevkontoer tas i bruk.
+- Byline (navn+rolle for bidragsytere) vises **ikke lenger offentlig**
+  på publiserte saker (fjernet 2026-10-22, på Eiriks ønske). Bidragsytere
+  registreres fortsatt internt i redigeringsvisningen ("Bidragsytere") og
+  vises for Redaktør/Admin i godkjenningskøen - kun selve den offentlige
+  visningen er fjernet.
 - Deaktiverte kontoer beholdes (ikke slettet) for å bevare historikk -
   et bevisst valg.
 

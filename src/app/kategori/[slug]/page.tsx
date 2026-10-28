@@ -11,8 +11,10 @@ export default async function KategoriPage({ params }: { params: { slug: string 
   if (!category) notFound();
 
   const articles = await prisma.article.findMany({
-    where: { status: ArticleStatus.PUBLISHED, category },
-    include: { contributors: true },
+    where: {
+      status: ArticleStatus.PUBLISHED,
+      OR: [{ category }, { additionalCategories: { has: category } }],
+    },
     orderBy: { publishedAt: "desc" },
   });
 

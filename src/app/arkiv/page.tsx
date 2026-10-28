@@ -2,7 +2,6 @@ import Link from "next/link";
 import { prisma } from "@/lib/prisma";
 import { ArticleStatus } from "@prisma/client";
 import { CategoryBadge } from "@/components/articles/CategoryBadge";
-import { Byline } from "@/components/articles/Byline";
 import { formatDate } from "@/lib/utils";
 
 export const revalidate = 30;
@@ -10,7 +9,6 @@ export const revalidate = 30;
 export default async function ArkivPage() {
   const articles = await prisma.article.findMany({
     where: { status: ArticleStatus.PUBLISHED },
-    include: { contributors: true },
     orderBy: { publishedAt: "desc" },
   });
 
@@ -31,7 +29,6 @@ export default async function ArkivPage() {
               </div>
               <div className="mt-1 flex flex-wrap items-center gap-2">
                 <CategoryBadge category={article.category} />
-                <Byline contributors={article.contributors} />
               </div>
             </Link>
           </li>
