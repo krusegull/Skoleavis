@@ -186,7 +186,17 @@ Bilder til saker og "Om oss" kan limes inn som URL, lastes opp direkte
 (knapp i redigeringsvisningen), eller limes inn rett fra utklippstavlen
 (Ctrl+V/Cmd+V i bilde-feltet etter "Kopier bilde" fra et nettsted) -
 lagres hos Cloudinary. Bilder som erstattes eller fjernes slettes
-automatisk fra lagringen.
+automatisk fra lagringen. Bilder under 1200 piksler brede gir en advarsel
+ved opplasting, fordi de blir uklare i full bredde.
+
+## Videoopplasting
+
+Hver sak kan ha én valgfri video (feltet under bildet i
+redigeringsvisningen). Videoen lastes opp direkte fra nettleseren til
+Cloudinary (samme oppsett som /send-inn) og vises med avspillingskontroller
+under bildet på artikkelsiden. Maks 50 MB per video - grensen finnes fordi
+hver visning trekker båndbredde fra Cloudinary-gratiskvoten. Videoer som
+erstattes, fjernes eller hører til en slettet sak slettes automatisk.
 
 ## Personvern - viktige prinsipper
 

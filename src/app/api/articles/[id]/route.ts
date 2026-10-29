@@ -19,6 +19,7 @@ const updateArticleSchema = z.object({
   teaser: z.string().max(300).optional().nullable(),
   body: z.string().min(1).optional(),
   imageUrl: z.string().url().optional().nullable().or(z.literal("")),
+  videoUrl: z.string().url().optional().nullable().or(z.literal("")),
   category: z.nativeEnum(Category).optional(),
   additionalCategories: z.array(z.nativeEnum(Category)).optional(),
   contributors: z.array(contributorSchema).optional(),
@@ -75,6 +76,8 @@ export async function PATCH(req: NextRequest, { params }: { params: { id: string
   // uten å slette hele saken.
   const imageUrlProvided = Object.prototype.hasOwnProperty.call(parsed.data, "imageUrl");
   const nextImageUrl = imageUrlProvided ? fields.imageUrl || null : undefined;
+  const videoUrlProvided = Object.prototype.hasOwnProperty.call(parsed.data, "videoUrl");
+  const nextVideoUrl = videoUrlProvided ? fields.videoUrl || null : undefined;
 
   // Hvis forfatteren redigerer en avvist sak, sender vi den tilbake til kladd
   // slik at den følger normal godkjenningsflyt på nytt.
@@ -102,6 +105,7 @@ export async function PATCH(req: NextRequest, { params }: { params: { id: string
       data: {
         ...fields,
         imageUrl: nextImageUrl,
+        videoUrl: nextVideoUrl,
         ...statusUpdate,
       },
       include: { contributors: true },
@@ -112,6 +116,9 @@ export async function PATCH(req: NextRequest, { params }: { params: { id: string
   // eller fjernet, slik at det ikke blir liggende offentlig tilgjengelig.
   if (imageUrlProvided && article.imageUrl && article.imageUrl !== nextImageUrl) {
     await deleteUploadedFile(article.imageUrl);
+  }
+  if (videoUrlProvided && article.videoUrl && article.videoUrl !== nextVideoUrl) {
+    await deleteUploadedFile(article.videoUrl);
   }
 
   return NextResponse.json({ article: updated });
@@ -131,5 +138,6 @@ export async function DELETE(_req: NextRequest, { params }: { params: { id: stri
 
   await prisma.article.delete({ where: { id: article.id } });
   await deleteUploadedFile(article.imageUrl);
+  await deleteUploadedFile(article.videoUrl);
   return NextResponse.json({ ok: true });
 }

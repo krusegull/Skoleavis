@@ -5,6 +5,7 @@ import { useRouter } from "next/navigation";
 import { Article, ArticleContributor, Category, Role } from "@prisma/client";
 import { CATEGORY_LABELS, CATEGORY_ORDER, ROLE_LABELS, ROLE_ORDER } from "@/lib/constants";
 import { ImageUploadField } from "./ImageUploadField";
+import { VideoUploadField } from "./VideoUploadField";
 import { RichTextEditor } from "./RichTextEditor";
 import { ensureRichTextHtml } from "@/lib/richTextCompat";
 
@@ -30,6 +31,7 @@ export function ArticleForm({
   const [teaser, setTeaser] = useState(initialArticle?.teaser ?? "");
   const [body, setBody] = useState(ensureRichTextHtml(initialArticle?.body ?? ""));
   const [imageUrl, setImageUrl] = useState(initialArticle?.imageUrl ?? "");
+  const [videoUrl, setVideoUrl] = useState(initialArticle?.videoUrl ?? "");
   const [category, setCategory] = useState<Category>(initialArticle?.category ?? Category.NEWS);
   const [additionalCategories, setAdditionalCategories] = useState<Category[]>(
     initialArticle?.additionalCategories ?? []
@@ -71,6 +73,7 @@ export function ArticleForm({
       teaser: teaser || null,
       body,
       imageUrl: imageUrl || null,
+      videoUrl: videoUrl || null,
       category,
       additionalCategories: additionalCategories.filter((c) => c !== category),
     };
@@ -205,6 +208,8 @@ export function ArticleForm({
       </div>
 
       <ImageUploadField value={imageUrl} onChange={setImageUrl} label="Bilde (valgfritt)" />
+
+      <VideoUploadField value={videoUrl} onChange={setVideoUrl} label="Video (valgfritt)" />
 
       <div>
         <label className="block font-sans text-xs uppercase tracking-wide text-muted">Ingress (valgfri)</label>

@@ -45,6 +45,16 @@ export default async function ArtikkelPage({ params }: { params: { id: string } 
         />
       )}
 
+      {article.videoUrl && (
+        <video
+          src={article.videoUrl}
+          controls
+          playsInline
+          preload="metadata"
+          className="mt-6 h-auto w-full bg-ink"
+        />
+      )}
+
       <div className="prose-article mt-8" dangerouslySetInnerHTML={{ __html: bodyHtml }} />
     </article>
   );

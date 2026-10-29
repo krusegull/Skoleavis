@@ -165,6 +165,8 @@ model Article {
   teaser          String?
   body            String
   imageUrl        String?
+  /// Valgfri video (Cloudinary-URL), vises under bildet på artikkelsiden.
+  videoUrl        String?
   category        Category
   /// Ekstra kategorier saken også skal vises under (i tillegg til `category`,
   /// som fortsatt er hovedkategorien og styrer kategori-merket/badgen).
