@@ -10,7 +10,7 @@ export function DenseArticleEntry({ article }: { article: Article }) {
     <Link href={`/sak/${article.id}`} className="group flex gap-3 py-4 first:pt-0">
       {article.imageUrl && (
         <div className="relative h-16 w-20 shrink-0 overflow-hidden bg-ink/10 sm:h-20 sm:w-24">
-          <Image src={article.imageUrl} alt={article.title} fill sizes="96px" className="object-cover" />
+          <Image quality={90} src={article.imageUrl} alt={article.title} fill sizes="96px" className="object-cover" />
         </div>
       )}
       <div className="min-w-0">

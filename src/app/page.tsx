@@ -41,7 +41,7 @@ export default async function ForsidePage() {
       <Link href={`/sak/${hero.id}`} className="group block border-b-4 border-ink pb-8">
         {hero.imageUrl && (
           <div className="relative mb-4 aspect-[21/9] w-full overflow-hidden bg-ink/10">
-            <Image
+            <Image quality={90}
               src={hero.imageUrl}
               alt={hero.title}
               fill

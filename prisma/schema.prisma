@@ -38,6 +38,7 @@ enum Category {
   HISTORICAL_NEWS
   COMPETITION
   OPINION
+  DIFFERENT_DAYS
 }
 
 enum SubmissionStatus {

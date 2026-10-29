@@ -17,7 +17,7 @@ export function ArticleCard({
     <Link href={`/sak/${article.id}`} className="group block">
       {article.imageUrl && (
         <div className={`relative mb-3 w-full overflow-hidden bg-ink/10 ${isLarge ? "aspect-[16/9]" : "aspect-[4/3]"}`}>
-          <Image
+          <Image quality={90}
             src={article.imageUrl}
             alt={article.title}
             fill
