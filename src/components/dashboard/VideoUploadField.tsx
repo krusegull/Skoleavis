@@ -1,7 +1,6 @@
 "use client";
 
 import { useRef, useState } from "react";
-import { isClientUploadConfigured, uploadFileFromBrowser } from "@/lib/clientUpload";
 
 /**
  * Hard grense for videostørrelse. Videoer lastes opp direkte fra nettleseren
@@ -11,6 +10,38 @@ import { isClientUploadConfigured, uploadFileFromBrowser } from "@/lib/clientUpl
  * gratiskvoten. Ikke øk denne uten å vurdere kostnaden (se CLAUDE.md).
  */
 const MAX_VIDEO_BYTES = 50 * 1024 * 1024;
+
+/**
+ * Laster opp direkte til Cloudinary med en signatur fra vår egen,
+ * innloggingsbeskyttede /api/upload/signature - i motsetning til en
+ * "unsigned upload preset" krever dette ingen egen Cloudinary-/Vercel-
+ * konfigurasjon utover de vanlige bildeopplastings-nøklene som allerede
+ * er satt opp.
+ */
+async function uploadVideo(file: File): Promise<string> {
+  const sigRes = await fetch("/api/upload/signature", { method: "POST" });
+  const sigData = await sigRes.json();
+  if (!sigRes.ok) {
+    throw new Error(sigData.error || "Kunne ikke starte opplastingen.");
+  }
+
+  const formData = new FormData();
+  formData.append("file", file);
+  formData.append("api_key", sigData.apiKey);
+  formData.append("timestamp", String(sigData.timestamp));
+  formData.append("signature", sigData.signature);
+  formData.append("folder", sigData.folder);
+
+  const res = await fetch(`https://api.cloudinary.com/v1_1/${sigData.cloudName}/auto/upload`, {
+    method: "POST",
+    body: formData,
+  });
+  if (!res.ok) {
+    throw new Error("Opplastingen feilet. Prøv igjen, eller bruk en mindre fil.");
+  }
+  const data = await res.json();
+  return data.secure_url as string;
+}
 
 export function VideoUploadField({
   value,
@@ -45,7 +76,7 @@ export function VideoUploadField({
 
     setUploading(true);
     try {
-      const { url } = await uploadFileFromBrowser(file, "skoleavisen");
+      const url = await uploadVideo(file);
       onChange(url);
     } catch (err) {
       setError(err instanceof Error ? err.message : "Kunne ikke laste opp videoen.");
@@ -53,8 +84,6 @@ export function VideoUploadField({
       setUploading(false);
     }
   }
-
-  const configured = isClientUploadConfigured();
 
   return (
     <div>
@@ -69,7 +98,7 @@ export function VideoUploadField({
         <button
           type="button"
           onClick={() => fileInputRef.current?.click()}
-          disabled={uploading || !configured}
+          disabled={uploading}
           className="shrink-0 border border-ink px-3 py-2 font-sans text-xs uppercase tracking-wide hover:bg-ink hover:text-paper disabled:opacity-50"
         >
           {uploading ? "Laster opp… (kan ta litt tid)" : "Last opp video"}
@@ -85,9 +114,6 @@ export function VideoUploadField({
         )}
         <input ref={fileInputRef} type="file" accept="video/*" className="hidden" onChange={handleFileChange} />
       </div>
-      {!configured && (
-        <p className="mt-1 font-sans text-xs text-muted">Videoopplasting er ikke satt opp på denne installasjonen ennå.</p>
-      )}
       {error && <p className="mt-1 font-sans text-xs text-accent">{error}</p>}
       {value && (
         <video src={value} controls playsInline preload="metadata" className="mt-2 max-h-60 border border-ink/20 bg-ink" />
