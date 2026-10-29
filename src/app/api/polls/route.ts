@@ -7,6 +7,7 @@ import { canApproveArticles } from "@/lib/permissions";
 const createSchema = z.object({
   question: z.string().trim().min(1).max(200),
   options: z.array(z.string().trim().min(1).max(100)).min(2).max(40),
+  videoUrl: z.string().url().optional().nullable().or(z.literal("")),
 });
 
 /** Redaktør/admin: oppretter en ny avstemning med faste svaralternativer. */
@@ -24,6 +25,7 @@ export async function POST(req: NextRequest) {
   const poll = await prisma.poll.create({
     data: {
       question: parsed.data.question,
+      videoUrl: parsed.data.videoUrl || null,
       options: {
         create: parsed.data.options.map((label, i) => ({ label, sortOrder: i })),
       },

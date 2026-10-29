@@ -254,6 +254,8 @@ model Submission {
 model Poll {
   id        String       @id @default(cuid())
   question  String
+  /// Valgfri video (Cloudinary-URL) som vises over svaralternativene.
+  videoUrl  String?
   isOpen    Boolean      @default(true)
   createdAt DateTime     @default(now())
 

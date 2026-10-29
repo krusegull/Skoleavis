@@ -3,6 +3,7 @@ import { z } from "zod";
 import { prisma } from "@/lib/prisma";
 import { getSessionUser } from "@/lib/apiAuth";
 import { canApproveArticles } from "@/lib/permissions";
+import { deleteUploadedFile } from "@/lib/uploads";
 
 const patchSchema = z.object({ isOpen: z.boolean() });
 
@@ -29,6 +30,7 @@ export async function DELETE(_req: NextRequest, { params }: { params: { id: stri
     return NextResponse.json({ error: "Ingen tilgang" }, { status: 403 });
   }
 
-  await prisma.poll.delete({ where: { id: params.id } });
+  const poll = await prisma.poll.delete({ where: { id: params.id } });
+  await deleteUploadedFile(poll.videoUrl);
   return NextResponse.json({ ok: true });
 }

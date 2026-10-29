@@ -2,6 +2,7 @@
 
 import { useRouter } from "next/navigation";
 import { useState } from "react";
+import { VideoUploadField } from "./VideoUploadField";
 
 type PollWithCounts = {
   id: string;
@@ -14,6 +15,7 @@ export function PollAdminPanel({ polls }: { polls: PollWithCounts[] }) {
   const router = useRouter();
   const [question, setQuestion] = useState("");
   const [optionsText, setOptionsText] = useState("");
+  const [videoUrl, setVideoUrl] = useState("");
   const [creating, setCreating] = useState(false);
   const [busyId, setBusyId] = useState<string | null>(null);
   const [error, setError] = useState<string | null>(null);
@@ -34,7 +36,7 @@ export function PollAdminPanel({ polls }: { polls: PollWithCounts[] }) {
     const res = await fetch("/api/polls", {
       method: "POST",
       headers: { "content-type": "application/json" },
-      body: JSON.stringify({ question: question.trim(), options }),
+      body: JSON.stringify({ question: question.trim(), options, videoUrl: videoUrl || null }),
     });
     setCreating(false);
     if (!res.ok) {
@@ -44,6 +46,7 @@ export function PollAdminPanel({ polls }: { polls: PollWithCounts[] }) {
     }
     setQuestion("");
     setOptionsText("");
+    setVideoUrl("");
     router.refresh();
   }
 
@@ -92,6 +95,7 @@ export function PollAdminPanel({ polls }: { polls: PollWithCounts[] }) {
               className="mt-1 w-full border border-ink/30 bg-white px-3 py-2 font-serif text-ink focus:border-accent focus:outline-none"
             />
           </div>
+          <VideoUploadField value={videoUrl} onChange={setVideoUrl} label="Video (valgfritt)" />
           {error && <p className="font-sans text-sm text-accent">{error}</p>}
           <button
             type="button"

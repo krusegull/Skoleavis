@@ -47,6 +47,15 @@ export default async function AvstemningPage() {
                   </span>
                 )}
               </div>
+              {poll.videoUrl && (
+                <video
+                  src={poll.videoUrl}
+                  controls
+                  playsInline
+                  preload="metadata"
+                  className="mt-4 h-auto w-full bg-ink"
+                />
+              )}
               <div className="mt-4">
                 {poll.isOpen && !hasVoted ? (
                   <PollVoteForm pollId={poll.id} options={options} />

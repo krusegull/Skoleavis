@@ -198,6 +198,10 @@ under bildet på artikkelsiden. Maks 50 MB per video - grensen finnes fordi
 hver visning trekker båndbredde fra Cloudinary-gratiskvoten. Videoer som
 erstattes, fjernes eller hører til en slettet sak slettes automatisk.
 
+Avstemninger kan også ha én valgfri video (velges når avstemningen
+opprettes), som vises over svaralternativene. Samme 50 MB-grense, og
+videoen slettes når avstemningen slettes.
+
 ## Personvern - viktige prinsipper
 
 - **Minst mulig personopplysninger skal være offentlig synlig som
