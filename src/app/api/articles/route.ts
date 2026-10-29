@@ -13,6 +13,7 @@ const createArticleSchema = z.object({
   body: z.string().min(1),
   imageUrl: z.string().url().optional().nullable().or(z.literal("")),
   videoUrl: z.string().url().optional().nullable().or(z.literal("")),
+  videoMuted: z.boolean().optional(),
   category: z.nativeEnum(Category),
   additionalCategories: z.array(z.nativeEnum(Category)).default([]),
 });
@@ -69,6 +70,7 @@ export async function POST(req: NextRequest) {
       body: sanitizeRichText(parsed.data.body),
       imageUrl: parsed.data.imageUrl || null,
       videoUrl: parsed.data.videoUrl || null,
+      videoMuted: parsed.data.videoMuted ?? false,
       category: parsed.data.category,
       additionalCategories: parsed.data.additionalCategories.filter((c) => c !== parsed.data.category),
       authorId: user.id,

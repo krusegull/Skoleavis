@@ -32,6 +32,7 @@ export function ArticleForm({
   const [body, setBody] = useState(ensureRichTextHtml(initialArticle?.body ?? ""));
   const [imageUrl, setImageUrl] = useState(initialArticle?.imageUrl ?? "");
   const [videoUrl, setVideoUrl] = useState(initialArticle?.videoUrl ?? "");
+  const [videoMuted, setVideoMuted] = useState(initialArticle?.videoMuted ?? false);
   const [category, setCategory] = useState<Category>(initialArticle?.category ?? Category.NEWS);
   const [additionalCategories, setAdditionalCategories] = useState<Category[]>(
     initialArticle?.additionalCategories ?? []
@@ -74,6 +75,7 @@ export function ArticleForm({
       body,
       imageUrl: imageUrl || null,
       videoUrl: videoUrl || null,
+      videoMuted,
       category,
       additionalCategories: additionalCategories.filter((c) => c !== category),
     };
@@ -209,7 +211,13 @@ export function ArticleForm({
 
       <ImageUploadField value={imageUrl} onChange={setImageUrl} label="Bilde (valgfritt)" />
 
-      <VideoUploadField value={videoUrl} onChange={setVideoUrl} label="Video (valgfritt)" />
+      <VideoUploadField
+        value={videoUrl}
+        onChange={setVideoUrl}
+        label="Video (valgfritt)"
+        muted={videoMuted}
+        onMutedChange={setVideoMuted}
+      />
 
       <div>
         <label className="block font-sans text-xs uppercase tracking-wide text-muted">Ingress (valgfri)</label>

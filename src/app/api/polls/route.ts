@@ -8,6 +8,7 @@ const createSchema = z.object({
   question: z.string().trim().min(1).max(200),
   options: z.array(z.string().trim().min(1).max(100)).min(2).max(40),
   videoUrl: z.string().url().optional().nullable().or(z.literal("")),
+  videoMuted: z.boolean().optional(),
 });
 
 /** Redaktør/admin: oppretter en ny avstemning med faste svaralternativer. */
@@ -26,6 +27,7 @@ export async function POST(req: NextRequest) {
     data: {
       question: parsed.data.question,
       videoUrl: parsed.data.videoUrl || null,
+      videoMuted: parsed.data.videoMuted ?? false,
       options: {
         create: parsed.data.options.map((label, i) => ({ label, sortOrder: i })),
       },

@@ -47,10 +47,15 @@ export function VideoUploadField({
   value,
   onChange,
   label,
+  muted,
+  onMutedChange,
 }: {
   value: string;
   onChange: (url: string) => void;
   label: string;
+  /** Om videoen skal spilles uten lyd for leserne. */
+  muted?: boolean;
+  onMutedChange?: (muted: boolean) => void;
 }) {
   const fileInputRef = useRef<HTMLInputElement>(null);
   const [uploading, setUploading] = useState(false);
@@ -115,8 +120,14 @@ export function VideoUploadField({
         <input ref={fileInputRef} type="file" accept="video/*" className="hidden" onChange={handleFileChange} />
       </div>
       {error && <p className="mt-1 font-sans text-xs text-accent">{error}</p>}
+      {value && onMutedChange && (
+        <label className="mt-2 flex items-center gap-2 font-sans text-sm text-ink">
+          <input type="checkbox" checked={Boolean(muted)} onChange={(e) => onMutedChange(e.target.checked)} />
+          Uten lyd - leserne kan ikke skru på lyden
+        </label>
+      )}
       {value && (
-        <video src={value} controls playsInline preload="metadata" className="mt-2 max-h-60 border border-ink/20 bg-ink" />
+        <video src={value} controls playsInline preload="metadata" muted={Boolean(muted)} className="mt-2 max-h-60 border border-ink/20 bg-ink" />
       )}
     </div>
   );

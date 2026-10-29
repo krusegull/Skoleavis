@@ -167,6 +167,8 @@ model Article {
   imageUrl        String?
   /// Valgfri video (Cloudinary-URL), vises under bildet på artikkelsiden.
   videoUrl        String?
+  /// Sant = videoen spilles alltid uten lyd for leserne.
+  videoMuted      Boolean       @default(false)
   category        Category
   /// Ekstra kategorier saken også skal vises under (i tillegg til `category`,
   /// som fortsatt er hovedkategorien og styrer kategori-merket/badgen).
@@ -256,6 +258,8 @@ model Poll {
   question  String
   /// Valgfri video (Cloudinary-URL) som vises over svaralternativene.
   videoUrl  String?
+  /// Sant = videoen spilles alltid uten lyd for leserne.
+  videoMuted Boolean     @default(false)
   isOpen    Boolean      @default(true)
   createdAt DateTime     @default(now())
 

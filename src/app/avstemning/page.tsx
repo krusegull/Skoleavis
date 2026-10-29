@@ -3,6 +3,7 @@ import { prisma } from "@/lib/prisma";
 import { VOTER_COOKIE } from "@/lib/polls";
 import { PollVoteForm } from "@/components/polls/PollVoteForm";
 import { PollResults } from "@/components/polls/PollResults";
+import { NewspaperVideo } from "@/components/media/NewspaperVideo";
 
 export const dynamic = "force-dynamic";
 
@@ -48,13 +49,7 @@ export default async function AvstemningPage() {
                 )}
               </div>
               {poll.videoUrl && (
-                <video
-                  src={poll.videoUrl}
-                  controls
-                  playsInline
-                  preload="metadata"
-                  className="mt-4 h-auto w-full bg-ink"
-                />
+                <NewspaperVideo src={poll.videoUrl} muted={poll.videoMuted} className="mt-4 h-auto w-full bg-ink" />
               )}
               <div className="mt-4">
                 {poll.isOpen && !hasVoted ? (

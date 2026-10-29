@@ -19,6 +19,7 @@ export default async function AvstemningerPage() {
     question: poll.question,
     isOpen: poll.isOpen,
     videoUrl: poll.videoUrl ?? "",
+    videoMuted: poll.videoMuted,
     options: poll.options.map((o) => ({ id: o.id, label: o.label, votes: o._count.votes })),
   }));
 

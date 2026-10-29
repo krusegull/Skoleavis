@@ -20,6 +20,7 @@ const updateArticleSchema = z.object({
   body: z.string().min(1).optional(),
   imageUrl: z.string().url().optional().nullable().or(z.literal("")),
   videoUrl: z.string().url().optional().nullable().or(z.literal("")),
+  videoMuted: z.boolean().optional(),
   category: z.nativeEnum(Category).optional(),
   additionalCategories: z.array(z.nativeEnum(Category)).optional(),
   contributors: z.array(contributorSchema).optional(),

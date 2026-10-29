@@ -9,6 +9,7 @@ type PollWithCounts = {
   question: string;
   isOpen: boolean;
   videoUrl: string;
+  videoMuted: boolean;
   options: { id: string; label: string; votes: number }[];
 };
 
@@ -17,6 +18,7 @@ export function PollAdminPanel({ polls }: { polls: PollWithCounts[] }) {
   const [question, setQuestion] = useState("");
   const [optionsText, setOptionsText] = useState("");
   const [videoUrl, setVideoUrl] = useState("");
+  const [videoMuted, setVideoMuted] = useState(false);
   const [creating, setCreating] = useState(false);
   const [busyId, setBusyId] = useState<string | null>(null);
   const [error, setError] = useState<string | null>(null);
@@ -37,7 +39,7 @@ export function PollAdminPanel({ polls }: { polls: PollWithCounts[] }) {
     const res = await fetch("/api/polls", {
       method: "POST",
       headers: { "content-type": "application/json" },
-      body: JSON.stringify({ question: question.trim(), options, videoUrl: videoUrl || null }),
+      body: JSON.stringify({ question: question.trim(), options, videoUrl: videoUrl || null, videoMuted }),
     });
     setCreating(false);
     if (!res.ok) {
@@ -48,6 +50,7 @@ export function PollAdminPanel({ polls }: { polls: PollWithCounts[] }) {
     setQuestion("");
     setOptionsText("");
     setVideoUrl("");
+    setVideoMuted(false);
     router.refresh();
   }
 
@@ -62,12 +65,12 @@ export function PollAdminPanel({ polls }: { polls: PollWithCounts[] }) {
     router.refresh();
   }
 
-  async function setPollVideo(id: string, url: string) {
+  async function updatePollVideo(id: string, data: { videoUrl?: string | null; videoMuted?: boolean }) {
     setBusyId(id);
     const res = await fetch(`/api/polls/${id}`, {
       method: "PATCH",
       headers: { "content-type": "application/json" },
-      body: JSON.stringify({ videoUrl: url || null }),
+      body: JSON.stringify(data),
     });
     setBusyId(null);
     if (!res.ok) {
@@ -111,7 +114,13 @@ export function PollAdminPanel({ polls }: { polls: PollWithCounts[] }) {
               className="mt-1 w-full border border-ink/30 bg-white px-3 py-2 font-serif text-ink focus:border-accent focus:outline-none"
             />
           </div>
-          <VideoUploadField value={videoUrl} onChange={setVideoUrl} label="Video (valgfritt)" />
+          <VideoUploadField
+            value={videoUrl}
+            onChange={setVideoUrl}
+            label="Video (valgfritt)"
+            muted={videoMuted}
+            onMutedChange={setVideoMuted}
+          />
           {error && <p className="font-sans text-sm text-accent">{error}</p>}
           <button
             type="button"
@@ -163,7 +172,9 @@ export function PollAdminPanel({ polls }: { polls: PollWithCounts[] }) {
                   <VideoUploadField
                     key={poll.videoUrl}
                     value={poll.videoUrl}
-                    onChange={(url) => setPollVideo(poll.id, url)}
+                    onChange={(url) => updatePollVideo(poll.id, { videoUrl: url || null })}
+                    muted={poll.videoMuted}
+                    onMutedChange={(m) => updatePollVideo(poll.id, { videoMuted: m })}
                     label={poll.videoUrl ? "Video (lagres med en gang)" : "Legg til video (lagres med en gang)"}
                   />
                 </div>

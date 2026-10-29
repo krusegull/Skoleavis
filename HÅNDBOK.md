@@ -202,6 +202,10 @@ Avstemninger kan også ha én valgfri video (velges når avstemningen
 opprettes), som vises over svaralternativene. Samme 50 MB-grense, og
 videoen slettes når avstemningen slettes.
 
+Huk av **«Uten lyd»** under videoen (saker og avstemninger) for å spille
+den uten lyd for leserne. Lyden slås av igjen med en gang om noen prøver
+å skru den på.
+
 ## Personvern - viktige prinsipper
 
 - **Minst mulig personopplysninger skal være offentlig synlig som

@@ -5,6 +5,7 @@ import { CategoryBadge } from "@/components/articles/CategoryBadge";
 import { CATEGORY_LABELS } from "@/lib/constants";
 import { formatDate } from "@/lib/utils";
 import { ensureRichTextHtml } from "@/lib/richTextCompat";
+import { NewspaperVideo } from "@/components/media/NewspaperVideo";
 
 export const revalidate = 30;
 
@@ -46,13 +47,7 @@ export default async function ArtikkelPage({ params }: { params: { id: string } 
       )}
 
       {article.videoUrl && (
-        <video
-          src={article.videoUrl}
-          controls
-          playsInline
-          preload="metadata"
-          className="mt-6 h-auto w-full bg-ink"
-        />
+        <NewspaperVideo src={article.videoUrl} muted={article.videoMuted} className="mt-6 h-auto w-full bg-ink" />
       )}
 
       <div className="prose-article mt-8" dangerouslySetInnerHTML={{ __html: bodyHtml }} />

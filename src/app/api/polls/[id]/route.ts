@@ -8,6 +8,7 @@ import { deleteUploadedFile } from "@/lib/uploads";
 const patchSchema = z.object({
   isOpen: z.boolean().optional(),
   videoUrl: z.string().url().nullable().or(z.literal("")).optional(),
+  videoMuted: z.boolean().optional(),
 });
 
 /** Redaktør/admin: åpne/lukke en avstemning, eller legge til/bytte/fjerne video. */
@@ -30,7 +31,7 @@ export async function PATCH(req: NextRequest, { params }: { params: { id: string
 
   const poll = await prisma.poll.update({
     where: { id: params.id },
-    data: { isOpen: parsed.data.isOpen, videoUrl: nextVideoUrl },
+    data: { isOpen: parsed.data.isOpen, videoUrl: nextVideoUrl, videoMuted: parsed.data.videoMuted },
   });
 
   // Rydder bort den gamle videoen fra Cloudinary når den byttes ut eller fjernes.
