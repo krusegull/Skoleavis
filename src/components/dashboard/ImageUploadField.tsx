@@ -5,23 +5,6 @@ import { useRef, useState } from "react";
 /** Bilder smalere enn dette blir synlig uklare når de vises i full bredde i avisen. */
 const MIN_SHARP_WIDTH = 1200;
 
-/** Leser bredden på et bilde lokalt i nettleseren (ingen opplasting, ingen kostnad). */
-function readImageWidth(file: File): Promise<number | null> {
-  return new Promise((resolve) => {
-    const url = URL.createObjectURL(file);
-    const img = new window.Image();
-    img.onload = () => {
-      URL.revokeObjectURL(url);
-      resolve(img.naturalWidth);
-    };
-    img.onerror = () => {
-      URL.revokeObjectURL(url);
-      resolve(null);
-    };
-    img.src = url;
-  });
-}
-
 export function ImageUploadField({
   value,
   onChange,
@@ -41,15 +24,6 @@ export function ImageUploadField({
     setError(null);
     setWarning(null);
 
-    const width = await readImageWidth(file);
-    if (width !== null && width < MIN_SHARP_WIDTH) {
-      setWarning(
-        `Bildet er bare ${width} piksler bredt, så det vil se uklart ut i avisen. ` +
-          `Bruk helst et bilde som er minst ${MIN_SHARP_WIDTH} piksler bredt: last opp originalfila ` +
-          `fra mobil/kamera, eller åpne bildet i full størrelse før du kopierer det fra nettet ` +
-          `(bilder kopiert rett fra et Google-søk er små miniatyrer).`
-      );
-    }
 
     const formData = new FormData();
     formData.append("file", file);
@@ -63,6 +37,17 @@ export function ImageUploadField({
       return;
     }
     onChange(data.url);
+    if (data.upscaled) {
+      setWarning(
+        `Bildet var lite (${data.width} piksler bredt), så det er automatisk forstørret og gjort skarpere. ` +
+          `For aller best resultat: bruk originalfila fra mobil/kamera, eller åpne bildet i full størrelse før du kopierer det fra nettet.`
+      );
+    } else if (typeof data.width === "number" && data.width < MIN_SHARP_WIDTH) {
+      setWarning(
+        `Bildet er bare ${data.width} piksler bredt og kunne ikke forstørres automatisk, så det kan se uklart ut. ` +
+          `Bruk originalfila fra mobil/kamera, eller åpne bildet i full størrelse før du kopierer det fra nettet.`
+      );
+    }
   }
 
   async function handleFileChange(e: React.ChangeEvent<HTMLInputElement>) {

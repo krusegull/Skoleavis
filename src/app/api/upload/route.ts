@@ -1,7 +1,7 @@
 import { NextRequest, NextResponse } from "next/server";
 import { getSessionUser } from "@/lib/apiAuth";
 import { canCreateDrafts } from "@/lib/permissions";
-import { isCloudinaryConfigured, uploadFile } from "@/lib/uploads";
+import { isCloudinaryConfigured, uploadImage } from "@/lib/uploads";
 
 const MAX_SIZE_BYTES = 10 * 1024 * 1024; // 10 MB
 
@@ -34,8 +34,8 @@ export async function POST(req: NextRequest) {
 
   try {
     const buffer = Buffer.from(await file.arrayBuffer());
-    const url = await uploadFile(buffer);
-    return NextResponse.json({ url });
+    const { url, upscaled, width } = await uploadImage(buffer);
+    return NextResponse.json({ url, upscaled, width });
   } catch (err) {
     console.error("Feil ved opplasting til Cloudinary:", err);
     return NextResponse.json({ error: "Kunne ikke laste opp bildet akkurat nå." }, { status: 502 });

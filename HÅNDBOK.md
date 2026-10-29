@@ -186,8 +186,12 @@ Bilder til saker og "Om oss" kan limes inn som URL, lastes opp direkte
 (knapp i redigeringsvisningen), eller limes inn rett fra utklippstavlen
 (Ctrl+V/Cmd+V i bilde-feltet etter "Kopier bilde" fra et nettsted) -
 lagres hos Cloudinary. Bilder som erstattes eller fjernes slettes
-automatisk fra lagringen. Bilder under 1200 piksler brede gir en advarsel
-ved opplasting, fordi de blir uklare i full bredde.
+automatisk fra lagringen. Bilder under 1200 piksler brede forstørres og
+skjerpes automatisk med AI hos Cloudinary (e_upscale, 4x, maks 2400 px) ved
+opplasting - én gang per bilde, aldri per visning. Feiler det, brukes
+originalen og det vises en advarsel. Gjelder kun bilder lastet opp/limt inn
+etter 29.10.2026 - eldre bilder må lastes opp på nytt for å bli skarpere.
+Bilder lagt inn som URL fra et annet nettsted forstørres ikke.
 
 ## Videoopplasting
 
