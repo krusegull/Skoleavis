@@ -91,8 +91,8 @@ export function VideoUploadField({
       <div className="mt-1 flex gap-2">
         <input
           value={value}
-          onChange={(e) => onChange(e.target.value)}
-          placeholder="Last opp en video (maks 50 MB)"
+          readOnly
+          placeholder="Ingen video valgt (maks 50 MB)"
           className="flex-1 border border-ink/30 bg-white px-3 py-2 font-serif text-ink focus:border-accent focus:outline-none"
         />
         <button

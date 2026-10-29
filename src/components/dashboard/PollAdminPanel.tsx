@@ -8,6 +8,7 @@ type PollWithCounts = {
   id: string;
   question: string;
   isOpen: boolean;
+  videoUrl: string;
   options: { id: string; label: string; votes: number }[];
 };
 
@@ -58,6 +59,21 @@ export function PollAdminPanel({ polls }: { polls: PollWithCounts[] }) {
       body: JSON.stringify({ isOpen: !isOpen }),
     });
     setBusyId(null);
+    router.refresh();
+  }
+
+  async function setPollVideo(id: string, url: string) {
+    setBusyId(id);
+    const res = await fetch(`/api/polls/${id}`, {
+      method: "PATCH",
+      headers: { "content-type": "application/json" },
+      body: JSON.stringify({ videoUrl: url || null }),
+    });
+    setBusyId(null);
+    if (!res.ok) {
+      alert("Kunne ikke lagre videoen på avstemningen. Prøv igjen.");
+      return;
+    }
     router.refresh();
   }
 
@@ -142,6 +158,14 @@ export function PollAdminPanel({ polls }: { polls: PollWithCounts[] }) {
                       Slett
                     </button>
                   </div>
+                </div>
+                <div className="mt-3">
+                  <VideoUploadField
+                    key={poll.videoUrl}
+                    value={poll.videoUrl}
+                    onChange={(url) => setPollVideo(poll.id, url)}
+                    label={poll.videoUrl ? "Video (lagres med en gang)" : "Legg til video (lagres med en gang)"}
+                  />
                 </div>
               </li>
             );

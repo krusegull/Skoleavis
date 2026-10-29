@@ -5,9 +5,12 @@ import { getSessionUser } from "@/lib/apiAuth";
 import { canApproveArticles } from "@/lib/permissions";
 import { deleteUploadedFile } from "@/lib/uploads";
 
-const patchSchema = z.object({ isOpen: z.boolean() });
+const patchSchema = z.object({
+  isOpen: z.boolean().optional(),
+  videoUrl: z.string().url().nullable().or(z.literal("")).optional(),
+});
 
-/** Redaktør/admin: åpne eller lukke en avstemning. */
+/** Redaktør/admin: åpne/lukke en avstemning, eller legge til/bytte/fjerne video. */
 export async function PATCH(req: NextRequest, { params }: { params: { id: string } }) {
   const user = await getSessionUser();
   if (!user || !canApproveArticles(user.role)) {
@@ -19,7 +22,21 @@ export async function PATCH(req: NextRequest, { params }: { params: { id: string
     return NextResponse.json({ error: "Ugyldig forespørsel." }, { status: 400 });
   }
 
-  const poll = await prisma.poll.update({ where: { id: params.id }, data: { isOpen: parsed.data.isOpen } });
+  const existing = await prisma.poll.findUnique({ where: { id: params.id } });
+  if (!existing) return NextResponse.json({ error: "Fant ikke avstemningen" }, { status: 404 });
+
+  const videoProvided = parsed.data.videoUrl !== undefined;
+  const nextVideoUrl = videoProvided ? parsed.data.videoUrl || null : undefined;
+
+  const poll = await prisma.poll.update({
+    where: { id: params.id },
+    data: { isOpen: parsed.data.isOpen, videoUrl: nextVideoUrl },
+  });
+
+  // Rydder bort den gamle videoen fra Cloudinary når den byttes ut eller fjernes.
+  if (videoProvided && existing.videoUrl && existing.videoUrl !== nextVideoUrl) {
+    await deleteUploadedFile(existing.videoUrl);
+  }
   return NextResponse.json({ poll });
 }
 
