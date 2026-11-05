@@ -10,6 +10,30 @@ for å hente dem frem igjen når som helst.
 
 ## Ikke startet
 
+- **Forum / debatt for elever** (2026-11-05). Eirik vil se videre på et
+  forum, og det må være brukervennlig. Claudes forslag (ikke bestemt):
+  start smalt med **"Ukens spørsmål"** - redaksjonen legger ut ett
+  spørsmål/tema (gjerne knyttet til en sak), elever svarer i en flat
+  tråd med ett nivå svar-på-svar. Ingen fritt opprettede tråder i
+  starten. Kun innloggede elever kan skrive (krever at elevkontoer/Feide
+  er på plass), synlig fornavn + klasse for andre elever, full identitet
+  for Redaktør/Admin. Forhåndsgodkjenning av innlegg de første ukene,
+  "rapporter"-knapp, kort regelsett vist rett over skrivefeltet, kun
+  positive reaksjoner (ingen "dislike"), ingen bildeopplasting i første
+  versjon. Inspirasjon: NRKbeta sin "svar på en quiz om saken før du kan
+  kommentere", Discourse (tillitsnivåer), forskning på synlige regler
+  (Matias 2019).
+  **Kostnad - åpen avklaring:** et rent tekstforum koster i praksis
+  ingenting ekstra (bare litt plass i Neon-databasen). Det som *kan*
+  koste: (1) bildeopplasting i innlegg (Cloudinary, skalerer med antall
+  elever - foreslått droppet i v1, ev. med hardt tak per dag), og (2)
+  AI-moderering av hvert innlegg (Anthropic API per innlegg - skalerer
+  med aktivitet; bør unngås, eller kun kjøres med hardt dagstak). Enkelt
+  ordfilter + menneskelig godkjenning er gratis og anbefalt standard.
+  Uavklart: hvem moddererer (lærer, redaksjonen, elevråd?), åpningstider
+  (f.eks. stengt kveld/helg), og om forumet skal vente til Feide er
+  aktivert.
+
 - **Ny kategori: "Haugenstua lærer bort"** (2026-09-22). Tanke om en
   kategori/spalte der elever eller lærere deler noe de kan - en ferdighet,
   et triks, en oppskrift, et fag-tips e.l. Uavklart: skal dette være en
