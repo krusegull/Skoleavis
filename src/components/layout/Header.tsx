@@ -1,13 +1,26 @@
+import { Category } from "@prisma/client";
 import Link from "next/link";
 import { getServerSession } from "next-auth";
 import { authOptions } from "@/lib/auth";
 import { CATEGORY_LABELS, CATEGORY_ORDER, CATEGORY_SLUGS, ROLE_LABELS } from "@/lib/constants";
 import { formatDate } from "@/lib/utils";
 import { HeaderAuthLink } from "./HeaderAuthLink";
+import { MoreMenu } from "./MoreMenu";
+
+/** De mest brukte kategoriene - resten havner under "Mer"-menyen for å unngå at navigasjonen bryter over flere linjer. */
+const PRIMARY_CATEGORIES: Category[] = [Category.NEWS, Category.SPORT, Category.CULTURE];
 
 export async function Header() {
   const session = await getServerSession(authOptions);
   const today = formatDate(new Date());
+
+  const secondaryCategories = CATEGORY_ORDER.filter((c) => !PRIMARY_CATEGORIES.includes(c));
+  const moreItems = [
+    ...secondaryCategories.map((c) => ({ label: CATEGORY_LABELS[c], href: `/kategori/${CATEGORY_SLUGS[c]}` })),
+    { label: "Redaksjonen", href: "/redaksjonen" },
+    { label: "Om oss", href: "/om-oss" },
+    { label: "Aktiviteter", href: "/aktiviteter" },
+  ];
 
   return (
     <header className="border-b-4 border-ink bg-paper">
@@ -49,7 +62,7 @@ export async function Header() {
               Forside
             </Link>
           </li>
-          {CATEGORY_ORDER.map((category) => (
+          {PRIMARY_CATEGORIES.map((category) => (
             <li key={category}>
               <Link href={`/kategori/${CATEGORY_SLUGS[category]}`} className="hover:text-accent">
                 {CATEGORY_LABELS[category]}
@@ -59,16 +72,6 @@ export async function Header() {
           <li>
             <Link href="/arkiv" className="hover:text-accent">
               Arkiv
-            </Link>
-          </li>
-          <li>
-            <Link href="/redaksjonen" className="hover:text-accent">
-              Redaksjonen
-            </Link>
-          </li>
-          <li>
-            <Link href="/om-oss" className="hover:text-accent">
-              Om oss
             </Link>
           </li>
           <li>
@@ -82,9 +85,7 @@ export async function Header() {
             </Link>
           </li>
           <li>
-            <Link href="/aktiviteter" className="hover:text-accent">
-              Aktiviteter
-            </Link>
+            <MoreMenu items={moreItems} />
           </li>
         </ul>
       </nav>

@@ -11,11 +11,14 @@ export const revalidate = 30;
 const COLUMN_COUNT = 3;
 
 export default async function ForsidePage() {
-  const articles = await prisma.article.findMany({
-    where: { status: ArticleStatus.PUBLISHED },
-    orderBy: { publishedAt: "desc" },
-    take: 17,
-  });
+  const [articles, openPoll] = await Promise.all([
+    prisma.article.findMany({
+      where: { status: ArticleStatus.PUBLISHED },
+      orderBy: { publishedAt: "desc" },
+      take: 17,
+    }),
+    prisma.poll.findFirst({ where: { isOpen: true }, orderBy: { createdAt: "desc" } }),
+  ]);
 
   if (articles.length === 0) {
     return (
@@ -62,6 +65,20 @@ export default async function ForsidePage() {
           <span className="font-sans text-xs text-muted">{formatDate(hero.publishedAt)}</span>
         </div>
       </Link>
+
+      <div className="mt-6 flex flex-col gap-3 border-y border-ink/20 py-4 sm:flex-row sm:items-center sm:justify-between">
+        {openPoll && (
+          <Link href="/avstemning" className="group flex items-center gap-2 font-sans text-sm">
+            <span className="section-label shrink-0">Avstemning</span>
+            <span className="text-ink group-hover:text-accent">{openPoll.question}</span>
+            <span className="shrink-0 text-accent">Stem →</span>
+          </Link>
+        )}
+        <Link href="/send-inn" className="group flex items-center gap-2 font-sans text-sm">
+          <span className="text-ink group-hover:text-accent">Har du en sak vi bør skrive om?</span>
+          <span className="shrink-0 text-accent">Tips oss →</span>
+        </Link>
+      </div>
 
       {secondary.length > 0 && (
         <div className="mt-8">

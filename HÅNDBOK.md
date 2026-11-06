@@ -64,15 +64,21 @@ arkivet forblir riktige selv om en konto senere deaktiveres.
 
 | Side | Innhold |
 |---|---|
-| Forside (`/`) | Hovedsak + sidesaker + "flere saker"-grid, kun publiserte saker |
-| Kategorisider (`/kategori/...`) | Alle publiserte saker i én kategori |
-| Enkeltartikkel (`/sak/...`) | Full sak med bilde, byline, brødtekst |
+| Forside (`/`) | Toppsak + strekdelte "flere saker"-kolonner (avis-aktig layout), kun publiserte saker. Rett under toppsaken vises en stripe med aktiv avstemning og en "Tips oss"-lenke til `/send-inn` |
+| Kategorisider (`/kategori/...`) | Alle publiserte saker i én kategori, inkludert saker krysspublisert via "Vis også under" |
+| Enkeltartikkel (`/sak/...`) | Full sak med bilde/video, brødtekst (ingen byline vises offentlig) |
 | Arkiv (`/arkiv`) | Alle publiserte saker, nyeste først |
 | Redaksjonen (`/redaksjonen`) | Roller og medlemmer for gjeldende skoleår, med mulighet for å bla i tidligere års redaksjoner. **Elever vises aldri her** (se Personvern) |
 | Om oss (`/om-oss`) | Fritekst-side om skolen/avisen, redigeres fra dashbordet |
 | Send inn (`/send-inn`) | Offentlig skjema - elever/andre kan sende inn en tekst (Word/PDF) + bilder uten å logge inn. Se eget avsnitt under |
 | Avstemning (`/avstemning`) | Offentlige avstemninger - alle kan stemme uten å logge inn. Se eget avsnitt under |
 | Aktiviteter (`/aktiviteter`) | Fritidstilbud i nærområdet, gruppert etter kategori. Se eget avsnitt under |
+
+Toppmenyen viser de mest brukte lenkene direkte (Forside, Nyheter, Sport,
+Kultur, Arkiv, Send inn, Avstemning), mens sjeldnere brukte kategorier og
+sider (Reportasje, Intervju, Anmeldelse, Ukas nyhet, Historiske nyheter,
+Konkurranse, Kronikk, Annerledesdager, Redaksjonen, Om oss, Aktiviteter)
+ligger under "Mer"-knappen, for å holde menyen på én linje.
 
 ## Dashbord (innlogget)
 
