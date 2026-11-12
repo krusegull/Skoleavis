@@ -3,12 +3,9 @@ import { notFound } from "next/navigation";
 import { prisma } from "@/lib/prisma";
 import { ArticleStatus, Category } from "@prisma/client";
 import { ArticleCard } from "@/components/articles/ArticleCard";
-import { CATEGORY_LABELS, CATEGORY_SLUGS, SLUG_TO_CATEGORY } from "@/lib/constants";
+import { CATEGORY_LABELS, SLUG_TO_CATEGORY } from "@/lib/constants";
 
 export const revalidate = 30;
-
-/** Konkurranse og Kryssord vises som faner til hverandre, siden kryssord i praksis er en type konkurranse. */
-const COMPETITION_TABS: Category[] = [Category.COMPETITION, Category.CROSSWORD];
 
 export default async function KategoriPage({ params }: { params: { slug: string } }) {
   const category = SLUG_TO_CATEGORY[params.slug];
@@ -28,21 +25,12 @@ export default async function KategoriPage({ params }: { params: { slug: string 
         {CATEGORY_LABELS[category]}
       </h1>
 
-      {COMPETITION_TABS.includes(category) && (
+      {category === Category.COMPETITION && (
         <div className="mt-4 flex gap-2 font-sans text-sm uppercase tracking-wide">
-          {COMPETITION_TABS.map((tab) => (
-            <Link
-              key={tab}
-              href={`/kategori/${CATEGORY_SLUGS[tab]}`}
-              className={`border px-3 py-1.5 ${
-                tab === category
-                  ? "border-ink bg-ink text-paper"
-                  : "border-ink/30 text-ink hover:border-ink"
-              }`}
-            >
-              {CATEGORY_LABELS[tab]}
-            </Link>
-          ))}
+          <span className="border border-ink bg-ink px-3 py-1.5 text-paper">Konkurranse</span>
+          <Link href="/kryssord" className="border border-ink/30 px-3 py-1.5 text-ink hover:border-ink">
+            Kryssord
+          </Link>
         </div>
       )}
 

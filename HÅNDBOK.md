@@ -74,6 +74,7 @@ arkivet forblir riktige selv om en konto senere deaktiveres.
 | Om oss (`/om-oss`) | Fritekst-side om skolen/avisen, redigeres fra dashbordet |
 | Send inn (`/send-inn`) | Offentlig skjema - elever/andre kan sende inn en tekst (Word/PDF) + bilder uten å logge inn. Se eget avsnitt under |
 | Avstemning (`/avstemning`) | Offentlige avstemninger - alle kan stemme uten å logge inn. Se eget avsnitt under |
+| Kryssord (`/kryssord`) | Interaktive kryssord - alle kan løse dem uten å logge inn. Se eget avsnitt under |
 | Aktiviteter (`/aktiviteter`) | Fritidstilbud i nærområdet, gruppert etter kategori. Se eget avsnitt under |
 
 Toppmenyen viser de mest brukte lenkene direkte (Forside, Nyheter, Sport,
@@ -90,6 +91,7 @@ Aktiviteter) ligger under "Mer"-knappen, for å holde menyen på én linje.
 - **Nyhetstips** (Redaktør/Admin) - se eget avsnitt under
 - **Innsendinger** (Redaktør/Admin) - se eget avsnitt under
 - **Avstemninger** (Redaktør/Admin) - se eget avsnitt under
+- **Kryssord** (Redaktør/Admin) - se eget avsnitt under
 - **Aktiviteter** (Redaktør/Admin) - se eget avsnitt under
 - **Om oss-siden** (Redaktør/Admin) - rediger teksten på `/om-oss`
 - **Brukere** (Admin) - opprette kontoer, endre rolle, deaktivere/reaktivere, sette "Elev"-merke, nullstille passord
@@ -130,6 +132,33 @@ toppmenyen: "Avstemning"), der alle kan stemme uten å logge inn.
   blir stående, men ingen kan stemme mer), eller **Slett**e den permanent.
 - Ingen AI eller betalt tjeneste er involvert - avstemninger koster
   ingenting ekstra uansett hvor mange som stemmer.
+
+## Kryssord
+
+Under **Dashbord → Kryssord** (Redaktør/Admin) kan dere opprette
+interaktive kryssord som besøkende løser direkte på siden - ingen
+nedlasting, ingen PDF. De dukker opp offentlig på `/kryssord` (lenke
+under "Mer" i toppmenyen, og som egen fane på Konkurranse-siden siden
+kryssord i praksis er en type konkurranse).
+
+- **Bygging:** hvert ord trenger et svar, en ledetråd, en rad og
+  kolonne (0-indeksert) og en retning (vannrett/loddrett). Dere kan
+  enten lime inn flere ord på én gang (ett per linje, format
+  `ORD|LEDETRÅD|RAD|KOLONNE|A-eller-D`) eller legge dem til ett om
+  gangen. En levende forhåndsvisning av rutenettet viser umiddelbart om
+  to ord krysser hverandre feil (markeres rødt) - det må rettes før
+  kryssordet kan opprettes.
+- **Fasiten vises aldri til besøkende før de har løst det riktig.**
+  Siden sender kun rutenettets *form* (hvilke ruter som er åpne) og
+  ledetrådene til nettleseren - selve bokstavene sjekkes på serveren
+  når noen trykker "Sjekk svar", og kun riktig/feil per rute sendes
+  tilbake.
+- Riktige ruter markeres grønne, feil ruter røde. Når alt er riktig
+  vises en gratulasjonsmelding.
+- Dere kan **Rediger**e et kryssord (endrer ord/ledetråder), **Steng**e
+  det for nye forsøk, eller **Slett**e det permanent.
+- Ingen AI eller betalt tjeneste er involvert - koster ingenting ekstra
+  uansett hvor mange som løser det.
 
 ## Aktiviteter i nærområdet
 

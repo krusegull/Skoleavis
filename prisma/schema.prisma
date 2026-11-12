@@ -335,3 +335,34 @@ model ArticleContributor {
 
   @@index([articleId])
 }
+
+/// Et interaktivt kryssord - besøkende fyller inn bokstaver på /kryssord og
+/// får sjekket svaret sitt. Selve fasiten (bokstavene i CrosswordWord)
+/// sendes ALDRI til nettleseren før løst - kun rutenettets form (åpne/
+/// blokkerte ruter) og ledetrådene. Sjekking skjer server-side.
+model Crossword {
+  id        String   @id @default(cuid())
+  title     String
+  intro     String?
+  isOpen    Boolean  @default(true)
+  createdAt DateTime @default(now())
+
+  words CrosswordWord[]
+}
+
+/// Ett ord i et kryssord. row/col er 0-indeksert, direction "A" (vannrett)
+/// eller "D" (loddrett) - samme modell som ble brukt til å validere
+/// kryssordene offline før denne funksjonen fantes.
+model CrosswordWord {
+  id          String @id @default(cuid())
+  crosswordId String
+  answer      String
+  clue        String
+  row         Int
+  col         Int
+  direction   String
+
+  crossword Crossword @relation(fields: [crosswordId], references: [id], onDelete: Cascade)
+
+  @@index([crosswordId])
+}

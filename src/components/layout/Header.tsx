@@ -14,9 +14,12 @@ export async function Header() {
   const session = await getServerSession(authOptions);
   const today = formatDate(new Date());
 
-  const secondaryCategories = CATEGORY_ORDER.filter((c) => !PRIMARY_CATEGORIES.includes(c));
+  // Kryssord-kategorien lenker til den interaktive løse-siden (/kryssord) i stedet for sin egen,
+  // vanligvis tomme artikkel-kategoriside - se egen oppføring under.
+  const secondaryCategories = CATEGORY_ORDER.filter((c) => !PRIMARY_CATEGORIES.includes(c) && c !== Category.CROSSWORD);
   const moreItems = [
     ...secondaryCategories.map((c) => ({ label: CATEGORY_LABELS[c], href: `/kategori/${CATEGORY_SLUGS[c]}` })),
+    { label: "Kryssord", href: "/kryssord" },
     { label: "Redaksjonen", href: "/redaksjonen" },
     { label: "Om oss", href: "/om-oss" },
     { label: "Aktiviteter", href: "/aktiviteter" },
