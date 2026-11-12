@@ -12,7 +12,7 @@ export default async function RedigerSakPage({ params }: { params: { id: string 
 
   const article = await prisma.article.findUnique({
     where: { id: params.id },
-    include: { contributors: true },
+    include: { contributors: true, videos: { orderBy: { sortOrder: "asc" } } },
   });
   if (!article) notFound();
 

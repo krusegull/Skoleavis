@@ -12,6 +12,7 @@ export const revalidate = 30;
 export default async function ArtikkelPage({ params }: { params: { id: string } }) {
   const article = await prisma.article.findUnique({
     where: { id: params.id },
+    include: { videos: { orderBy: { sortOrder: "asc" } } },
   });
 
   if (!article || article.status !== ArticleStatus.PUBLISHED) notFound();
@@ -46,9 +47,9 @@ export default async function ArtikkelPage({ params }: { params: { id: string } 
         />
       )}
 
-      {article.videoUrl && (
-        <NewspaperVideo src={article.videoUrl} muted={article.videoMuted} className="mt-6 h-auto w-full bg-ink" />
-      )}
+      {article.videos.map((video) => (
+        <NewspaperVideo key={video.id} src={video.url} muted={video.muted} className="mt-6 h-auto w-full bg-ink" />
+      ))}
 
       <div className="prose-article mt-8" dangerouslySetInnerHTML={{ __html: bodyHtml }} />
     </article>

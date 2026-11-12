@@ -9,7 +9,7 @@ import { useRef, useState } from "react";
  * minutter med god mobilvideo, uten at noen få visninger spiser opp
  * gratiskvoten. Ikke øk denne uten å vurdere kostnaden (se CLAUDE.md).
  */
-const MAX_VIDEO_BYTES = 50 * 1024 * 1024;
+export const MAX_VIDEO_BYTES = 50 * 1024 * 1024;
 
 /**
  * Laster opp direkte til Cloudinary med en signatur fra vår egen,
@@ -18,7 +18,7 @@ const MAX_VIDEO_BYTES = 50 * 1024 * 1024;
  * konfigurasjon utover de vanlige bildeopplastings-nøklene som allerede
  * er satt opp.
  */
-async function uploadVideo(file: File): Promise<string> {
+export async function uploadVideo(file: File): Promise<string> {
   const sigRes = await fetch("/api/upload/signature", { method: "POST" });
   const sigData = await sigRes.json();
   if (!sigRes.ok) {

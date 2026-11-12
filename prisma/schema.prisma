@@ -166,10 +166,6 @@ model Article {
   teaser          String?
   body            String
   imageUrl        String?
-  /// Valgfri video (Cloudinary-URL), vises under bildet på artikkelsiden.
-  videoUrl        String?
-  /// Sant = videoen spilles alltid uten lyd for leserne.
-  videoMuted      Boolean       @default(false)
   category        Category
   /// Ekstra kategorier saken også skal vises under (i tillegg til `category`,
   /// som fortsatt er hovedkategorien og styrer kategori-merket/badgen).
@@ -191,10 +187,26 @@ model Article {
   reviewedBy User? @relation("ArticleReviewer", fields: [reviewedById], references: [id], onDelete: SetNull)
 
   contributors ArticleContributor[]
+  videos       ArticleVideo[]
   newsTips     NewsTip[]
 
   @@index([status, publishedAt])
   @@index([category, status])
+}
+
+/// En video (Cloudinary-URL) knyttet til en sak. En sak kan ha flere
+/// videoer, vist i rekkefølge under bildet på artikkelsiden.
+model ArticleVideo {
+  id        String  @id @default(cuid())
+  articleId String
+  url       String
+  /// Sant = videoen spilles alltid uten lyd for leserne.
+  muted     Boolean @default(false)
+  sortOrder Int     @default(0)
+
+  article Article @relation(fields: [articleId], references: [id], onDelete: Cascade)
+
+  @@index([articleId])
 }
 
 /// Innholdet på "Om oss"-siden. Én rad (fast id "about"), redigeres fra

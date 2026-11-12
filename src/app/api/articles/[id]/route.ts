@@ -13,14 +13,18 @@ const contributorSchema = z.object({
   role: z.nativeEnum(Role),
 });
 
+const videoSchema = z.object({
+  url: z.string().url(),
+  muted: z.boolean().default(false),
+});
+
 const updateArticleSchema = z.object({
   title: z.string().min(1).max(200).optional(),
   ingress: z.string().max(500).optional().nullable(),
   teaser: z.string().max(300).optional().nullable(),
   body: z.string().min(1).optional(),
   imageUrl: z.string().url().optional().nullable().or(z.literal("")),
-  videoUrl: z.string().url().optional().nullable().or(z.literal("")),
-  videoMuted: z.boolean().optional(),
+  videos: z.array(videoSchema).max(10).optional(),
   category: z.nativeEnum(Category).optional(),
   additionalCategories: z.array(z.nativeEnum(Category)).optional(),
   contributors: z.array(contributorSchema).optional(),
@@ -32,7 +36,7 @@ export async function GET(_req: NextRequest, { params }: { params: { id: string 
 
   const article = await prisma.article.findUnique({
     where: { id: params.id },
-    include: { contributors: true, author: { select: { id: true, name: true } } },
+    include: { contributors: true, videos: { orderBy: { sortOrder: "asc" } }, author: { select: { id: true, name: true } } },
   });
   if (!article) return NextResponse.json({ error: "Fant ikke saken" }, { status: 404 });
 
@@ -47,7 +51,7 @@ export async function PATCH(req: NextRequest, { params }: { params: { id: string
   const user = await getSessionUser();
   if (!user) return NextResponse.json({ error: "Ikke innlogget" }, { status: 401 });
 
-  const article = await prisma.article.findUnique({ where: { id: params.id } });
+  const article = await prisma.article.findUnique({ where: { id: params.id }, include: { videos: true } });
   if (!article) return NextResponse.json({ error: "Fant ikke saken" }, { status: 404 });
 
   if (!canEditArticle(user.role, article.authorId, user.id)) {
@@ -63,7 +67,7 @@ export async function PATCH(req: NextRequest, { params }: { params: { id: string
     return NextResponse.json({ error: parsed.error.flatten() }, { status: 400 });
   }
 
-  const { contributors, ...fields } = parsed.data;
+  const { contributors, videos, ...fields } = parsed.data;
   if (fields.body !== undefined) {
     fields.body = sanitizeRichText(fields.body);
   }
@@ -77,8 +81,12 @@ export async function PATCH(req: NextRequest, { params }: { params: { id: string
   // uten å slette hele saken.
   const imageUrlProvided = Object.prototype.hasOwnProperty.call(parsed.data, "imageUrl");
   const nextImageUrl = imageUrlProvided ? fields.imageUrl || null : undefined;
-  const videoUrlProvided = Object.prototype.hasOwnProperty.call(parsed.data, "videoUrl");
-  const nextVideoUrl = videoUrlProvided ? fields.videoUrl || null : undefined;
+
+  // Videoer som ikke lenger er med i den nye listen skal slettes fra
+  // Cloudinary - sammenlignes mot URL-ene saken hadde før denne oppdateringen.
+  const removedVideoUrls = videos
+    ? article.videos.map((v) => v.url).filter((url) => !videos.some((v) => v.url === url))
+    : [];
 
   // Hvis forfatteren redigerer en avvist sak, sender vi den tilbake til kladd
   // slik at den følger normal godkjenningsflyt på nytt.
@@ -101,25 +109,31 @@ export async function PATCH(req: NextRequest, { params }: { params: { id: string
       });
     }
 
+    if (videos) {
+      await tx.articleVideo.deleteMany({ where: { articleId: article.id } });
+      await tx.articleVideo.createMany({
+        data: videos.map((v, i) => ({ articleId: article.id, url: v.url, muted: v.muted, sortOrder: i })),
+      });
+    }
+
     return tx.article.update({
       where: { id: article.id },
       data: {
         ...fields,
         imageUrl: nextImageUrl,
-        videoUrl: nextVideoUrl,
         ...statusUpdate,
       },
-      include: { contributors: true },
+      include: { contributors: true, videos: { orderBy: { sortOrder: "asc" } } },
     });
   });
 
-  // Rydder opp det gamle bildet fra fillagringen dersom det ble erstattet
-  // eller fjernet, slik at det ikke blir liggende offentlig tilgjengelig.
+  // Rydder opp gamle filer fra fillagringen dersom de ble erstattet eller
+  // fjernet, slik at de ikke blir liggende offentlig tilgjengelig.
   if (imageUrlProvided && article.imageUrl && article.imageUrl !== nextImageUrl) {
     await deleteUploadedFile(article.imageUrl);
   }
-  if (videoUrlProvided && article.videoUrl && article.videoUrl !== nextVideoUrl) {
-    await deleteUploadedFile(article.videoUrl);
+  for (const url of removedVideoUrls) {
+    await deleteUploadedFile(url);
   }
 
   return NextResponse.json({ article: updated });
@@ -129,7 +143,7 @@ export async function DELETE(_req: NextRequest, { params }: { params: { id: stri
   const user = await getSessionUser();
   if (!user) return NextResponse.json({ error: "Ikke innlogget" }, { status: 401 });
 
-  const article = await prisma.article.findUnique({ where: { id: params.id } });
+  const article = await prisma.article.findUnique({ where: { id: params.id }, include: { videos: true } });
   if (!article) return NextResponse.json({ error: "Fant ikke saken" }, { status: 404 });
 
   const isOwnDraft = article.authorId === user.id && article.status === ArticleStatus.DRAFT;
@@ -139,6 +153,8 @@ export async function DELETE(_req: NextRequest, { params }: { params: { id: stri
 
   await prisma.article.delete({ where: { id: article.id } });
   await deleteUploadedFile(article.imageUrl);
-  await deleteUploadedFile(article.videoUrl);
+  for (const video of article.videos) {
+    await deleteUploadedFile(video.url);
+  }
   return NextResponse.json({ ok: true });
 }

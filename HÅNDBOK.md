@@ -232,12 +232,13 @@ Bilder lagt inn som URL fra et annet nettsted forstørres ikke.
 
 ## Videoopplasting
 
-Hver sak kan ha én valgfri video (feltet under bildet i
-redigeringsvisningen). Videoen lastes opp direkte fra nettleseren til
-Cloudinary (samme oppsett som /send-inn) og vises med avspillingskontroller
-under bildet på artikkelsiden. Maks 50 MB per video - grensen finnes fordi
-hver visning trekker båndbredde fra Cloudinary-gratiskvoten. Videoer som
-erstattes, fjernes eller hører til en slettet sak slettes automatisk.
+Hver sak kan ha **flere** valgfrie videoer (feltet under bildet i
+redigeringsvisningen - "Legg til video" for å laste opp enda en).
+Videoene lastes opp direkte fra nettleseren til Cloudinary (samme oppsett
+som /send-inn) og vises etter hverandre, med avspillingskontroller, under
+bildet på artikkelsiden. Maks 50 MB per video - grensen finnes fordi hver
+visning trekker båndbredde fra Cloudinary-gratiskvoten. Videoer som
+fjernes, erstattes eller hører til en slettet sak slettes automatisk.
 
 Avstemninger kan også ha én valgfri video (velges når avstemningen
 opprettes), som vises over svaralternativene. Samme 50 MB-grense, og

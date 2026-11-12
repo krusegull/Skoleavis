@@ -6,14 +6,18 @@ import { canApproveArticles, canCreateDrafts } from "@/lib/permissions";
 import { sanitizeRichText } from "@/lib/sanitize";
 import { Category, ArticleStatus } from "@prisma/client";
 
+const videoSchema = z.object({
+  url: z.string().url(),
+  muted: z.boolean().default(false),
+});
+
 const createArticleSchema = z.object({
   title: z.string().min(1).max(200),
   ingress: z.string().max(500).optional().nullable(),
   teaser: z.string().max(300).optional().nullable(),
   body: z.string().min(1),
   imageUrl: z.string().url().optional().nullable().or(z.literal("")),
-  videoUrl: z.string().url().optional().nullable().or(z.literal("")),
-  videoMuted: z.boolean().optional(),
+  videos: z.array(videoSchema).max(10).default([]),
   category: z.nativeEnum(Category),
   additionalCategories: z.array(z.nativeEnum(Category)).default([]),
 });
@@ -69,8 +73,9 @@ export async function POST(req: NextRequest) {
       teaser: parsed.data.teaser || null,
       body: sanitizeRichText(parsed.data.body),
       imageUrl: parsed.data.imageUrl || null,
-      videoUrl: parsed.data.videoUrl || null,
-      videoMuted: parsed.data.videoMuted ?? false,
+      videos: {
+        create: parsed.data.videos.map((v, i) => ({ url: v.url, muted: v.muted, sortOrder: i })),
+      },
       category: parsed.data.category,
       additionalCategories: parsed.data.additionalCategories.filter((c) => c !== parsed.data.category),
       authorId: user.id,
