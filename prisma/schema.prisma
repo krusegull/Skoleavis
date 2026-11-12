@@ -39,6 +39,7 @@ enum Category {
   COMPETITION
   OPINION
   DIFFERENT_DAYS
+  CROSSWORD
 }
 
 enum SubmissionStatus {

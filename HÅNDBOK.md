@@ -50,10 +50,12 @@ arkivet forblir riktige selv om en konto senere deaktiveres.
 ## Innholdstyper på en sak
 
 - Tittel, kategori (Nyheter/Reportasje/Intervju/Anmeldelse/Sport/Kultur/Ukas
-  nyhet/Historiske nyheter/Konkurranse/Kronikk). Én hovedkategori styrer
-  kategori-merket på saken, men saken kan i tillegg krysspubliseres under
-  flere andre kategorier via "Vis også under" i redigeringsvisningen -
-  saken dukker da opp på flere kategorisider uten å være kopiert.
+  nyhet/Historiske nyheter/Konkurranse/Kronikk/Annerledesdager/Kryssord). Én
+  hovedkategori styrer kategori-merket på saken, men saken kan i tillegg
+  krysspubliseres under flere andre kategorier via "Vis også under" i
+  redigeringsvisningen - saken dukker da opp på flere kategorisider uten å
+  være kopiert. Kryssord-kategorien viser en egen fane på Konkurranse-siden
+  (og omvendt), siden kryssord i praksis er en type konkurranse.
 - Ingress (valgfri, kort ingress under tittelen)
 - Teaser (valgfri, kort tekst brukt i grid/lenker - kan foreslås av AI, se under)
 - Bilde (lim inn URL, eller last opp direkte - se "Bildeopplasting")
@@ -77,8 +79,8 @@ arkivet forblir riktige selv om en konto senere deaktiveres.
 Toppmenyen viser de mest brukte lenkene direkte (Forside, Nyheter, Sport,
 Kultur, Arkiv, Send inn, Avstemning), mens sjeldnere brukte kategorier og
 sider (Reportasje, Intervju, Anmeldelse, Ukas nyhet, Historiske nyheter,
-Konkurranse, Kronikk, Annerledesdager, Redaksjonen, Om oss, Aktiviteter)
-ligger under "Mer"-knappen, for å holde menyen på én linje.
+Konkurranse, Kronikk, Annerledesdager, Kryssord, Redaksjonen, Om oss,
+Aktiviteter) ligger under "Mer"-knappen, for å holde menyen på én linje.
 
 ## Dashbord (innlogget)
 

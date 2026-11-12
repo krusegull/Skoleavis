@@ -31,6 +31,7 @@ export const CATEGORY_LABELS: Record<Category, string> = {
   COMPETITION: "Konkurranse",
   OPINION: "Kronikk",
   DIFFERENT_DAYS: "Annerledesdager",
+  CROSSWORD: "Kryssord",
 };
 
 export const CATEGORY_SLUGS: Record<Category, string> = {
@@ -45,6 +46,7 @@ export const CATEGORY_SLUGS: Record<Category, string> = {
   COMPETITION: "konkurranse",
   OPINION: "kronikk",
   DIFFERENT_DAYS: "annerledesdager",
+  CROSSWORD: "kryssord",
 };
 
 export const SLUG_TO_CATEGORY: Record<string, Category> = Object.fromEntries(
@@ -63,6 +65,7 @@ export const CATEGORY_ORDER: Category[] = [
   Category.COMPETITION,
   Category.OPINION,
   Category.DIFFERENT_DAYS,
+  Category.CROSSWORD,
 ];
 
 export const LOCAL_ACTIVITY_CATEGORY_LABELS: Record<LocalActivityCategory, string> = {

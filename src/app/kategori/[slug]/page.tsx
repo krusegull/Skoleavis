@@ -1,10 +1,14 @@
+import Link from "next/link";
 import { notFound } from "next/navigation";
 import { prisma } from "@/lib/prisma";
-import { ArticleStatus } from "@prisma/client";
+import { ArticleStatus, Category } from "@prisma/client";
 import { ArticleCard } from "@/components/articles/ArticleCard";
-import { CATEGORY_LABELS, SLUG_TO_CATEGORY } from "@/lib/constants";
+import { CATEGORY_LABELS, CATEGORY_SLUGS, SLUG_TO_CATEGORY } from "@/lib/constants";
 
 export const revalidate = 30;
+
+/** Konkurranse og Kryssord vises som faner til hverandre, siden kryssord i praksis er en type konkurranse. */
+const COMPETITION_TABS: Category[] = [Category.COMPETITION, Category.CROSSWORD];
 
 export default async function KategoriPage({ params }: { params: { slug: string } }) {
   const category = SLUG_TO_CATEGORY[params.slug];
@@ -23,6 +27,24 @@ export default async function KategoriPage({ params }: { params: { slug: string 
       <h1 className="rule-thick border-ink pb-2 font-headline text-4xl font-bold text-ink">
         {CATEGORY_LABELS[category]}
       </h1>
+
+      {COMPETITION_TABS.includes(category) && (
+        <div className="mt-4 flex gap-2 font-sans text-sm uppercase tracking-wide">
+          {COMPETITION_TABS.map((tab) => (
+            <Link
+              key={tab}
+              href={`/kategori/${CATEGORY_SLUGS[tab]}`}
+              className={`border px-3 py-1.5 ${
+                tab === category
+                  ? "border-ink bg-ink text-paper"
+                  : "border-ink/30 text-ink hover:border-ink"
+              }`}
+            >
+              {CATEGORY_LABELS[tab]}
+            </Link>
+          ))}
+        </div>
+      )}
 
       {articles.length === 0 ? (
         <p className="mt-8 font-serif text-muted">Ingen publiserte saker i denne kategorien ennå.</p>
